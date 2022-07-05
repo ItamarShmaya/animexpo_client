@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const VoiceActorCard = ({ lang, name, image, mal_id }) => {
   return (
-    <NavLink to={`people/${mal_id}`}>
+    <NavLink to={`/people/${mal_id}`}>
       <div className="voice-actor-card">
         <div className="image-container">
           <img src={image} alt="VA Pictures" />

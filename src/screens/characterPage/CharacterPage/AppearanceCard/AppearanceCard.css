@@ -19,3 +19,8 @@
   font-size: 1.1rem;
   font-weight: bold;
 }
+
+.appearance-card:hover .title {
+  text-shadow: -0.5px -0.5px 0 #ce1212, 0.5px -0.5px 0 #ce1212,
+    -0.5px 0.5px 0 #ce1212, 0.5px 0.5px 0 #ce1212;
+}

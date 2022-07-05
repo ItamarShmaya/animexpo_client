@@ -1,0 +1,37 @@
+.va-role-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.va-role-card img {
+  width: 70px;
+  height: 90px;
+}
+
+.anime-role,
+.character-role {
+  display: flex;
+  gap: 10px;
+}
+
+.basic-info {
+  display: flex;
+  flex-direction: column;
+  color: #eeebdd;
+  gap: 20px;
+  padding-top: 1rem;
+  align-items: flex-end;
+}
+
+.anime-role {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #eeebdd;
+}
+
+.anime-role:hover p,
+.character-role:hover .name {
+  text-shadow: -0.5px -0.5px 0 #ce1212, 0.5px -0.5px 0 #ce1212,
+    -0.5px 0.5px 0 #ce1212, 0.5px 0.5px 0 #ce1212;
+}

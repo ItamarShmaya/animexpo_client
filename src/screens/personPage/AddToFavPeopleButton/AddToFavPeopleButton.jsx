@@ -1,12 +1,11 @@
-import "./AddToFavoriteButton.css";
-import "../../../animepage/AnimePage/AddToAnimeListButton/AddToAnimeListButton.css";
-import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
-import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import { useState } from "react";
-import MustBeLoggedIn from "../../../../components/MustBeLoggedIn/MustBeLoggedIn";
-import { addToFavCharList } from "../../../../apis/animexpo/animexpo_updates";
+import { addToFavPeopleList } from "../../../apis/animexpo/animexpo_updates.js";
+import MustBeLoggedIn from "../../../components/MustBeLoggedIn/MustBeLoggedIn.jsx";
+import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
+import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
+import "./AddToFavPeopleButton.css";
 
-const AddToFavoriteButton = ({ character, setInFavorites }) => {
+const AddToFavPeopleButton = ({ person, setInFavorites }) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -19,21 +18,21 @@ const AddToFavoriteButton = ({ character, setInFavorites }) => {
       setClicked(false);
       setDisplayMessage(true);
     } else {
-      const { mal_id, name, images } = character;
-      const characterEntry = {
+      const { mal_id, name, images } = person;
+      const personEntry = {
         mal_id,
         name,
         image: images.jpg.image_url,
       };
 
       try {
-        const updatedCharacterList = await addToFavCharList(
+        const updatedPeopleList = await addToFavPeopleList(
           loggedInUser.username,
           loggedInUser.token,
-          characterEntry
+          personEntry
         );
-        if (updatedCharacterList) {
-          setLocalStorage("loggedInUserFavCharsList", updatedCharacterList);
+        if (updatedPeopleList) {
+          setLocalStorage("loggedInUserFavPeopleList", updatedPeopleList);
           setInFavorites(true);
         }
         setClicked(false);
@@ -53,4 +52,4 @@ const AddToFavoriteButton = ({ character, setInFavorites }) => {
     </>
   );
 };
-export default AddToFavoriteButton;
+export default AddToFavPeopleButton;

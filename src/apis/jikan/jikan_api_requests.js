@@ -174,3 +174,14 @@ export const getCharacterPicturesById = async (id) => {
     throw e;
   }
 };
+
+export const getPeopleById = async (id) => {
+  try {
+    const { data: person } = await jikan.get(`people/${id}/full`);
+    if (person) {
+      return person.data;
+    }
+  } catch (e) {
+    throw e;
+  }
+};

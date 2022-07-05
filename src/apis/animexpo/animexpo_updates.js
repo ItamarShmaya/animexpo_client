@@ -135,3 +135,37 @@ export const removeFromFavCharList = async (username, token, mal_id) => {
     console.log(e);
   }
 };
+
+export const addToFavPeopleList = async (username, token, personEntry) => {
+  try {
+    const { data: peopleList } = await animexpo.patch(
+      `/user/${username}/addToFavPeopleList`,
+      personEntry,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return peopleList;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const removeFromFavPeopleList = async (username, token, mal_id) => {
+  try {
+    const { data: peopleList } = await animexpo.patch(
+      `/user/${username}/removeFromFavPeopleList`,
+      { mal_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return peopleList;
+  } catch (e) {
+    console.log(e);
+  }
+};

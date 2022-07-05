@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import CharacterBanner from "./CharacterBanner/CharacterBanner";
-import AddToFavoriteButton from "./AddToFavoriteButton/AddToFavoriteButton";
+import AddToFavoriteButton from "./AddToFavoriteCharButton/AddToFavoriteCharButton";
 import Spinner from "../../../components/Spinner/Spinner";
 import VoiceActorCard from "./VoiceActorCard/VoiceActorCard";
 import AppearanceCard from "./AppearanceCard/AppearanceCard";
@@ -122,7 +122,7 @@ const CharacterPage = () => {
   };
 
   return (
-    <div className="charcter-page">
+    <div className="character-page">
       <div className="character-banner">
         {Object.keys(charPictures).length > 0 &&
           Object.keys(character).length > 0 && (
@@ -157,12 +157,16 @@ const CharacterPage = () => {
               <div className="character-about display-linebreak">
                 <h1>{character.name}</h1>
                 <hr />
-                <p>{character.about}</p>
+                <p>{character.about || "No biography written"}</p>
               </div>
               <div className="voice-actors">
                 <h1 className="voice-actors-header">Voice Actors</h1>
                 <hr />
-                {renderVoiceActor(character.voices)}
+                {character.voices.length ? (
+                  renderVoiceActor(character.voices)
+                ) : (
+                  <p>No voice actors added</p>
+                )}
               </div>
             </>
           </div>

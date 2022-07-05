@@ -14,6 +14,7 @@ import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Error from "./components/Error/Error";
+import PersonPage from "./screens/personPage/PersonPage/PersonPage";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/anime/:id" exact element={<AnimePage />} />
             <Route path="/manga/:id" exact element={<MangaPage />} />
             <Route path="/characters/:id" exact element={<CharacterPage />} />
+            <Route path="/people/:id" exact element={<PersonPage />} />
             <Route path="/notfound" exact element={<NotFound />} />
             <Route path="/error" exact element={<Error />} />
             <Route path="*" element={<Navigate to="/" replace />} />
