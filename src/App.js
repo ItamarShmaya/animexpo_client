@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import SignupPage from "./screens/signupPage/SignupPage";
 import AnimeListPage from "./screens/animeListPage/AnimeListPage";
 import MangaListPage from "./screens/mangaListPage/MangaListPage";
+import CharacterPage from "./screens/characterPage/CharacterPage/CharacterPage";
 import AnimePage from "./screens/animepage/AnimePage/AnimePage";
 import Profile from "./screens/profile/Profile";
 import React from "react";
@@ -12,6 +13,7 @@ import EditProfilePage from "./screens/editProfilePage/EditProfilePage/EditProfi
 import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import Error from "./components/Error/Error";
 
 function App() {
   return (
@@ -44,7 +46,9 @@ function App() {
             />
             <Route path="/anime/:id" exact element={<AnimePage />} />
             <Route path="/manga/:id" exact element={<MangaPage />} />
+            <Route path="/characters/:id" exact element={<CharacterPage />} />
             <Route path="/notfound" exact element={<NotFound />} />
+            <Route path="/error" exact element={<Error />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>

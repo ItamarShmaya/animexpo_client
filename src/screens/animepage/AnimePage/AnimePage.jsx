@@ -13,7 +13,7 @@ import CharactersAndActors from "./CharachtersAndActors/CharactersAndActors";
 import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
 import Trailer from "./Trailer/Trailer";
 import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AnimePage = () => {
   const [anime, setAnime] = useState({});
@@ -22,13 +22,18 @@ const AnimePage = () => {
   const [recommendations, setRecommendations] = useState({});
   const [watching, setWatching] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let timeOutId;
     const fetchAnimeData = async () => {
       timeOutId = setTimeout(async () => {
-        const animeResponse = await getAnimeById(id);
-        animeResponse && setAnime(animeResponse.data);
+        try {
+          const animeResponse = await getAnimeById(id);
+          animeResponse && setAnime(animeResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 1000);
     };
     fetchAnimeData();
@@ -44,8 +49,12 @@ const AnimePage = () => {
     let timeOutId;
     const fetchAnimePictures = async () => {
       timeOutId = setTimeout(async () => {
-        const picturesResponse = await getAnimePicturesById(id);
-        picturesResponse && setPictures(picturesResponse.data);
+        try {
+          const picturesResponse = await getAnimePicturesById(id);
+          picturesResponse && setPictures(picturesResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 2000);
     };
     fetchAnimePictures();
@@ -61,8 +70,12 @@ const AnimePage = () => {
     let timeOutId;
     const fetchAnimeCharacters = async () => {
       timeOutId = setTimeout(async () => {
-        const charactersResponse = await getAnimeCharactersById(id);
-        charactersResponse && setCharacters(charactersResponse.data);
+        try {
+          const charactersResponse = await getAnimeCharactersById(id);
+          charactersResponse && setCharacters(charactersResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 3000);
     };
     fetchAnimeCharacters();
@@ -77,9 +90,13 @@ const AnimePage = () => {
     let timeOutId;
     const fetchAnimeRecommendations = async () => {
       timeOutId = setTimeout(async () => {
-        const recommendationResponse = await getAnimeRecommendationsById(id);
-        recommendationResponse &&
-          setRecommendations(recommendationResponse.data);
+        try {
+          const recommendationResponse = await getAnimeRecommendationsById(id);
+          recommendationResponse &&
+            setRecommendations(recommendationResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 4000);
     };
     fetchAnimeRecommendations();

@@ -1,31 +1,4 @@
 import jikan from "./jikan";
-import { handlerSuspender } from "../api_utils/api_utils";
-
-export const fetchLandingPage = () => {
-  const TopAnimePromise = getTopAnime();
-  const TopMangaPromise = getTopManga();
-  const TopCharactersPromise = getTopCharacters();
-
-  return {
-    topAnime: handlerSuspender(TopAnimePromise),
-    topManga: handlerSuspender(TopMangaPromise),
-    topCharacters: handlerSuspender(TopCharactersPromise),
-  };
-};
-
-// export const fetchAnimePage = (id) => {
-//   const animePromise = getAnimeById(id);
-//   const animePicturesPromise = getAnimePicturesById(id);
-//   const animeCharactersPromise = getAnimeCharactersById(id);
-//   const animeRecommendationsPromise = getAnimeRecommendationsById(id);
-
-//   return {
-//     anime: handlerSuspender(animePromise),
-//     animePictures: handlerSuspender(animePicturesPromise),
-//     animeCharacters: handlerSuspender(animeCharactersPromise),
-//     animeRecommendations: handlerSuspender(animeRecommendationsPromise),
-//   };
-// };
 
 export const getAnimeBySearch = async (q) => {
   const { data } = await jikan.get("/anime", {
@@ -43,7 +16,7 @@ export const getAnimeById = async (id) => {
     return animeById;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -53,7 +26,7 @@ export const getAnimePicturesById = async (id) => {
     return pictures;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -65,7 +38,7 @@ export const getAnimeCharactersById = async (id) => {
     return charactersByAnime;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -77,7 +50,7 @@ export const getAnimeRecommendationsById = async (id) => {
     return animeRecommendations;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -87,7 +60,7 @@ export const getTopAnime = async () => {
     return topAnime;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -97,7 +70,7 @@ export const getTopManga = async () => {
     return topManga;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -107,7 +80,7 @@ export const getTopCharacters = async () => {
     return top25Characters;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -117,6 +90,7 @@ export const getAnimeReviewsById = async (id) => {
     return animeReviews;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -126,6 +100,7 @@ export const getMangaById = async (id) => {
     return manga;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -135,7 +110,7 @@ export const getMangaPicturesById = async (id) => {
     return pictures;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -147,7 +122,7 @@ export const getMangaCharactersById = async (id) => {
     return charactersByManga;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -159,16 +134,43 @@ export const getMangaRecommendationsById = async (id) => {
     return mangaRecommendations;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
 export const getMangaBySearch = async (q) => {
-  const { data: mangaResults } = await jikan.get("/manga", {
-    method: "GET",
-    params: {
-      q: q,
-    },
-  });
-  return mangaResults.data;
+  try {
+    const { data: mangaResults } = await jikan.get("/manga", {
+      method: "GET",
+      params: {
+        q: q,
+      },
+    });
+    return mangaResults.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getCharacterById = async (id) => {
+  try {
+    const { data: character } = await jikan.get(`characters/${id}/full`);
+    if (character) {
+      return character.data;
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const getCharacterPicturesById = async (id) => {
+  try {
+    const { data: charPictures } = await jikan.get(`characters/${id}/pictures`);
+    if (charPictures) {
+      return charPictures.data;
+    }
+  } catch (e) {
+    throw e;
+  }
 };

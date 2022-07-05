@@ -1,11 +1,12 @@
-import "./AddToAnimeListButton.css";
-import { useState } from "react";
+import "./AddToFavoriteButton.css";
+import "../../../animepage/AnimePage/AddToAnimeListButton/AddToAnimeListButton.css";
 import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
-import { addToAnimeList } from "../../../../apis/animexpo/animexpo_updates.js";
+import { useState } from "react";
 import MustBeLoggedIn from "../../../../components/MustBeLoggedIn/MustBeLoggedIn";
+import { addToFavCharList } from "../../../../apis/animexpo/animexpo_updates";
 
-const AddToAnimeListButton = ({ anime, setWatching }) => {
+const AddToFavoriteButton = ({ character, setInFavorites }) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -18,28 +19,22 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
       setClicked(false);
       setDisplayMessage(true);
     } else {
-      const { mal_id, title, images, type, episodes } = anime;
-      const animeEntry = {
+      const { mal_id, name, images } = character;
+      const characterEntry = {
         mal_id,
-        title,
+        name,
         image: images.jpg.image_url,
-        type,
-        status: "Watching",
-        score: 1,
-        comment: "",
-        episodes,
-        progress: 1,
       };
 
       try {
-        const updatedAnimeList = await addToAnimeList(
+        const updatedCharacterList = await addToFavCharList(
           loggedInUser.username,
           loggedInUser.token,
-          animeEntry
+          characterEntry
         );
-        if (updatedAnimeList) {
-          setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
-          setWatching(true);
+        if (updatedCharacterList) {
+          setLocalStorage("loggedInUserFavCharsList", updatedCharacterList);
+          setInFavorites(true);
         }
         setClicked(false);
       } catch (e) {
@@ -50,7 +45,7 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
   return (
     <>
       <button onClick={onClick} className="add-to-list-button">
-        Add to List
+        Add to Favorites
       </button>
       {displayMessage && (
         <MustBeLoggedIn setDisplayMessage={setDisplayMessage} />
@@ -58,4 +53,4 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
     </>
   );
 };
-export default AddToAnimeListButton;
+export default AddToFavoriteButton;

@@ -1,0 +1,16 @@
+.image-container img {
+  width: 70px;
+  height: 90px;
+}
+
+.voice-actor-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background-color: #222;
+}
+
+.language {
+  font-size: 1rem;
+  color: #a1a1a1;
+}

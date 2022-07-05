@@ -8,7 +8,7 @@ const MangaCharacters = ({ characters }) => {
       return (
         <NavLink
           key={character.character.mal_id}
-          to={`character/${character.character.mal_id}`}
+          to={`/characters/${character.character.mal_id}`}
         >
           <MangaCharacterCard character={character} />
         </NavLink>

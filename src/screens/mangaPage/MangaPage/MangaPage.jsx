@@ -13,7 +13,7 @@ import MangaCharacters from "./MangaCharacters/MangaCharacters";
 import MangaRecommendations from "./MangaRecommendations/MangaRecommendations";
 import Spinner from "../../../components/Spinner/Spinner";
 import "../../animepage/AnimePage/AnimePage.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MangaPage = () => {
   const [manga, setManga] = useState({});
@@ -22,13 +22,18 @@ const MangaPage = () => {
   const [recommendations, setRecommendations] = useState({});
   const [watching, setWatching] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let timeOutId;
     const fetchMangaData = async () => {
       timeOutId = setTimeout(async () => {
-        const mangaResponse = await getMangaById(id);
-        mangaResponse && setManga(mangaResponse.data);
+        try {
+          const mangaResponse = await getMangaById(id);
+          mangaResponse && setManga(mangaResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 1000);
     };
     fetchMangaData();
@@ -44,8 +49,12 @@ const MangaPage = () => {
     let timeOutId;
     const fetchMangaPictures = async () => {
       timeOutId = setTimeout(async () => {
-        const picturesResponse = await getMangaPicturesById(id);
-        picturesResponse && setPictures(picturesResponse.data);
+        try {
+          const picturesResponse = await getMangaPicturesById(id);
+          picturesResponse && setPictures(picturesResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 2000);
     };
     fetchMangaPictures();
@@ -61,8 +70,12 @@ const MangaPage = () => {
     let timeOutId;
     const fetchMangaCharacters = async () => {
       timeOutId = setTimeout(async () => {
-        const charactersResponse = await getMangaCharactersById(id);
-        charactersResponse && setCharacters(charactersResponse.data);
+        try {
+          const charactersResponse = await getMangaCharactersById(id);
+          charactersResponse && setCharacters(charactersResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 3000);
     };
     fetchMangaCharacters();
@@ -77,9 +90,13 @@ const MangaPage = () => {
     let timeOutId;
     const fetchMagnaRecommendations = async () => {
       timeOutId = setTimeout(async () => {
-        const recommendationResponse = await getMangaRecommendationsById(id);
-        recommendationResponse &&
-          setRecommendations(recommendationResponse.data);
+        try {
+          const recommendationResponse = await getMangaRecommendationsById(id);
+          recommendationResponse &&
+            setRecommendations(recommendationResponse.data);
+        } catch (e) {
+          navigate("/error");
+        }
       }, 4000);
     };
     fetchMagnaRecommendations();

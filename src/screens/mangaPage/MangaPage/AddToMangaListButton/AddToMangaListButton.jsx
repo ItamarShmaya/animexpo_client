@@ -37,9 +37,11 @@ const AddToMangaListButton = ({ manga, setWatching }) => {
           loggedInUser.token,
           mangaEntry
         );
-        setLocalStorage("loggedInUserMangaList", updatedMangaList);
+        if (updatedMangaList) {
+          setLocalStorage("loggedInUserMangaList", updatedMangaList);
+          setWatching(true);
+        }
         setClicked(false);
-        setWatching(true);
       } catch (e) {
         console.log(e);
       }

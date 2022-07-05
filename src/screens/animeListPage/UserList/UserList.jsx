@@ -2,7 +2,6 @@ import "./UserList.css";
 
 const UserList = ({ userList, username, setUserList, ListItem }) => {
   const renderList = (list) => {
-    console.log(list);
     const sortedList = [...list].sort((item1, item2) => {
       return item1.title.toLowerCase().localeCompare(item2.title.toLowerCase());
     });

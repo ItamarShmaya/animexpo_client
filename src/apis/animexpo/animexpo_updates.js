@@ -101,3 +101,37 @@ export const updateFieldInMangaListEntry = async (username, token, body) => {
     console.log(e);
   }
 };
+
+export const addToFavCharList = async (username, token, charEntry) => {
+  try {
+    const { data: characterList } = await animexpo.patch(
+      `/user/${username}/addToFavCharList`,
+      charEntry,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return characterList;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const removeFromFavCharList = async (username, token, mal_id) => {
+  try {
+    const { data: characterList } = await animexpo.patch(
+      `/user/${username}/removeFromFavCharList`,
+      { mal_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return characterList;
+  } catch (e) {
+    console.log(e);
+  }
+};
