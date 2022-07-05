@@ -13,12 +13,13 @@ import VoiceActorCard from "./VoiceActorCard/VoiceActorCard";
 import AppearanceCard from "./AppearanceCard/AppearanceCard";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
+import RemoveFromFavoriteButton from "./RemoveFromFavoriteButton/RemoveFromFavoriteButton";
 
 const CharacterPage = () => {
   const { id } = useParams();
   const [character, setCharacter] = useState({});
   const [charPictures, setCharPictures] = useState({});
-  const [inFavorites, setInFavorites] = useState(false);
+  const [inFavorites, setInFavorites] = useState(null);
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
 
@@ -34,7 +35,7 @@ const CharacterPage = () => {
       }
     };
     getCharacter();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const getCharacterPictures = async () => {
@@ -48,7 +49,7 @@ const CharacterPage = () => {
       }
     };
     getCharacterPictures();
-  }, []);
+  }, [id]);
 
   const renderVoiceActor = (voiceActors) => {
     return voiceActors.map((va) => {
@@ -103,7 +104,12 @@ const CharacterPage = () => {
         ) ||
         inFavorites
       ) {
-        return <div>Favorite</div>;
+        return (
+          <RemoveFromFavoriteButton
+            mal_id={character.mal_id}
+            setInFavorites={setInFavorites}
+          />
+        );
       }
     }
     return (
@@ -129,10 +135,7 @@ const CharacterPage = () => {
         <div className="character-content">
           <div className="character-content__left-side">
             <div className="char-poster">
-              <img
-                src={character.images.jpg.image_url}
-                alt="Character picture"
-              />
+              <img src={character.images.jpg.image_url} alt={character.name} />
               <div className="add-to-list-container">{renderAddToButton()}</div>
             </div>
             <div className="appearance">
