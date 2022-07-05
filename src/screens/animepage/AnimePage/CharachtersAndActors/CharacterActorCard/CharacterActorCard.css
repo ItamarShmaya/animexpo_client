@@ -37,3 +37,9 @@
   width: 70px;
   height: 90px;
 }
+
+.character:hover .name,
+.actor:hover .name {
+  text-shadow: -0.5px -0.5px 0 #ce1212, 0.5px -0.5px 0 #ce1212,
+    -0.5px 0.5px 0 #ce1212, 0.5px 0.5px 0 #ce1212;
+}

@@ -4,7 +4,7 @@ import {
   getCharacterPicturesById,
 } from "../../../apis/jikan/jikan_api_requests.js";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import CharacterBanner from "./CharacterBanner/CharacterBanner";
 import AddToFavoriteButton from "./AddToFavoriteButton/AddToFavoriteButton";
@@ -22,6 +22,7 @@ const CharacterPage = () => {
   const [inFavorites, setInFavorites] = useState(null);
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCharacter = async () => {
@@ -31,7 +32,7 @@ const CharacterPage = () => {
           setCharacter(character);
         }
       } catch (e) {
-        console.log(e);
+        navigate("/error");
       }
     };
     getCharacter();
@@ -45,7 +46,7 @@ const CharacterPage = () => {
           setCharPictures(charPictures);
         }
       } catch (e) {
-        console.log(e);
+        navigate("/error");
       }
     };
     getCharacterPictures();

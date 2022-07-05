@@ -1,6 +1,5 @@
 import "./CharactersAndActors.css";
 import CharacterActorCard from "./CharacterActorCard/CharacterActorCard";
-import { NavLink } from "react-router-dom";
 
 const CharactersAndActors = ({ characters }) => {
   const sortCharactersList = (characterList) => {
@@ -42,16 +41,12 @@ const CharactersAndActors = ({ characters }) => {
         if (va.language.toLowerCase() === "japanese") voiceActor = va;
       });
       return (
-        <NavLink
-          to={`/charcter/${character.character.mal_id}`}
+        <CharacterActorCard
           key={character.character.mal_id}
-        >
-          <CharacterActorCard
-            char={character.character}
-            role={character.role}
-            voiceActor={voiceActor}
-          />
-        </NavLink>
+          char={character.character}
+          role={character.role}
+          voiceActor={voiceActor}
+        />
       );
     });
   };
