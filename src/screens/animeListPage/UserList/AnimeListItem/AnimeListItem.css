@@ -1,0 +1,58 @@
+.list-item {
+  font-size: 1.5rem;
+  color: #eeebdd;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  align-items: center;
+  justify-items: center;
+  border-bottom: 2px solid #ce1212;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.mylist-item-img-container img {
+  width: 50px;
+  height: 70px;
+}
+
+.editable:hover {
+  cursor: pointer;
+}
+
+.mylist-item-episodes input {
+  width: 40px;
+}
+
+.remove-button {
+  background-color: #ce1212;
+  color: #1b1717;
+  padding: 0.5rem 1rem;
+  border: 2px solid #1b1717;
+  font-weight: bold;
+  box-shadow: 1px 1px 1px #ce1212;
+  transition: all 0.1s linear;
+  border-radius: 5px;
+}
+
+.remove-button:active {
+  box-shadow: 1px 1px 1px #000 inset;
+}
+
+.remove-button:hover {
+  cursor: pointer;
+}
+
+@media all and (max-width: 500px) {
+  .mylist-item-title {
+    margin-left: 10px;
+  }
+
+  .remove-button {
+    width: 50px;
+    height: 20px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

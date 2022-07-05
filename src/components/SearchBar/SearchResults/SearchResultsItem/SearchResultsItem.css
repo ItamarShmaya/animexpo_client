@@ -1,0 +1,40 @@
+.search-result-item {
+  display: flex;
+  gap: 10px;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  margin: auto;
+}
+
+.search-item-genre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-result-item .image img {
+  width: 50px;
+  height: 80px;
+}
+
+.search-result-item:hover {
+  background-color: #810000;
+  cursor: pointer;
+}
+
+.search-item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.search-item-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.underline {
+  text-decoration: underline;
+}

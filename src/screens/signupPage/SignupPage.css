@@ -1,0 +1,81 @@
+.signup-form-wrapper {
+  width: 60%;
+  min-height: 100vh;
+  background-color: #eeebdd;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  /* padding: 20px; */
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  font-size: 1.5rem;
+  width: 40%;
+}
+
+.signup-form .input-group {
+  width: 100%;
+}
+.signup-form input {
+  width: 100%;
+}
+.signup-form .btn {
+  width: 50%;
+}
+
+.validty-message {
+  width: 100%;
+  background-color: black;
+  font-size: 10px;
+  color: #fff;
+  padding: 5px;
+  line-height: 13px;
+  border-radius: 5px;
+}
+
+.fa-circle-exclamation {
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+
+.signup-form .eye-icon {
+  position: absolute;
+  width: 17px;
+  height: 15px;
+  top: calc(50% - 7.5px);
+  right: 5px;
+}
+
+.signup-form .eye-icon:hover {
+  cursor: pointer;
+}
+
+.signup-form .password {
+  width: 100%;
+  position: relative;
+}
+
+@media all and (max-width: 1000px) {
+  .signup-form-wrapper {
+    width: 90%;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .signup-form {
+    width: 60%;
+  }
+}
+@media all and (max-width: 500px) {
+  .signup-form {
+    width: 80%;
+  }
+}

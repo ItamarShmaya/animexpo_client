@@ -1,0 +1,27 @@
+.anime-page {
+  width: 100%;
+  min-height: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-content {
+  width: 95%;
+  display: flex;
+  margin: auto;
+}
+
+.main-content-right-side {
+  width: 100%;
+}
+
+@media screen and (max-width: 850px) {
+  .main-content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,4 @@
+.card-wrapper {
+  display: flex !important;
+  justify-content: center;
+}

@@ -1,0 +1,13 @@
+.search-results-container {
+  position: absolute;
+  width: 100%;
+  font-size: 1rem;
+  background-color: #1b1717;
+  gap: 10px;
+  border-top: 1px solid black;
+  overflow-y: scroll;
+  z-index: 2;
+}
+.search-results-container::-webkit-scrollbar {
+  display: none;
+}

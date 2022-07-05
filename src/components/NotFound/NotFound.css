@@ -1,0 +1,32 @@
+.notfound {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.notfound h1 {
+  font-size: 50px;
+  color: #fff;
+}
+
+.notfound button {
+  background-color: #ce1212;
+  color: #1b1717;
+  padding: 0.5rem 1rem;
+  border: 2px solid #1b1717;
+  font-weight: bold;
+  box-shadow: 1px 1px 1px #ce1212;
+  transition: all 0.1s linear;
+  border-radius: 5px;
+}
+
+.notfound button:active {
+  box-shadow: 1px 1px 1px #000 inset;
+}
+
+.notfound button:hover {
+  cursor: pointer;
+}

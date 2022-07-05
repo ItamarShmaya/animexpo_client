@@ -1,0 +1,36 @@
+.profile-side-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  background-color: #ce1212;
+  top: 50%;
+  margin-left: 10px;
+  position: fixed;
+}
+
+.side-menu-item {
+  padding: 1rem;
+  font-size: 2rem;
+  color: #eeebdd;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.side-menu-item:hover {
+  background-color: #810000;
+  cursor: pointer;
+}
+
+.side-menu-edit:hover::after,
+.side-menu-list:hover::after {
+  font-size: 1rem;
+  position: absolute;
+  content: attr(data-type);
+  padding: 5px;
+  white-space: nowrap;
+  background-color: #fff;
+  color: black;
+  left: 100%;
+  pointer-events: none;
+}

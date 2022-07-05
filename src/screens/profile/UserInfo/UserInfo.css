@@ -1,0 +1,8 @@
+.presonnal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 50px;
+}

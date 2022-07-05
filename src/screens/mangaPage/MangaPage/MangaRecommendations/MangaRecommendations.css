@@ -1,0 +1,10 @@
+.recommendations-container {
+  width: 80%;
+  margin: auto;
+}
+
+.recommendations-container h1 {
+  color: #eeebdd;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}

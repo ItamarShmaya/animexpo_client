@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  font-size: 10px;
+  font-family: "Questrial", sans-serif;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #1b1717;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+.input-group input {
+  padding: 1rem;
+}
+
+.btn {
+  color: inherit;
+  font-size: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 35px;
+  box-shadow: 1px 1px 1px #000;
+  transition: all 0.1s linear;
+  border: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:active {
+  box-shadow: 1px 1px 1px #000 inset;
+}

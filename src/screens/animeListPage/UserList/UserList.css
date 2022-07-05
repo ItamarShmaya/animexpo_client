@@ -1,0 +1,38 @@
+.mylist-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.mylist-container > div:nth-child(2) {
+  border-top: 2px solid #ce1212;
+}
+
+#list-header {
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+.mobile-list-header {
+  display: none;
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  text-decoration: underline;
+  text-underline-position: under;
+  color: #eeebdd;
+  text-align: center;
+}
+@media all and (max-width: 500px) {
+  #list-header {
+    display: none;
+  }
+  .mobile-list-header {
+    display: block;
+  }
+}
