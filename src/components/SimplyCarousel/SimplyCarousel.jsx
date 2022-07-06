@@ -8,6 +8,7 @@ const SimplyCarousel = ({
   forwardBtnProps,
   backwardBtnProps,
   responsiveProps,
+  containerProps,
 }) => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
@@ -20,6 +21,7 @@ const SimplyCarousel = ({
       itemsToScroll={itemsToScroll}
       backwardBtnProps={backwardBtnProps}
       responsiveProps={responsiveProps}
+      containerProps={containerProps}
       speed={400}
       easing="linear"
     >

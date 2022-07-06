@@ -2,7 +2,9 @@ import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
 import {
   getAnimeBySearch,
+  getCharacterBySearch,
   getMangaBySearch,
+  getPeopleBySearch,
 } from "../../apis/jikan/jikan_api_requests.js";
 import SearchResults from "./SearchResults/SearchResults";
 import { getUsersBySearch } from "../../apis/animexpo/animexpo_requests.js";
@@ -29,14 +31,30 @@ const SearchBar = () => {
     const search = async () => {
       let results = [];
       if (selectValue === "anime") {
-        results = await getAnimeBySearch(debouncedSearchInput);
-        setSearchType("anime");
+        try {
+          results = await getAnimeBySearch(debouncedSearchInput);
+          setSearchType("anime");
+        } catch (e) {}
       } else if (selectValue === "manga") {
-        results = await getMangaBySearch(debouncedSearchInput);
-        setSearchType("manga");
+        try {
+          results = await getMangaBySearch(debouncedSearchInput);
+          setSearchType("manga");
+        } catch (e) {}
       } else if (selectValue === "users") {
-        results = await getUsersBySearch(debouncedSearchInput);
-        setSearchType("users");
+        try {
+          results = await getUsersBySearch(debouncedSearchInput);
+          setSearchType("users");
+        } catch (e) {}
+      } else if (selectValue === "characters") {
+        try {
+          results = await getCharacterBySearch(debouncedSearchInput);
+          setSearchType("characters");
+        } catch (e) {}
+      } else if (selectValue === "people") {
+        try {
+          results = await getPeopleBySearch(debouncedSearchInput);
+          setSearchType("people");
+        } catch (e) {}
       }
       setSearchResults(results);
     };
@@ -81,6 +99,8 @@ const SearchBar = () => {
           >
             <option value="anime">Anime</option>
             <option value="manga">Manga</option>
+            <option value="characters">Characters</option>
+            <option value="people">People</option>
             <option value="users">Users</option>
           </select>
           <input

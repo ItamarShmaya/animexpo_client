@@ -79,7 +79,7 @@ export const getUserAnimeList = async (username) => {
 
 export const getUserMangaList = async (username) => {
   try {
-    const { data } = await animexpo.get(`/user/${username}/animelist`);
+    const { data } = await animexpo.get(`/user/${username}/mangalist`);
     return data;
   } catch (e) {
     throw e.response.data;

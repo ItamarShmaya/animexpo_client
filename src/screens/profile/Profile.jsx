@@ -10,7 +10,6 @@ import {
   profileCarouselForwardButton,
   profileCarouselBackwardButton,
   profileCarouselResponsive,
-  itemsListProps,
 } from "../../components/SimplyCarousel/profilePageCarouselSettings.js";
 import FavoriteCard from "./FavoriteCard/FavoriteCard";
 import SimplyCarousel from "../../components/SimplyCarousel/SimplyCarousel";
@@ -30,7 +29,6 @@ const Profile = () => {
         const FavPeopleList = getLocalStorage("loggedInUserFavPeopleList");
         profileData.favoriteCharacters = FavCharList;
         profileData.favoritePeople = FavPeopleList;
-        console.log(profileData);
         setViewedProfile(profileData);
       } else {
         try {
@@ -90,7 +88,7 @@ const Profile = () => {
                         {viewedProfile.favoriteCharacters.list.length})
                       </h1>
                       <SimplyCarousel
-                        itemsToShow={10}
+                        itemsToShow={12}
                         itemsToScroll={1}
                         forwardBtnProps={profileCarouselForwardButton}
                         backwardBtnProps={profileCarouselBackwardButton}
@@ -110,7 +108,7 @@ const Profile = () => {
                         {viewedProfile.favoritePeople.list.length})
                       </h1>
                       <SimplyCarousel
-                        itemsToShow={10}
+                        itemsToShow={12}
                         itemsToScroll={1}
                         forwardBtnProps={profileCarouselForwardButton}
                         backwardBtnProps={profileCarouselBackwardButton}

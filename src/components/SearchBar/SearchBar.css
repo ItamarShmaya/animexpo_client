@@ -58,6 +58,7 @@
   border: none;
   background-color: #ce1212;
   color: #eeebdd;
+  text-align: left;
 }
 
 @media all and (max-width: 1050px) {

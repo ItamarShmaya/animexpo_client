@@ -42,7 +42,7 @@ const MangaListItem = ({ item, username, setUserList, number }) => {
     if (loggedInUser?.username === username) {
       setIsLoggedInUserList(true);
     }
-  }, [loggedInUser.username, username]);
+  }, [loggedInUser?.username, username]);
 
   const updateMangaEntry = async (body) => {
     try {

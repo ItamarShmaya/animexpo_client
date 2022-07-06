@@ -18,6 +18,7 @@
 .character-content__right-side {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .character-about {

@@ -37,11 +37,28 @@ export const profileCarouselBackwardButton = {
 export const profileCarouselItemsListProps = {
   style: {},
 };
+
+// export const profileCarouselContainerProps = {
+//   className: "slideContainer",
+//   // style: {
+//   //   justifyContent: "flex-start",
+//   // },
+// };
 export const profileCarouselResponsive = [
+  {
+    itemsToShow: 11,
+    itemsToScroll: 1,
+    maxWidth: 1250,
+  },
+  {
+    itemsToShow: 10,
+    itemsToScroll: 1,
+    maxWidth: 1200,
+  },
   {
     itemsToShow: 9,
     itemsToScroll: 1,
-    maxWidth: 1150,
+    maxWidth: 1100,
   },
   {
     itemsToShow: 8,
@@ -67,5 +84,15 @@ export const profileCarouselResponsive = [
     itemsToShow: 4,
     itemsToScroll: 1,
     maxWidth: 700,
+  },
+  {
+    itemsToShow: 3,
+    itemsToScroll: 1,
+    maxWidth: 650,
+  },
+  {
+    itemsToShow: 2,
+    itemsToScroll: 1,
+    maxWidth: 550,
   },
 ];
