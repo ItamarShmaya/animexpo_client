@@ -120,3 +120,12 @@ export const animePageRecommendationsSliderSettings = {
     },
   ],
 };
+
+export const profilePageFavoriteListSliderSettings = {
+  infinite: true,
+  slidesToShow: 9,
+  slidesToScroll: 9,
+  lazyLoad: true,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+};

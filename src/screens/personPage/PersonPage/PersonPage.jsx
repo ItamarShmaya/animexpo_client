@@ -50,7 +50,7 @@ const PersonPage = () => {
 
   const renderAddToButton = () => {
     if (loggedInUser) {
-      const peopleList = getLocalStorage("loggedInUserFavCharsList");
+      const peopleList = getLocalStorage("loggedInUserFavPeopleList");
       if (
         peopleList.list.find((myPerson) => myPerson.mal_id === person.mal_id) ||
         inFavorites

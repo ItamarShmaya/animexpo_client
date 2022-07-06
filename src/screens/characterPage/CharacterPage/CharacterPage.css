@@ -9,7 +9,6 @@
 }
 
 .character-content__left-side {
-  flex-grow: 0.2;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -17,7 +16,6 @@
 }
 
 .character-content__right-side {
-  flex-grow: 0.8;
   display: flex;
   flex-direction: column;
 }
