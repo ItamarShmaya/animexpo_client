@@ -36,7 +36,7 @@ const CharacterPage = () => {
       }
     };
     getCharacter();
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     const getCharacterPictures = async () => {
@@ -50,7 +50,7 @@ const CharacterPage = () => {
       }
     };
     getCharacterPictures();
-  }, [id]);
+  }, [id, navigate]);
 
   const renderVoiceActor = (voiceActors) => {
     return voiceActors.map((va) => {
@@ -134,6 +134,40 @@ const CharacterPage = () => {
       </div>
       {Object.keys(character).length > 0 ? (
         <div className="character-content">
+          {/* Mobile */}
+          <div className="mobile">
+            <div className="char-poster">
+              <img src={character.images.jpg.image_url} alt={character.name} />
+              <div className="add-to-list-container">{renderAddToButton()}</div>
+            </div>
+            <div className="character-about display-linebreak">
+              <h1>{character.name}</h1>
+              <hr />
+              <p>{character.about || "No biography written"}</p>
+            </div>
+            <div className="voice-actors">
+              <h1 className="voice-actors-header">Voice Actors</h1>
+              <hr />
+              {character.voices.length ? (
+                renderVoiceActor(character.voices)
+              ) : (
+                <p>No voice actors added</p>
+              )}
+            </div>
+            <div className="appearance">
+              <h1>Anime</h1>
+              <hr />
+              <div className="anime-appearance">
+                {renderAnimeAppearances(character.anime)}
+              </div>
+              <h1>Manga</h1>
+              <hr />
+              <div className="manga-appearance">
+                {renderMangaAppearances(character.manga)}
+              </div>
+            </div>
+          </div>
+          {/* Mobile */}
           <div className="character-content__left-side">
             <div className="char-poster">
               <img src={character.images.jpg.image_url} alt={character.name} />

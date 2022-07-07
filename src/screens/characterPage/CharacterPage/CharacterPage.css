@@ -2,6 +2,10 @@
   white-space: pre-line;
 }
 
+.character-content .mobile {
+  display: none;
+}
+
 .character-content {
   display: flex;
   width: 95%;
@@ -83,7 +87,18 @@
     flex-direction: column;
   }
 
-  .character-content__left-side {
-    margin: auto;
+  .character-content .mobile {
+    display: unset;
+  }
+
+  .character-content .mobile .char-poster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .character-content__left-side,
+  .character-content__right-side {
+    display: none;
   }
 }
