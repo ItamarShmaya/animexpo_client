@@ -5,7 +5,6 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import AvatarEditForm from "./AvatarEditForm/AvatarEditForm";
 // import {
-// changeAvatar,
 // updateProfileData,
 // } from "../../../apis/animexpo/animexpo_updates";
 // import { useRef } from "react";
@@ -16,7 +15,6 @@ const EditProfilePage = () => {
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   // const { getLocalStorage, setLocalStorage } = useLocalStorage();
   // const profileData = getLocalStorage("loggedInUserProfileData");
-  // const avatarFileRef = useRef();
   // const formRef = useRef();
   // const [genderInput, setGenderInput] = useState(
   // profileData.personalInfo.gender
@@ -34,27 +32,6 @@ const EditProfilePage = () => {
   useEffect(() => {
     if (loggedInUser?.username !== username) navigate("/");
   }, [loggedInUser?.username, username, navigate]);
-
-  // const onAvatarSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const form = new FormData();
-  //   if (avatarFileRef.current?.files?.[0]) {
-  //     form.append("avatar", avatarFileRef.current.files[0]);
-  //   }
-
-  //   try {
-  //     const updatedProfileData = await changeAvatar(
-  //       loggedInUser.username,
-  //       loggedInUser.token,
-  //       form
-  //     );
-  //     setLocalStorage("loggedInUserProfileData", updatedProfileData);
-  //   } catch (e) {
-  //     if (e.response.data === "NotAnImage") {
-  //       console.log("asd");
-  //     }
-  //   }
-  // };
 
   // const onChange = ({ target: { name, value } }) =>
   //   setProfileForm({ ...profileForm, [name]: value });
@@ -86,15 +63,6 @@ const EditProfilePage = () => {
       <main className="edit-profile-content">
         <h2>Edit</h2>
         <AvatarEditForm />
-        {/* <form className="avatar-form" onSubmit={onAvatarSubmit}>
-          <p>Avatar</p>
-          <div className="file-input-container">
-            <p>File must be jpg, jpeg or png format.</p>
-            <p>Maximum of 175 x 200 pixels (resized automatically)</p>
-            <input name="avatar" type="file" ref={avatarFileRef} />
-            <button type="submit">Change</button>
-          </div>
-        </form> */}
         {/* <form
           onSubmit={onEditFormSubmit}
           className="edit-profile-form"

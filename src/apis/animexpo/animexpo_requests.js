@@ -94,3 +94,31 @@ export const getUsersBySearch = async (query) => {
     console.log(e);
   }
 };
+
+export const postReview = async (token, body) => {
+  try {
+    const { data: updatedReviewList } = await animexpo.post(
+      `/user/reviews`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedReviewList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const getEntryReviews = async (mal_id) => {
+  try {
+    const { data: reviewsList } = await animexpo.get(
+      `/reviews/${mal_id}?limit=5`
+    );
+    return reviewsList;
+  } catch (e) {
+    throw e;
+  }
+};

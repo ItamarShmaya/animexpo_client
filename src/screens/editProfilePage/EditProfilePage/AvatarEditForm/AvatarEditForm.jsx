@@ -38,13 +38,15 @@ const AvatarEditForm = () => {
   };
   return (
     <form className="avatar-form" onSubmit={onAvatarSubmit}>
-      <p>Avatar</p>
+      <p className="label">Avatar</p>
       <div className="file-input-container">
         {formatError && <p className="wrong-info-alert">Wrong file format</p>}
         <p>File must be jpg, jpeg or png format.</p>
         <p>Maximum of 175 x 200 pixels (resized automatically)</p>
         <input name="avatar" type="file" ref={avatarFileRef} />
-        <button type="submit">Change</button>
+        <button type="submit" className="cool-btn">
+          Change
+        </button>
       </div>
     </form>
   );

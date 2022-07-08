@@ -30,7 +30,7 @@ const LandingPage = () => {
         } catch (e) {
           console.log(e);
         }
-      }, 1000);
+      }, 100);
     };
 
     const topAnime = getLocalStorage("topAnime");
@@ -57,7 +57,7 @@ const LandingPage = () => {
         } catch (e) {
           console.log(e);
         }
-      }, 1000);
+      }, 500);
     };
 
     const topManga = getLocalStorage("topManga");

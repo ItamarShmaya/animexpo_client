@@ -67,18 +67,9 @@ const AnimeListItem = ({ item, username, setUserList, number }) => {
           let tempProgressInput = +progressInput;
           if (tempProgressInput >= episodes) {
             tempProgressInput = episodes;
-            updateAnimeEntry({
-              _id,
-              progress: tempProgressInput,
-              status: "Completed",
-            });
-            return;
+            updateAnimeEntry({ _id, progress: tempProgressInput });
           } else if (tempProgressInput < 0) tempProgressInput = 1;
-          updateAnimeEntry({
-            _id,
-            progress: tempProgressInput,
-            status: "Watching",
-          });
+          updateAnimeEntry({ _id, progress: tempProgressInput });
         }
       };
 

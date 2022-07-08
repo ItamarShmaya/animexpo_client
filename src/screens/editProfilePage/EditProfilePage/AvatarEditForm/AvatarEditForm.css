@@ -2,12 +2,22 @@
   margin-top: 20px;
   display: flex;
   gap: 50px;
+  font-size: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .file-input-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.file-input-container input {
+  cursor: pointer;
 }
 
 .file-input-container button {

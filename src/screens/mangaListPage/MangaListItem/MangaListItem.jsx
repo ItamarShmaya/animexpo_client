@@ -67,18 +67,9 @@ const MangaListItem = ({ item, username, setUserList, number }) => {
           let tempProgressInput = +progressInput;
           if (tempProgressInput >= volumes) {
             tempProgressInput = volumes;
-            updateMangaEntry({
-              _id,
-              progress: tempProgressInput,
-              status: "Completed",
-            });
-            return;
+            updateMangaEntry({ _id, progress: tempProgressInput });
           } else if (tempProgressInput < 0) tempProgressInput = 1;
-          updateMangaEntry({
-            _id,
-            progress: tempProgressInput,
-            status: "Reading",
-          });
+          updateMangaEntry({ _id, progress: tempProgressInput });
         }
       };
 

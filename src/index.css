@@ -57,3 +57,21 @@ a {
 .btn:active {
   box-shadow: 1px 1px 1px #000 inset;
 }
+
+.cool-btn {
+  background-color: #ce1212;
+  color: #1b1717;
+  border: 2px solid #1b1717;
+  font-weight: bold;
+  box-shadow: 1px 1px 1px #ce1212;
+  transition: all 0.1s linear;
+  border-radius: 5px;
+}
+
+.cool-btn:active {
+  box-shadow: 1px 1px 1px #000 inset;
+}
+
+.cool-btn:hover {
+  cursor: pointer;
+}

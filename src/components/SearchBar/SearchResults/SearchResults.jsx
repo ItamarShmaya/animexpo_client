@@ -55,6 +55,7 @@ const SearchResults = ({ results, searchType }) => {
   };
 
   const renderUsersResults = () => {
+    console.log(results);
     return results.map((user) => {
       return (
         <NavLink key={user.id} to={`/profile/${user.username}`}>
@@ -65,19 +66,23 @@ const SearchResults = ({ results, searchType }) => {
   };
 
   return (
-    <div
-      className="search-results-container"
-      style={{
-        top: `${searchbar.clientHeight}px`,
-        height: `${searchResultsHeight}px`,
-      }}
-    >
-      {searchType === "anime" && renderedSearchResults(results)}
-      {searchType === "manga" && renderMangaResults(results)}
-      {searchType === "characters" && renderCharactersResults(results)}
-      {searchType === "people" && renderPeopleResults(results)}
-      {searchType === "users" && renderUsersResults(results)}
-    </div>
+    <>
+      {results.length && (
+        <div
+          className="search-results-container"
+          style={{
+            top: `${searchbar.clientHeight}px`,
+            height: `${searchResultsHeight}px`,
+          }}
+        >
+          {searchType === "anime" && renderedSearchResults()}
+          {searchType === "manga" && renderMangaResults()}
+          {searchType === "characters" && renderCharactersResults()}
+          {searchType === "people" && renderPeopleResults()}
+          {searchType === "users" && renderUsersResults()}
+        </div>
+      )}
+    </>
   );
 };
 export default SearchResults;

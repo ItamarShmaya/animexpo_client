@@ -46,6 +46,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
           "loggedInUserFavPeopleList",
           user.user.profileData.favoritePeople
         );
+
         setOpen(false);
       }
     } catch (e) {

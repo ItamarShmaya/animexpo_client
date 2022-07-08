@@ -14,6 +14,7 @@ import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
 import Trailer from "./Trailer/Trailer";
 import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
 import { useNavigate, useParams } from "react-router-dom";
+import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
 
 const AnimePage = () => {
   const [anime, setAnime] = useState({});
@@ -138,6 +139,15 @@ const AnimePage = () => {
       )}
       {Object.keys(anime).length > 0 && anime.trailer.embed_url && (
         <Trailer trailer={anime.trailer} />
+      )}
+      {Object.keys(anime).length > 0 && (
+        <ReviewsSection
+          mal_id={anime.mal_id}
+          title={anime.title}
+          image={anime.images.jpg.image_url}
+          episodes={anime.episodes}
+          type="anime"
+        />
       )}
     </div>
   );

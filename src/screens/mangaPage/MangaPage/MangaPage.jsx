@@ -14,6 +14,7 @@ import MangaRecommendations from "./MangaRecommendations/MangaRecommendations";
 import Spinner from "../../../components/Spinner/Spinner";
 import "../../animepage/AnimePage/AnimePage.css";
 import { useNavigate, useParams } from "react-router-dom";
+import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
 
 const MangaPage = () => {
   const [manga, setManga] = useState({});
@@ -135,6 +136,15 @@ const MangaPage = () => {
       </div>
       {Object.keys(recommendations).length > 0 && (
         <MangaRecommendations recommendations={recommendations} />
+      )}
+      {Object.keys(manga).length > 0 && (
+        <ReviewsSection
+          mal_id={manga.mal_id}
+          title={manga.title}
+          image={manga.images.jpg.image_url}
+          episodes={manga.volumes}
+          type="manga"
+        />
       )}
     </div>
   );
