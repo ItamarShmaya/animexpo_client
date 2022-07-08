@@ -13,7 +13,7 @@ export const addToAnimeList = async (username, token, animeEntry) => {
     );
     return animeList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -30,7 +30,7 @@ export const removeFromAnimeList = async (username, token, mal_id) => {
     );
     return animeList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -47,7 +47,7 @@ export const updateFieldInAnimeListEntry = async (username, token, body) => {
     );
     return animeList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -64,7 +64,7 @@ export const addToMangaList = async (username, token, mangaEntry) => {
     );
     return mangaList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -81,7 +81,7 @@ export const removeFromMangaList = async (username, token, mal_id) => {
     );
     return mangaList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -98,7 +98,7 @@ export const updateFieldInMangaListEntry = async (username, token, body) => {
     );
     return mangaList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -115,7 +115,7 @@ export const addToFavCharList = async (username, token, charEntry) => {
     );
     return characterList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -132,7 +132,7 @@ export const removeFromFavCharList = async (username, token, mal_id) => {
     );
     return characterList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -149,7 +149,7 @@ export const addToFavPeopleList = async (username, token, personEntry) => {
     );
     return peopleList;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -166,6 +166,54 @@ export const removeFromFavPeopleList = async (username, token, mal_id) => {
     );
     return peopleList;
   } catch (e) {
-    console.log(e);
+    throw e;
+  }
+};
+
+export const changeAvatar = async (username, token, file) => {
+  try {
+    const { data } = await animexpo.post(
+      `/user/${username}/changeAvatar`,
+      file,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const updateProfileData = async (username, token, body) => {
+  try {
+    // const response = await animexpo.patch(
+    //   `/user/${username}/updateProfileData`,
+    //   body,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    // const response = await animexpo({
+    //   method: "patch",
+    //   url: `/user/${username}/updateProfileData`,
+    //   data: body,
+    //   headers: {
+    //     "Content-Type": `multipart/form-data`,
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    const response = await animexpo.post(
+      `/user/${username}/updateProfileData`,
+      body,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    return response;
+  } catch (e) {
+    throw e;
   }
 };

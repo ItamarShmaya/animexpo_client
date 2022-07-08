@@ -1,6 +1,7 @@
 import "./UsersSearchResults.css";
 
 const UsersSearchResults = ({ user }) => {
+  console.log(user);
   return (
     <div className="search-result-item">
       <div className="image">

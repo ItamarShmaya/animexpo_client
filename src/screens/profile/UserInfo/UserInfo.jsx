@@ -2,11 +2,10 @@ import "./UserInfo.css";
 import Avatar from "../Avatar/Avatar";
 
 const UserInfo = ({ user }) => {
-  const { gender, birthday, joined } = user.personalInfo;
-
+  const { gender, birthday, joined, avatar } = user.personalInfo;
   return (
     <>
-      <Avatar image={user.image} />
+      <Avatar image={avatar.secure_url} />
       <div className="presonnal-info">
         <div>Gender: {gender}</div>
         <div>Birthday: {new Date(birthday).toDateString().slice(3)}</div>
