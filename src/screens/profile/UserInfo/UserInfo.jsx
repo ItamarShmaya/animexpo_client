@@ -1,8 +1,10 @@
 import "./UserInfo.css";
 import Avatar from "../Avatar/Avatar";
+import { NavLink } from "react-router-dom";
 
-const UserInfo = ({ profile, reviewsCount }) => {
-  const { gender, birthday, joined, avatar } = profile.personalInfo;
+const UserInfo = ({ profile, username }) => {
+  const { gender, birthday, joined, avatar, reviewsCount } =
+    profile.personalInfo;
 
   return (
     <>
@@ -11,7 +13,13 @@ const UserInfo = ({ profile, reviewsCount }) => {
         {gender && <div>Gender: {gender}</div>}
         <div>Birthday: {new Date(birthday).toDateString().slice(3)}</div>
         <div>Joined: {new Date(joined).toDateString().slice(3)}</div>
-        <div>Reviews: {reviewsCount}</div>
+        <hr />
+        <NavLink to={`/profile/${username}/reviews`}>
+          <div>
+            <span className="left">Reviews:</span>
+            <span className="right">{reviewsCount}</span>
+          </div>
+        </NavLink>
       </div>
     </>
   );

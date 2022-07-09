@@ -112,12 +112,23 @@ export const postReview = async (token, body) => {
   }
 };
 
-export const getEntryReviews = async (mal_id) => {
+export const getEntryReviews = async (mal_id, limit) => {
   try {
     const { data: reviewsList } = await animexpo.get(
-      `/reviews/${mal_id}?limit=5`
+      `/reviews/${mal_id}?limit=${limit}`
     );
     return reviewsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const getUserReviews = async (username) => {
+  try {
+    const { data: userReviewsList } = await animexpo.get(
+      `/user/${username}/reviews`
+    );
+    return userReviewsList;
   } catch (e) {
     throw e;
   }

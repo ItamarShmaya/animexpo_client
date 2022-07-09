@@ -11,7 +11,7 @@ const ReviewsSection = ({ mal_id, title, image, episodes, type }) => {
   useEffect(() => {
     const getReviewsList = async () => {
       try {
-        const reviewsList = await getEntryReviews(mal_id);
+        const reviewsList = await getEntryReviews(mal_id, 5);
         setReviews(reviewsList);
       } catch (e) {
         console.log(e);
@@ -22,14 +22,7 @@ const ReviewsSection = ({ mal_id, title, image, episodes, type }) => {
 
   const renderReviews = (reviews) => {
     return reviews.map((review) => {
-      return (
-        <Review
-          key={review._id}
-          review={review}
-          episodes={episodes}
-          type={type}
-        />
-      );
+      return <Review key={review._id} review={review} />;
     });
   };
   return (

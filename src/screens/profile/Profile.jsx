@@ -71,7 +71,7 @@ const Profile = () => {
           <main className="main-profile-content">
             <div className="main-profile-content__left-side">
               <div className="user-info">
-                <UserInfo profile={viewedProfile} />
+                <UserInfo profile={viewedProfile} username={username} />
               </div>
             </div>
             <div className="main-profile-content__right-side">

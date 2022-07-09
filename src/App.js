@@ -15,6 +15,8 @@ import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Error from "./components/Error/Error";
 import PersonPage from "./screens/personPage/PersonPage/PersonPage";
+import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
+import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 
 function App() {
   return (
@@ -49,6 +51,21 @@ function App() {
             <Route path="/manga/:id" exact element={<MangaPage />} />
             <Route path="/characters/:id" exact element={<CharacterPage />} />
             <Route path="/people/:id" exact element={<PersonPage />} />
+            <Route
+              path="/profile/:username/reviews"
+              exact
+              element={<UserReviewsPage />}
+            />
+            <Route
+              path="/anime/:id/reviews"
+              exact
+              element={<EntryReviewsPage />}
+            />
+            <Route
+              path="/manga/:id/reviews"
+              exact
+              element={<EntryReviewsPage />}
+            />
             <Route path="/notfound" exact element={<NotFound />} />
             <Route path="/error" exact element={<Error />} />
             <Route path="*" element={<Navigate to="/" replace />} />

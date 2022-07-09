@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./Review.css";
+import "./UserReview.css";
 
-const Review = ({ review }) => {
+const UserReview = ({ review }) => {
   const [hasOverflow, setHasOverflow] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const reviewTextRef = useRef();
@@ -18,28 +16,24 @@ const Review = ({ review }) => {
   const onReviewContentButtonClick = () => {
     setTextVisible((prev) => !prev);
   };
-
   return (
     <>
       <div className="review">
         <div className="review-info">
           <div className="user-avatar">
-            <img
-              src={review.author.profileData.personalInfo.avatar.secure_url}
-              alt={review.author.username}
-            />
+            <img src={review.image} alt={review.title} />
           </div>
           <div className="review-details">
             <div className="review-details__left-side">
               <div className="author">
                 <p>
-                  <NavLink to={`/profile/${review.author.username}`}>
-                    {review.author.username}
+                  <NavLink to={`/${review.type}/${review.mal_id}`}>
+                    {review.title}
                   </NavLink>
                 </p>
                 <p>
                   ({"\u00A0"}
-                  <NavLink to={`/profile/${review.author.username}/reviews`}>
+                  <NavLink to={`/${review.type}/${review.mal_id}/reviews`}>
                     All reviews
                   </NavLink>
                   {"\u00A0"})
@@ -55,7 +49,7 @@ const Review = ({ review }) => {
               )}
               {review.type === "manga" && (
                 <p>
-                  Read {review.progress} out of {review.episodes || 1}
+                  Read {review.progress} out of {review.episodes}
                 </p>
               )}
               <p>Score: {review.score}</p>
@@ -82,4 +76,4 @@ const Review = ({ review }) => {
     </>
   );
 };
-export default Review;
+export default UserReview;

@@ -1,8 +1,29 @@
 .presonnal-info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   font-size: 1.2rem;
   font-weight: bold;
   margin-top: 50px;
+}
+
+.presonnal-info div {
+  padding: 10px;
+}
+
+.presonnal-info hr {
+  margin: 10px 0 10px;
+}
+
+.presonnal-info a:hover {
+  background-color: antiquewhite;
+}
+
+.presonnal-info a > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.presonnal-info a:hover > div .left {
+  text-decoration: underline;
+  text-underline-position: under;
 }

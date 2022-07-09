@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { postReview } from "../../../apis/animexpo/animexpo_requests.js";
 import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
@@ -11,9 +12,41 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
   const [score, setScore] = useState("");
   const [status, setStatus] = useState("");
   const [progress, setProgress] = useState("");
+  const [notLoggedInError, setNotLoggedInError] = useState(false);
+  const [notOnListError, setNotOnListError] = useState(false);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      const userList = getLocalStorage(
+        `loggedInUser${type.slice(0, 1).toUpperCase() + type.slice(1)}List`
+      );
+      const entry = userList.list.find((item) => item.mal_id === mal_id);
+      if (entry) {
+        setScore(entry.score);
+        setStatus(entry.status.toLowerCase());
+        setProgress(entry.progress);
+        return;
+      }
+    }
+    setScore("");
+    setStatus("");
+    setProgress("");
+    // eslint-disable-next-line
+  }, [loggedInUser, mal_id, type]);
 
   const onReviewSubmit = async (e) => {
     e.preventDefault();
+    if (!loggedInUser) return setNotLoggedInError(true);
+    if (type === "anime") {
+      const list = getLocalStorage("loggedInUserAnimeList");
+      const anime = list.list.find((anime) => anime.mal_id === mal_id);
+      if (!anime) return setNotOnListError(true);
+    }
+    if (type === "manga") {
+      const list = getLocalStorage("loggedInUserMangaList");
+      const manga = list.list.find((manga) => manga.mal_id === mal_id);
+      if (!manga) return setNotOnListError(true);
+    }
 
     try {
       const body = {
@@ -25,6 +58,8 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
         score,
         progress,
         status,
+        episodes: episodes || 1,
+        type,
       };
       const updatedReviewsList = await postReview(loggedInUser.token, body);
       setReviews(updatedReviewsList);
@@ -32,14 +67,19 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       profileData.personalInfo.reviewsCount += 1;
       setLocalStorage("loggedInUserProfileData", profileData);
       setReviewContent("");
+      setScore("");
+      setStatus("");
+      setProgress("");
+      setNotOnListError(false);
+      setNotLoggedInError(false);
     } catch (e) {
       console.log(e);
     }
   };
 
   const onProgressChange = ({ target }) => {
-    if (target.value >= episodes) {
-      setProgress(episodes);
+    if (target.value >= (episodes || 1)) {
+      setProgress(episodes || 1);
       setStatus("completed");
       return;
     }
@@ -50,8 +90,8 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       if (type === "manga") setStatus("reading");
       return;
     }
-    console.log(status);
-    if (target.value < episodes && status === "completed") {
+
+    if (target.value < (episodes || 1) && status === "completed") {
       setProgress(target.value);
       if (type === "anime") setStatus("watching");
       if (type === "manga") setStatus("reading");
@@ -61,15 +101,23 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
   };
 
   const onStatusChange = ({ target }) => {
-    if ((target.value = "completed")) {
+    if (target.value === "completed") {
       setStatus(target.value);
-      setProgress(episodes);
+      setProgress(episodes || 1);
       return;
     }
     setStatus(target.value);
   };
   return (
     <>
+      {notLoggedInError && (
+        <p className="review-error-message">Must log in first</p>
+      )}
+      {notOnListError && (
+        <p className="review-error-message">
+          This series must be on your list to review it
+        </p>
+      )}
       <h1>Write a review</h1>
       <form onSubmit={onReviewSubmit}>
         <div className="review-stats">
@@ -111,7 +159,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
               onChange={onProgressChange}
               required
             />
-            <span className="review-episodes">/{episodes}</span>
+            <span className="review-episodes">/{episodes || 1}</span>
           </div>
         </div>
         <textarea

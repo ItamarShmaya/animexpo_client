@@ -41,6 +41,12 @@
   width: 30px;
 }
 
+.review-error-message {
+  color: red;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
 /* Chrome, Safari, Edge, Opera */
 .watched-episodes input::-webkit-outer-spin-button,
 .watched-episodes input::-webkit-inner-spin-button {
