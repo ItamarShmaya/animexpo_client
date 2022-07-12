@@ -1,0 +1,59 @@
+.old-friend-req {
+  background-color: antiquewhite;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.old-friend-req img {
+  width: 70px;
+  height: 90px;
+}
+
+.old-friend-req .req-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.old-friend-req .req-heading h2 {
+  font-size: 13px;
+}
+.old-friend-req .req-heading p {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.old-friend-req > div:nth-child(2) {
+  display: flex;
+  gap: 5px;
+}
+
+.asd {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.asd p {
+  font-size: 13px;
+}
+
+.bbb {
+  display: flex;
+  align-items: center;
+}
+
+.bbb p {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.bbb .accepted {
+  background-color: coral;
+}
+
+.bbb .rejected {
+  background-color: rgb(120, 111, 112);
+}

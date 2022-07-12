@@ -37,6 +37,7 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
           loggedInUser.token,
           animeEntry
         );
+
         if (updatedAnimeList) {
           setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
           setWatching(true);

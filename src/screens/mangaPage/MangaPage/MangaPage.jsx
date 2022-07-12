@@ -15,6 +15,7 @@ import Spinner from "../../../components/Spinner/Spinner";
 import "../../animepage/AnimePage/AnimePage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
+import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 
 const MangaPage = () => {
   const [manga, setManga] = useState({});
@@ -24,6 +25,21 @@ const MangaPage = () => {
   const [watching, setWatching] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getLocalStorage } = useLocalStorage();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
+    const mangaList = getLocalStorage("loggedInUserMangaList");
+    if (mangaList.list.find((myManga) => myManga.mal_id === +id)) {
+      setWatching(true);
+    } else {
+      setWatching(false);
+    }
+    // eslint-disable-next-line
+  }, [id]);
 
   useEffect(() => {
     let timeOutId;

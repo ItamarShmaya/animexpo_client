@@ -217,3 +217,71 @@ export const updateProfileData = async (username, token, body) => {
     throw e;
   }
 };
+
+export const sendFriendRequest = async (token, fromUsername, toUsername) => {
+  try {
+    const { data: friendsList } = await animexpo.post(
+      `/user/${fromUsername}/sendFriendRequest`,
+      { toUsername },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return friendsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const acceptFriendRequest = async (token, username, id) => {
+  try {
+    const { data } = await animexpo.post(
+      `/user/${username}/acceptFriendRequest`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const rejectFriendRequest = async (token, username, id) => {
+  try {
+    const { data: updatedFriendsList } = await animexpo.post(
+      `/user/${username}/rejectFriendRequest`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedFriendsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const updateNotificationsToRead = async (username, token) => {
+  try {
+    const response = await animexpo.post(
+      `/user/${username}/notifications`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};

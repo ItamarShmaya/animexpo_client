@@ -1,0 +1,41 @@
+.friend-avatar-container img {
+  width: 40px;
+  height: 50px;
+}
+
+.friend-avatar-container {
+  position: relative;
+}
+
+.friend-avatar-container:hover:after {
+  font-size: 1rem;
+  position: absolute;
+  content: attr(data-type);
+  padding: 5px;
+  white-space: nowrap;
+  background-color: #fff;
+  color: black;
+  pointer-events: none;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+}
+
+.friends {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.friends h2 {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.friends > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}

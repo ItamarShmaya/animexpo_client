@@ -133,3 +133,112 @@ export const getUserReviews = async (username) => {
     throw e;
   }
 };
+
+export const getUserNotifications = async (username, token) => {
+  try {
+    const { data: notificationsList } = await animexpo.get(
+      `/user/${username}/notifications`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return notificationsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const getUserFriendRequests = async (token, username) => {
+  try {
+    const { data: friendRequests } = await animexpo.get(
+      `/user/${username}/friendRequests`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return friendRequests;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const getUserFullFriendsList = async (username, token) => {
+  try {
+    const { data: friendsList } = await animexpo.get(
+      `/user/${username}/friends`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return friendsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const checkIsUserInFriendsList = async (
+  username,
+  token,
+  friendUsername
+) => {
+  try {
+    const { data: isUserInFriendsList } = await animexpo.post(
+      `/user/${username}/isUserInFriendsList`,
+      { friendUsername },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return isUserInFriendsList;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const checkWasFriendRequestSent = async (
+  username,
+  token,
+  friendUsername
+) => {
+  try {
+    const { data: wasFriendRequestSent } = await animexpo.post(
+      `/user/${username}/wasFriendRequestSent`,
+      { friendUsername },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return wasFriendRequestSent;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const removeFriend = async (username, token, friendUsername) => {
+  try {
+    const { data: friendsList } = await animexpo.post(
+      `/user/${username}/removeFriend`,
+      { friendUsername },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return friendsList;
+  } catch (e) {
+    throw e;
+  }
+};

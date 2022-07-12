@@ -25,6 +25,10 @@ const CharacterPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     const getCharacter = async () => {
       try {
         const character = await getCharacterById(id);

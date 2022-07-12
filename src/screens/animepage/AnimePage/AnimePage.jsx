@@ -15,6 +15,7 @@ import Trailer from "./Trailer/Trailer";
 import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
+import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 
 const AnimePage = () => {
   const [anime, setAnime] = useState({});
@@ -24,6 +25,21 @@ const AnimePage = () => {
   const [watching, setWatching] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getLocalStorage } = useLocalStorage();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
+    const animeList = getLocalStorage("loggedInUserAnimeList");
+    if (animeList.list.find((myAnime) => myAnime.mal_id === +id)) {
+      setWatching(true);
+    } else {
+      setWatching(false);
+    }
+    // eslint-disable-next-line
+  }, [id]);
 
   useEffect(() => {
     let timeOutId;

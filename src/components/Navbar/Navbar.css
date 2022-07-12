@@ -9,7 +9,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar .nav-item {
@@ -23,4 +28,24 @@
   background-color: #810000;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.notification-bell {
+  position: relative;
+}
+
+.notification-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  background-color: red;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 25px;
+  font-size: 10px;
+  padding: 0 2px;
+  color: #eeebdd;
 }

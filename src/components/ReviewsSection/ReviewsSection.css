@@ -3,18 +3,29 @@
   margin: 50px auto 0;
   display: flex;
   flex-direction: column;
-  gap: 45px;
 }
 
 .reviews-section h1 {
   font-size: 2.5rem;
   color: #eeebdd;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
+}
+
+.reviews-section > a {
+  margin-left: auto;
+  color: rgb(0, 128, 255);
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.reviews-section > a:hover {
+  text-decoration: underline;
 }
 
 .reviews-list {
   background-color: #222;
   padding: 10px;
+  margin-bottom: 50px;
 }
 
 .reviews-list hr {

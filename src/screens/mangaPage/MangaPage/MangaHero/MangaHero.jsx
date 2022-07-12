@@ -1,20 +1,14 @@
 import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
-import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import AddToMangaListButton from "../AddToMangaListButton/AddToMangaListButton.jsx";
 import "../../../animepage/AnimePage/AnimeHero/AnimeHero.css";
 
 const MangaHero = ({ manga, watching, setWatching }) => {
   const { title, synopsis, images, popularity, score, rank } = manga;
   const { loggedInUser } = useLoggedInUser();
-  const { getLocalStorage } = useLocalStorage();
 
   const renderAddToButton = () => {
     if (loggedInUser) {
-      const mangaList = getLocalStorage("loggedInUserMangaList");
-      if (
-        mangaList.list.find((myManga) => myManga.mal_id === manga.mal_id) ||
-        watching
-      ) {
+      if (watching) {
         return <div>Watching</div>;
       }
     }

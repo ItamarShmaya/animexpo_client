@@ -1,20 +1,14 @@
 import "./AnimeHero.css";
 import { useLoggedInUser } from "../../../../context/context_custom_hooks";
-import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import AddToAnimeListButton from "../AddToAnimeListButton/AddToAnimeListButton";
 
 const AnimeHero = ({ anime, watching, setWatching }) => {
   const { title, synopsis, images, popularity, score, rank } = anime;
   const { loggedInUser } = useLoggedInUser();
-  const { getLocalStorage } = useLocalStorage();
 
   const renderAddToButton = () => {
     if (loggedInUser) {
-      const animeList = getLocalStorage("loggedInUserAnimeList");
-      if (
-        animeList.list.find((myAnime) => myAnime.mal_id === anime.mal_id) ||
-        watching
-      ) {
+      if (watching) {
         return <div>Watching</div>;
       }
     }

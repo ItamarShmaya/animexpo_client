@@ -4,10 +4,7 @@ const UsersSearchResults = ({ user }) => {
   return (
     <div className="search-result-item">
       <div className="image">
-        <img
-          alt={user.username}
-          src={user.profileData.personalInfo.avatar.secure_url}
-        />
+        <img alt={user.username} src={user.avatar.secure_url} />
       </div>
       <div className="search-item-info">
         <div className="search-item-title">{user.username}</div>

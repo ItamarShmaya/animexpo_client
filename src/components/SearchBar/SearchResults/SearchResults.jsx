@@ -55,7 +55,6 @@ const SearchResults = ({ results, searchType }) => {
   };
 
   const renderUsersResults = () => {
-    console.log(results);
     return results.map((user) => {
       return (
         <NavLink key={user.id} to={`/profile/${user.username}`}>

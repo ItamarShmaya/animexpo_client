@@ -14,6 +14,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
   const [progress, setProgress] = useState("");
   const [notLoggedInError, setNotLoggedInError] = useState(false);
   const [notOnListError, setNotOnListError] = useState(false);
+  const [textValidationError, setTextValidationError] = useState(false);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -48,6 +49,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       if (!manga) return setNotOnListError(true);
     }
 
+    if (reviewContent.trim().length < 10) return setTextValidationError(true);
     try {
       const body = {
         author: loggedInUser._id,
@@ -72,6 +74,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       setProgress("");
       setNotOnListError(false);
       setNotLoggedInError(false);
+      setTextValidationError(false);
     } catch (e) {
       console.log(e);
     }
@@ -116,6 +119,11 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       {notOnListError && (
         <p className="review-error-message">
           This series must be on your list to review it
+        </p>
+      )}
+      {textValidationError && (
+        <p className="review-error-message">
+          Review must be atleast 10 characters long
         </p>
       )}
       <h1>Write a review</h1>
@@ -167,6 +175,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
           placeholder="Review"
           value={reviewContent}
           onChange={({ target }) => setReviewContent(target.value)}
+          required
         ></textarea>
         <button type="submit" className="review-button">
           Submit

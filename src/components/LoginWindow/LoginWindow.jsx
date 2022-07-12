@@ -4,12 +4,14 @@ import { NavLink } from "react-router-dom";
 import { useLoggedInUser } from "../../context/context_custom_hooks";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { loginUser } from "../../apis/animexpo/animexpo_requests.js";
+// import { socket } from "../../socket/app";
+// import io from "socket.io-client";
 
 const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [credentialsError, setCredentialsError] = useState("");
-  const { setLoggedInUser } = useLoggedInUser();
+  const { setLoggedInUser, socket } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
@@ -23,6 +25,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
       const credentials = { username, password };
       const user = await loginUser(credentials);
       if (user) {
+        socket.emit("new_user", { username: user.user.username });
         setLoggedInUser({
           _id: user.user._id,
           username: user.user.username,
@@ -45,6 +48,10 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
         setLocalStorage(
           "loggedInUserFavPeopleList",
           user.user.profileData.favoritePeople
+        );
+        setLocalStorage(
+          "loggedInUserFriendsList",
+          user.user.profileData.friendsList
         );
 
         setOpen(false);

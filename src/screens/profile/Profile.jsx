@@ -27,8 +27,10 @@ const Profile = () => {
         const profileData = getLocalStorage("loggedInUserProfileData");
         const FavCharList = getLocalStorage("loggedInUserFavCharsList");
         const FavPeopleList = getLocalStorage("loggedInUserFavPeopleList");
+        const friendsList = getLocalStorage("loggedInUserFriendsList");
         profileData.favoriteCharacters = FavCharList;
         profileData.favoritePeople = FavPeopleList;
+        profileData.friendsList = friendsList;
         setViewedProfile(profileData);
       } else {
         try {
@@ -44,6 +46,7 @@ const Profile = () => {
       }
     };
     getUserProfile();
+
     // eslint-disable-next-line
   }, [loggedInUser?.username, username, navigate]);
 
@@ -71,7 +74,11 @@ const Profile = () => {
           <main className="main-profile-content">
             <div className="main-profile-content__left-side">
               <div className="user-info">
-                <UserInfo profile={viewedProfile} username={username} />
+                <UserInfo
+                  profile={viewedProfile}
+                  username={username}
+                  setViewedProfile={setViewedProfile}
+                />
               </div>
             </div>
             <div className="main-profile-content__right-side">

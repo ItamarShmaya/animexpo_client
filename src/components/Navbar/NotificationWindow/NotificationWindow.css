@@ -1,0 +1,44 @@
+.notification-window {
+  position: absolute;
+  top: 100%;
+  border: 2px solid #ce1212;
+  right: 0;
+}
+
+.notification-msg {
+  white-space: nowrap;
+  background: #eeebdd;
+  color: #1b1717;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.notif-heading > p:first-child {
+  font-size: 12px;
+  font-weight: 700;
+}
+.notif-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notif-avatar img {
+  width: 50px;
+  height: 70px;
+}
+
+.notification-msg_left {
+  display: flex;
+  gap: 5px;
+}
+
+.notification-window a {
+  color: rgb(0, 128, 255);
+}
+.notification-window a:hover {
+  text-decoration: underline;
+}

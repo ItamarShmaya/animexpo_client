@@ -4,13 +4,48 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import LoginWindow from "../LoginWindow/LoginWindow";
 import { useLoggedInUser } from "../../context/context_custom_hooks";
-import { logoutUser } from "../../apis/animexpo/animexpo_requests.js";
+import {
+  getUserNotifications,
+  logoutUser,
+} from "../../apis/animexpo/animexpo_requests.js";
+import NotificationWindow from "./NotificationWindow/NotificationWindow";
+import { updateNotificationsToRead } from "../../apis/animexpo/animexpo_updates";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const formWrapperRef = useRef();
-  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
+  const {
+    loggedInUser,
+    setLoggedInUser,
+    notifications,
+    setNotifications,
+    socket,
+  } = useLoggedInUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    socket?.on("recieve_notifs", ({ notifs }) => {
+      setNotifications(notifs);
+    });
+    // eslint-disable-next-line
+  }, [socket]);
+
+  useEffect(() => {
+    const getUserNotifs = async () => {
+      try {
+        const notifs = await getUserNotifications(
+          loggedInUser.username,
+          loggedInUser.token
+        );
+        if (notifs) setNotifications(notifs);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if (loggedInUser) getUserNotifs();
+    // eslint-disable-next-line
+  }, [loggedInUser]);
 
   useEffect(() => {
     if (open) {
@@ -40,29 +75,14 @@ const Navbar = () => {
         localStorage.removeItem("loggedInUserFavPeopleList");
         localStorage.removeItem("loggedInUserMangaList");
         localStorage.removeItem("loggedInUserProfileData");
+        localStorage.removeItem("loggedInUserFriendsList");
+        socket?.emit("logout", { socketId: socket.id });
         navigate(`/`);
       }
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const renderLoginOrLogout = () => {
-    if (loggedInUser) {
-      return (
-        <div className="navbar-right nav-item" onClick={onLogoutButtonClick}>
-          Logout
-        </div>
-      );
-    } else {
-      return (
-        <div
-          className="navbar-right nav-item"
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          Login
-        </div>
-      );
+      navigate(`/`);
+      window.location.reload();
     }
   };
 
@@ -71,6 +91,21 @@ const Navbar = () => {
       return <LoginWindow formWrapperRef={formWrapperRef} setOpen={setOpen} />;
     }
   };
+
+  useEffect(() => {
+    if (!notifOpen) {
+      setNotifications([]);
+      if (notifications.length > 0) {
+        updateNotificationsToRead(loggedInUser.username, loggedInUser.token);
+      }
+    }
+    // eslint-disable-next-line
+  }, [
+    notifOpen,
+    loggedInUser.username,
+    loggedInUser.token,
+    notifications.length,
+  ]);
 
   return (
     <>
@@ -91,7 +126,38 @@ const Navbar = () => {
             </NavLink>
           )}
         </div>
-        {renderLoginOrLogout()}
+        <div className="navbar-right">
+          {loggedInUser ? (
+            <>
+              {/* <NavLink to={`/profile/${loggedInUser.username}/notifications`}> */}
+              <div className="notification-bell">
+                <i
+                  className="fa-solid fa-bell nav-item"
+                  onClick={() => setNotifOpen((prev) => !prev)}
+                ></i>
+                {notifications.length > 0 && (
+                  <span className="notification-badge">
+                    {notifications.length}
+                  </span>
+                )}
+                {notifOpen && (
+                  <NotificationWindow
+                    notifications={notifications}
+                    setNotifOpen={setNotifOpen}
+                  />
+                )}
+              </div>
+              {/* </NavLink> */}
+              <div className="nav-item" onClick={onLogoutButtonClick}>
+                Logout
+              </div>
+            </>
+          ) : (
+            <div className="nav-item" onClick={() => setOpen((prev) => !prev)}>
+              Login
+            </div>
+          )}
+        </div>
       </nav>
       {renderLoginWindow()}
     </>

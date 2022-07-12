@@ -4,6 +4,7 @@ import "./ReviewsSection.css";
 import { getEntryReviews } from "../../apis/animexpo/animexpo_requests.js";
 import AddReview from "./AddReview/AddReview";
 import Review from "./Review/Review";
+import { NavLink } from "react-router-dom";
 
 const ReviewsSection = ({ mal_id, title, image, episodes, type }) => {
   const [reviews, setReviews] = useState([]);
@@ -28,6 +29,9 @@ const ReviewsSection = ({ mal_id, title, image, episodes, type }) => {
   return (
     <div className="reviews-section">
       <h1>Reviews</h1>
+      <NavLink to={`/${type}/${mal_id}/reviews`}>
+        <p>More reviews</p>
+      </NavLink>
       <div className="reviews-list">{renderReviews(reviews)}</div>
       <div className="post-review">
         <AddReview

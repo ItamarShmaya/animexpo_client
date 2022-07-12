@@ -91,6 +91,10 @@ const SignupPage = () => {
             "loggedInUserFavPeopleList",
             createdUser.user.profileData.favoritePeople
           );
+          setLocalStorage(
+            "loggedInUserFriendsList",
+            createdUser.user.profileData.friendsList
+          );
           navigate("/");
         }
       } catch (e) {

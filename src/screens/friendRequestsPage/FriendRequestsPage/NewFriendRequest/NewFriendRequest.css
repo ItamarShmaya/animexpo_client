@@ -1,0 +1,71 @@
+.new-friend-req {
+  background-color: antiquewhite;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.new-friend-req img {
+  width: 70px;
+  height: 90px;
+}
+
+.new-friend-req .req-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-friend-req .req-heading h2 {
+  font-size: 13px;
+}
+.new-friend-req .req-heading p {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.new-friend-req > div:nth-child(2) {
+  display: flex;
+  gap: 5px;
+}
+
+.asd {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.asd p {
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.actions .accept-req {
+  background-color: coral;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+
+.actions .accept-req:hover {
+  background-color: greenyellow;
+}
+
+.actions .reject-req {
+  background-color: rgb(120, 111, 112);
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+
+.actions .reject-req:hover {
+  background-color: red;
+}

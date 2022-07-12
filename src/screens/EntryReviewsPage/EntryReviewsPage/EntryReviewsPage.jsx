@@ -11,10 +11,8 @@ const EntryReviewsPage = () => {
 
   useEffect(() => {
     const getAllReviews = async () => {
-      console.log(id);
       try {
         const reviewsList = await getEntryReviews(id, 0);
-        console.log(reviewsList);
         setReviews(reviewsList);
       } catch (e) {}
     };
@@ -24,7 +22,7 @@ const EntryReviewsPage = () => {
 
   const renderReviews = (reviewsList) => {
     return reviewsList.map((review) => {
-      return <Review review={review} />;
+      return <Review key={review._id} review={review} />;
     });
   };
   return (

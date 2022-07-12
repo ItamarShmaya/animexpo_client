@@ -17,6 +17,8 @@ import Error from "./components/Error/Error";
 import PersonPage from "./screens/personPage/PersonPage/PersonPage";
 import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
+import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
+import "./socket/app.js";
 
 function App() {
   return (
@@ -65,6 +67,15 @@ function App() {
               path="/manga/:id/reviews"
               exact
               element={<EntryReviewsPage />}
+            />
+            <Route
+              path="profile/:username/notifications"
+              exact
+              element={
+                <PrivateRoute>
+                  <FriendRequestsPage />
+                </PrivateRoute>
+              }
             />
             <Route path="/notfound" exact element={<NotFound />} />
             <Route path="/error" exact element={<Error />} />

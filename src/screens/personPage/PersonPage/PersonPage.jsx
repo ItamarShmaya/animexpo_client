@@ -19,6 +19,10 @@ const PersonPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     const getPerson = async () => {
       try {
         const person = await getPeopleById(id);
