@@ -8,7 +8,9 @@ const LoggedInUserProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("loggedInUser")) || null
   );
   const [notifications, setNotifications] = useState([]);
-  const [socket, setSocket] = useState(io("http://localhost:3001"));
+  const [socket, setSocket] = useState(
+    io("https://animexpo-server.herokuapp.com")
+  );
 
   return (
     <LoggedInUserContext.Provider

@@ -18,7 +18,6 @@ import PersonPage from "./screens/personPage/PersonPage/PersonPage";
 import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
-import "./socket/app.js";
 
 function App() {
   return (

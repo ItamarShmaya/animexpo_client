@@ -27,7 +27,7 @@ const SignupPage = () => {
   const pwdRef = useRef();
   const navigate = useNavigate();
   const { setLocalStorage } = useLocalStorage();
-  const { setLoggedInUser } = useLoggedInUser();
+  const { setLoggedInUser, socket } = useLoggedInUser();
 
   useEffect(() => {
     if (isUsernameTaken) setIsUsernameTaken(false);
@@ -95,20 +95,22 @@ const SignupPage = () => {
             "loggedInUserFriendsList",
             createdUser.user.profileData.friendsList
           );
+          socket.emit("new_user", { username: createdUser.user.username });
           navigate("/");
         }
-      } catch (e) {
-        if (e === "UsernameAlreadyExists") {
+      } catch (err) {
+        if (err === "UsernameAlreadyExists") {
           setIsUsernameTaken(true);
         }
-        if (e === "EmailAlreadyExists") {
+        if (err === "EmailAlreadyExists") {
           setIsEmailTaken(true);
           setEmailError("Email already in use");
         }
-        if (e === "InvalidEmail") {
+        if (err === "InvalidEmail") {
           setIsEmailTaken(true);
           setEmailError("Invalid Email");
         }
+        console.log(err);
       }
     }
   };

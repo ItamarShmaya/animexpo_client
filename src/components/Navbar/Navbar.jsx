@@ -13,7 +13,7 @@ import { updateNotificationsToRead } from "../../apis/animexpo/animexpo_updates"
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(null);
   const formWrapperRef = useRef();
   const {
     loggedInUser,
@@ -93,8 +93,9 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (!notifOpen) {
+    if (notifOpen === false) {
       setNotifications([]);
+      setNotifOpen(null);
       if (notifications.length > 0) {
         updateNotificationsToRead(loggedInUser.username, loggedInUser.token);
       }

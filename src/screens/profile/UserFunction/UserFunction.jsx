@@ -40,7 +40,6 @@ const UserFunction = ({ setViewedProfile }) => {
     );
 
     socket?.on("updated_removed_friendslist", ({ friendsList }) => {
-      console.log(friendsList);
       setLocalStorage("loggedInUserFriendsList", friendsList);
       setViewedProfile((prev) => ({ ...prev, friendsList }));
     });

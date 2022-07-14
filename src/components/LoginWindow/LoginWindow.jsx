@@ -4,8 +4,6 @@ import { NavLink } from "react-router-dom";
 import { useLoggedInUser } from "../../context/context_custom_hooks";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { loginUser } from "../../apis/animexpo/animexpo_requests.js";
-// import { socket } from "../../socket/app";
-// import io from "socket.io-client";
 
 const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [username, setUsername] = useState("");
