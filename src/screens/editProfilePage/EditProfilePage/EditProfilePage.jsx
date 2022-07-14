@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./EditProfilePage.css";
 import { useLoggedInUser } from "../../../context/context_custom_hooks";
 // import { useLocalStorage } from "../../../hooks/useLocalStorage";
@@ -12,7 +12,7 @@ import AvatarEditForm from "./AvatarEditForm/AvatarEditForm";
 const EditProfilePage = () => {
   const { username } = useParams();
   const navigate = useNavigate();
-  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
+  const { loggedInUser } = useLoggedInUser();
   // const { getLocalStorage, setLocalStorage } = useLocalStorage();
   // const profileData = getLocalStorage("loggedInUserProfileData");
   // const formRef = useRef();

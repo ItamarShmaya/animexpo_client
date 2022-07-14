@@ -9,10 +9,12 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
   useEffect(() => {
     if (scoreAsc === false) sortListByScoreDesc();
     if (scoreAsc === true) sortListByScoreAsc();
+    // eslint-disable-next-line
   }, [scoreAsc]);
   useEffect(() => {
     if (titleAsc === false) sortListByTitleDesc();
     if (titleAsc === true) sortListByTitleAsc();
+    // eslint-disable-next-line
   }, [titleAsc]);
 
   const renderList = (list) => {
