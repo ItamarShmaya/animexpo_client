@@ -102,9 +102,9 @@ const Navbar = () => {
     // eslint-disable-next-line
   }, [
     notifOpen,
-    loggedInUser.username,
-    loggedInUser.token,
-    notifications.length,
+    loggedInUser?.username,
+    loggedInUser?.token,
+    notifications?.length,
   ]);
 
   return (

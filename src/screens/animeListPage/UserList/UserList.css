@@ -28,6 +28,15 @@
   color: #eeebdd;
   text-align: center;
 }
+
+.sort {
+  cursor: pointer;
+}
+
+.sort:hover {
+  text-shadow: 0 0 3px white, 0 0 5px #ce1212;
+}
+
 @media all and (max-width: 500px) {
   #list-header {
     display: none;

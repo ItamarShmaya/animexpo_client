@@ -20,13 +20,23 @@ const AnimeListPage = () => {
     const getAnimeList = async () => {
       if (loggedInUser?.username === username) {
         const animeList = getLocalStorage("loggedInUserAnimeList");
-        setUserAnimeList(animeList.list);
+        const sortedList = [...animeList.list].sort((item1, item2) => {
+          return item1.title
+            .toLowerCase()
+            .localeCompare(item2.title.toLowerCase());
+        });
+        setUserAnimeList(sortedList);
         setIsLoading(false);
         return;
       }
       try {
         const animeList = await getUserAnimeList(username);
-        setUserAnimeList(animeList.list);
+        const sortedList = [...animeList.list].sort((item1, item2) => {
+          return item1.title
+            .toLowerCase()
+            .localeCompare(item2.title.toLowerCase());
+        });
+        setUserAnimeList(sortedList);
         setIsLoading(false);
       } catch (e) {
         if (e === "UserNotFound") navigate("/notfound");
