@@ -1,4 +1,4 @@
-https://animexpo-client.herokuapp.com/
+https://animexpoclient.onrender.com/
 
 # Getting Started with Create React App
 
