@@ -9,7 +9,7 @@ const LoggedInUserProvider = ({ children }) => {
   );
   const [notifications, setNotifications] = useState([]);
   const [socket, setSocket] = useState(
-    io("https://animexpo-server.herokuapp.com")
+    io("https://animexposerver.onrender.com")
   );
 
   return (
