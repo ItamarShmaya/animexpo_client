@@ -186,7 +186,7 @@ const AnimeListItem = ({ item, username, setUserList, number }) => {
 
   const renderCommentCol = () => {
     if (!isloggedInUserList) {
-      return <>{comment}</>;
+      return <div>{comment}</div>;
     } else {
       return (
         <>
@@ -196,6 +196,7 @@ const AnimeListItem = ({ item, username, setUserList, number }) => {
               onChange={({ target }) => setCommentInput(target.value)}
               value={commentInput}
               type="text"
+              maxLength={150}
             />
           ) : (
             <span className="editable" onClick={() => setCommentEditMode(true)}>
