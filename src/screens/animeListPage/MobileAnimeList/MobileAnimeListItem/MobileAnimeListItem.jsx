@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import "./MobileAnimeListItem.css";
 import MobileEditWindow from "../MobileEditWindow/MobileEditWindow";
 import { useLoggedInUser } from "../../../../context/context_custom_hooks";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
-const MobileAnimeListItem = ({
-  item,
-  cardWidth,
-  cardHeight = 200,
-  setUserList,
-}) => {
+const MobileAnimeListItem = ({ item, userList, setUserList }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const { image, title, episodes, progress, score } = item;
+  const { image, title, episodes, progress, score, mal_id } = item;
   const { loggedInUser } = useLoggedInUser();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
   const { username } = useParams();
@@ -26,6 +21,7 @@ const MobileAnimeListItem = ({
         item={item}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
+        userList={userList}
         setUserList={setUserList}
       />
     );
@@ -40,8 +36,6 @@ const MobileAnimeListItem = ({
         backgroundPositionX: "center",
         backgroundPositionY: "center",
         backgroundSize: "cover",
-        width: `${cardWidth}px`,
-        height: `${cardHeight}px`,
       }}
     >
       <div className="mobile-list-item-wrapper">
@@ -53,6 +47,10 @@ const MobileAnimeListItem = ({
             ></i>
           )}
         </div>
+        <NavLink
+          to={`/anime/${mal_id}`}
+          className="mobile-list-item-background"
+        ></NavLink>
         <div className="mobile-list-item-info">
           <div className="mobile-list-item-info-left-side">
             <div className="mobile-list-item-title">{title}</div>

@@ -4,25 +4,31 @@ import { updateFieldInAnimeListEntry } from "../../../../apis/animexpo/animexpo_
 import { useLoggedInUser } from "../../../../context/context_custom_hooks";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
-const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
-  const { title, episodes, progress, score, status, _id } = item;
+const MobileEditWindow = ({ item, isEdit, setIsEdit, userList, setUserList }) => {
+  const { title, episodes, progress, score, status, comment, _id, mal_id } = item;
   const [statusInput, setStatusInput] = useState(status);
   const [scoreInput, setScoreInput] = useState(score);
   const [progressInput, setProgressInput] = useState(progress);
+  const [commentInput, setCommentInput] = useState(comment);
   const mobileItemEditFormRef = useRef();
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
 
   const updateAnimeEntry = async (body) => {
     try {
-      const updatedAnimeList = await updateFieldInAnimeListEntry(
+      const updatedAnimeListEntry = await updateFieldInAnimeListEntry(
         loggedInUser.username,
         loggedInUser.token,
         body
       );
 
-      setUserList(updatedAnimeList.list);
-      setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+      const index = userList.findIndex((item) => item.mal_id === mal_id);
+      const updatedUserList = [...userList];
+      updatedUserList[index] = updatedAnimeListEntry;
+      setUserList(updatedUserList);
+      const animeList = getLocalStorage("loggedInUserAnimeList");
+      animeList.list = [...updatedUserList];
+      setLocalStorage("loggedInUserAnimeList", animeList);
     } catch (e) {
       console.log(e);
     }
@@ -30,9 +36,10 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
   const onEditFormSubmit = (e) => {
     e.preventDefault();
     if (
-      statusInput === status &&
-      scoreInput === score &&
-      progressInput === progress
+      statusInput.toString() === status.toString() &&
+      scoreInput.toString() === score.toString() &&
+      progressInput.toString() === progress.toString() &&
+      commentInput.toString() === comment.toString()
     ) {
       setIsEdit(false);
       return;
@@ -42,6 +49,7 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
         status: statusInput,
         score: scoreInput,
         progress: progressInput,
+        comment: commentInput,
       });
       setIsEdit(false);
       return;
@@ -65,6 +73,13 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
     }
   }, [isEdit, setIsEdit]);
 
+  const onStatusInputChange = ({ target }) => {
+    if (target.value === "Completed") {
+      setProgressInput(episodes);
+    }
+    setStatusInput(target.value);
+  };
+
   return (
     <div className="mobile-edit-item-overlay">
       <div className="mobile-item-edit-window-container">
@@ -79,7 +94,7 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
             <select
               id="status"
               value={statusInput}
-              onChange={({ target }) => setStatusInput(target.value)}
+              onChange={onStatusInputChange}
             >
               <option value="Watching">Watching</option>
               <option value="Completed">Completed</option>
@@ -118,6 +133,21 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, setUserList }) => {
                 min={1}
                 max={episodes}
                 onChange={({ target }) => setProgressInput(target.value)}
+              />
+            </div>
+          </div>
+          <div className="mobile-item-edit-input-group">
+            <label htmlFor="comment">Comment</label>
+            <div
+              className="mobile-item-edit-comment-input"
+              data-maxlength={"*150 Characters Limit"}
+            >
+              <input
+                id="comment"
+                type="text"
+                value={commentInput}
+                maxLength={150}
+                onChange={({ target }) => setCommentInput(target.value)}
               />
             </div>
           </div>

@@ -8,7 +8,7 @@ import {
 } from "../../../../apis/animexpo/animexpo_updates.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 
-const AnimeListItem = ({ item, username, setUserList, number }) => {
+const AnimeListItem = ({ item, username, userList, setUserList, number }) => {
   const {
     title,
     image,
@@ -31,7 +31,7 @@ const AnimeListItem = ({ item, username, setUserList, number }) => {
   const [scoreInput, setScoreInput] = useState(score);
   const { loggedInUser } = useLoggedInUser();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
-  const { setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const progressRef = useRef();
   const commentRef = useRef();
   const statusRef = useRef();
@@ -46,13 +46,19 @@ const AnimeListItem = ({ item, username, setUserList, number }) => {
 
   const updateAnimeEntry = async (body) => {
     try {
-      const updatedAnimeList = await updateFieldInAnimeListEntry(
+      const updatedAnimeListEntry = await updateFieldInAnimeListEntry(
         loggedInUser.username,
         loggedInUser.token,
         body
       );
-      setUserList(updatedAnimeList.list);
-      setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+
+      const index = userList.findIndex((item) => item.mal_id === mal_id);
+      const updatedUserList = [...userList];
+      updatedUserList[index] = updatedAnimeListEntry;
+      setUserList(updatedUserList);
+      const animeList = getLocalStorage("loggedInUserAnimeList");
+      animeList.list = [...updatedUserList];
+      setLocalStorage("loggedInUserAnimeList", animeList);
     } catch (e) {
       console.log(e);
     }

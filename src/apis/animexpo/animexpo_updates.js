@@ -2,7 +2,7 @@ import animexpo from "./animexpo";
 
 export const addToAnimeList = async (username, token, animeEntry) => {
   try {
-    const { data: animeList } = await animexpo.patch(
+    const { data: updatedAnimeList } = await animexpo.patch(
       `/user/${username}/addToAnimelist`,
       animeEntry,
       {
@@ -11,7 +11,7 @@ export const addToAnimeList = async (username, token, animeEntry) => {
         },
       }
     );
-    return animeList;
+    return updatedAnimeList;
   } catch (e) {
     throw e;
   }
@@ -19,7 +19,7 @@ export const addToAnimeList = async (username, token, animeEntry) => {
 
 export const removeFromAnimeList = async (username, token, mal_id) => {
   try {
-    const { data: animeList } = await animexpo.patch(
+    const { data: updatedAnimeList } = await animexpo.patch(
       `/user/${username}/removeFromAnimeList`,
       { mal_id },
       {
@@ -28,7 +28,7 @@ export const removeFromAnimeList = async (username, token, mal_id) => {
         },
       }
     );
-    return animeList;
+    return updatedAnimeList;
   } catch (e) {
     throw e;
   }
@@ -36,7 +36,8 @@ export const removeFromAnimeList = async (username, token, mal_id) => {
 
 export const updateFieldInAnimeListEntry = async (username, token, body) => {
   try {
-    const { data: animeList } = await animexpo.patch(
+    // const { data: updatedAnimeList } = await animexpo.patch(
+    const { data: updatedAnimeListEntry } = await animexpo.patch(
       `user/${username}/updateAnimeEntry`,
       body,
       {
@@ -45,7 +46,7 @@ export const updateFieldInAnimeListEntry = async (username, token, body) => {
         },
       }
     );
-    return animeList;
+    return updatedAnimeListEntry;
   } catch (e) {
     throw e;
   }
@@ -53,7 +54,7 @@ export const updateFieldInAnimeListEntry = async (username, token, body) => {
 
 export const addToMangaList = async (username, token, mangaEntry) => {
   try {
-    const { data: mangaList } = await animexpo.patch(
+    const { data: updatedMangaList } = await animexpo.patch(
       `/user/${username}/addToMangalist`,
       mangaEntry,
       {
@@ -62,7 +63,7 @@ export const addToMangaList = async (username, token, mangaEntry) => {
         },
       }
     );
-    return mangaList;
+    return updatedMangaList;
   } catch (e) {
     throw e;
   }
@@ -87,7 +88,7 @@ export const removeFromMangaList = async (username, token, mal_id) => {
 
 export const updateFieldInMangaListEntry = async (username, token, body) => {
   try {
-    const { data: mangaList } = await animexpo.patch(
+    const { data: updatedMangaList } = await animexpo.patch(
       `user/${username}/updateMangaEntry`,
       body,
       {
@@ -96,7 +97,7 @@ export const updateFieldInMangaListEntry = async (username, token, body) => {
         },
       }
     );
-    return mangaList;
+    return updatedMangaList;
   } catch (e) {
     throw e;
   }
@@ -104,7 +105,7 @@ export const updateFieldInMangaListEntry = async (username, token, body) => {
 
 export const addToFavCharList = async (username, token, charEntry) => {
   try {
-    const { data: characterList } = await animexpo.patch(
+    const { data: updatedCharacterList } = await animexpo.patch(
       `/user/${username}/addToFavCharList`,
       charEntry,
       {
@@ -113,7 +114,7 @@ export const addToFavCharList = async (username, token, charEntry) => {
         },
       }
     );
-    return characterList;
+    return updatedCharacterList;
   } catch (e) {
     throw e;
   }
@@ -121,7 +122,7 @@ export const addToFavCharList = async (username, token, charEntry) => {
 
 export const removeFromFavCharList = async (username, token, mal_id) => {
   try {
-    const { data: characterList } = await animexpo.patch(
+    const { data: updatedCharacterList } = await animexpo.patch(
       `/user/${username}/removeFromFavCharList`,
       { mal_id },
       {
@@ -130,7 +131,7 @@ export const removeFromFavCharList = async (username, token, mal_id) => {
         },
       }
     );
-    return characterList;
+    return updatedCharacterList;
   } catch (e) {
     throw e;
   }
@@ -138,7 +139,7 @@ export const removeFromFavCharList = async (username, token, mal_id) => {
 
 export const addToFavPeopleList = async (username, token, personEntry) => {
   try {
-    const { data: peopleList } = await animexpo.patch(
+    const { data: updatedPeopleList } = await animexpo.patch(
       `/user/${username}/addToFavPeopleList`,
       personEntry,
       {
@@ -147,7 +148,7 @@ export const addToFavPeopleList = async (username, token, personEntry) => {
         },
       }
     );
-    return peopleList;
+    return updatedPeopleList;
   } catch (e) {
     throw e;
   }
@@ -155,7 +156,7 @@ export const addToFavPeopleList = async (username, token, personEntry) => {
 
 export const removeFromFavPeopleList = async (username, token, mal_id) => {
   try {
-    const { data: peopleList } = await animexpo.patch(
+    const { data: updatedPeopleList } = await animexpo.patch(
       `/user/${username}/removeFromFavPeopleList`,
       { mal_id },
       {
@@ -164,7 +165,7 @@ export const removeFromFavPeopleList = async (username, token, mal_id) => {
         },
       }
     );
-    return peopleList;
+    return updatedPeopleList;
   } catch (e) {
     throw e;
   }

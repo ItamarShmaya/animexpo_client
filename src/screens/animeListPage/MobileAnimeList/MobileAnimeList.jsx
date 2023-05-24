@@ -4,7 +4,12 @@ const MobileAnimeList = ({ userList, setUserList, ListItem }) => {
   const renderList = (animeList) => {
     return animeList.map((item) => {
       return (
-        <ListItem key={item.mal_id} item={item} setUserList={setUserList} />
+        <ListItem
+          key={item.mal_id}
+          item={item}
+          userList={userList}
+          setUserList={setUserList}
+        />
       );
     });
   };
