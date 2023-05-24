@@ -27,7 +27,7 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
         status: "Watching",
         score: 1,
         comment: "",
-        episodes,
+        episodes: episodes || 9999,
         progress: 1,
       };
 
