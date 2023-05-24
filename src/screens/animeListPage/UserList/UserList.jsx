@@ -24,6 +24,7 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
           key={item.mal_id}
           item={item}
           username={username}
+          userList={userList}
           setUserList={setUserList}
           number={i + 1}
         />

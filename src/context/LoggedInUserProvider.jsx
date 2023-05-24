@@ -11,6 +11,7 @@ const LoggedInUserProvider = ({ children }) => {
   const [socket, setSocket] = useState(
     io("https://animexposerver.onrender.com")
   );
+  // const [socket, setSocket] = useState(io("http://localhost:5050"));
 
   return (
     <LoggedInUserContext.Provider

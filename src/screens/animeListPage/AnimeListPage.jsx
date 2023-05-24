@@ -7,6 +7,8 @@ import { getUserAnimeList } from "../../apis/animexpo/animexpo_requests.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import AnimeListItem from "./UserList/AnimeListItem/AnimeListItem";
+import MobileAnimeList from "./MobileAnimeList/MobileAnimeList";
+import MobileAnimeListItem from "./MobileAnimeList/MobileAnimeListItem/MobileAnimeListItem";
 
 const AnimeListPage = () => {
   const [userAnimeList, setUserAnimeList] = useState([]);
@@ -50,12 +52,19 @@ const AnimeListPage = () => {
     <>
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : window.innerWidth > 1000 ? (
         <UserList
           userList={userAnimeList}
           setUserList={setUserAnimeList}
           username={username}
           ListItem={AnimeListItem}
+        />
+      ) : (
+        <MobileAnimeList
+          userList={userAnimeList}
+          setUserList={setUserAnimeList}
+          username={username}
+          ListItem={MobileAnimeListItem}
         />
       )}
     </>
