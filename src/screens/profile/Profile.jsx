@@ -83,7 +83,9 @@ const Profile = () => {
             </div>
             <div className="main-profile-content__right-side">
               <div className="profile-content">
-                <h1 className="profile-heading">{username}</h1>
+                <h1 className="profile-heading">
+                  {viewedProfile.personalInfo.displayName}
+                </h1>
                 <div className="about-me">
                   {viewedProfile.personalInfo.aboutMe}
                 </div>
