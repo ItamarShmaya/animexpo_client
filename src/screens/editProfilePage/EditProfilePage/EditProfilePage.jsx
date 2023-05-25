@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./EditProfilePage.css";
 import { useLoggedInUser } from "../../../context/context_custom_hooks";
 // import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { useNavigate, useParams } from "react-router-dom";
 import AvatarEditForm from "./AvatarEditForm/AvatarEditForm";
+import DeleteUserButton from "./AvatarEditForm/DeleteUserButton/DeleteUserButton";
+import DeleteAccountConfirmWindow from "./AvatarEditForm/DeleteUserButton/DeleteAccountConfirmWindow/DeleteAccountConfirmWindow";
 // import {
 // updateProfileData,
 // } from "../../../apis/animexpo/animexpo_updates";
@@ -13,6 +15,7 @@ const EditProfilePage = () => {
   const { username } = useParams();
   const navigate = useNavigate();
   const { loggedInUser } = useLoggedInUser();
+  const [openConfirmWindow, setOpenConfirmWindow] = useState(false);
   // const { getLocalStorage, setLocalStorage } = useLocalStorage();
   // const profileData = getLocalStorage("loggedInUserProfileData");
   // const formRef = useRef();
@@ -60,9 +63,19 @@ const EditProfilePage = () => {
 
   return (
     <div className="editprofile-page">
+      {openConfirmWindow && (
+        <DeleteAccountConfirmWindow
+          openConfirmWindow={openConfirmWindow}
+          setOpenConfirmWindow={setOpenConfirmWindow}
+        />
+      )}
       <main className="edit-profile-content">
         <h2>Edit</h2>
         <AvatarEditForm />
+        <DeleteUserButton
+          openConfirmWindow={openConfirmWindow}
+          setOpenConfirmWindow={setOpenConfirmWindow}
+        />
         {/* <form
           onSubmit={onEditFormSubmit}
           className="edit-profile-form"
