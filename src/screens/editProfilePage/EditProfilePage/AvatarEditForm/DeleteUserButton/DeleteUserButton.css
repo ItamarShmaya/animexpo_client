@@ -1,0 +1,13 @@
+.delete-user {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.delete-user button {
+  display: block;
+  width: fit-content;
+  padding: 1px 10px;
+}
+
+

@@ -286,3 +286,14 @@ export const updateNotificationsToRead = async (username, token) => {
     console.log(e);
   }
 };
+
+export const deleteUser = async (username, token) => {
+  try {
+    const response = await animexpo.delete(`/user/${username}/deleteUser`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};

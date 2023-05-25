@@ -9,6 +9,9 @@
   background-color: #eeebdd;
   margin: auto;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .edit-profile-form {
