@@ -1,0 +1,9 @@
+.mobile-list-wrapper {
+  padding: 5px;
+}
+
+.mobile-list-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
