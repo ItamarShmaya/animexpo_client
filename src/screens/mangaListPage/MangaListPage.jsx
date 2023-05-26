@@ -7,6 +7,8 @@ import "./MangaListPage.css";
 import UserList from "../animeListPage/UserList/UserList.jsx";
 import MangaListItem from "./MangaListItem/MangaListItem.jsx";
 import { getUserMangaList } from "../../apis/animexpo/animexpo_requests.js";
+import MobileMangaList from "./MobileMangaList/MobileMangaList.jsx";
+import MobileMangaListItem from "./MobileMangaList/MobileMangaListItem/MobileMangaListItem.jsx";
 
 const MangaListPage = () => {
   const [userMangaList, setUserMangaList] = useState([]);
@@ -40,12 +42,19 @@ const MangaListPage = () => {
     <>
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : window.innerWidth > 1000 ? (
         <UserList
           userList={userMangaList}
           setUserList={setUserMangaList}
           username={username}
           ListItem={MangaListItem}
+        />
+      ) : (
+        <MobileMangaList
+          userList={userMangaList}
+          setUserList={setUserMangaList}
+          username={username}
+          ListItem={MobileMangaListItem}
         />
       )}
     </>
