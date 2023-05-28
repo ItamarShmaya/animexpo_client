@@ -1,20 +1,42 @@
 .mylist-container {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  border: 2px solid #ce1212;
 }
 
-.mylist-container > div:nth-child(2) {
-  border-top: 2px solid #ce1212;
+.status-menu {
+  display: flex;
+  color: white;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 50px;
+  margin-bottom: 45px;
+}
+
+.status-menu h1:hover {
+  cursor: pointer;
+  text-shadow: 0 0 3px white, 0 0 5px #ce1212;
+}
+
+.viewed-status {
+  color: white;
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.mylist-container:last-child {
+  border-bottom: none;
 }
 
 #list-header {
   border: none;
   font-size: 2rem;
   font-weight: bold;
-  padding-bottom: 1rem;
   text-decoration: underline;
   text-underline-position: under;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  background-color: #222;
 }
 
 .mobile-list-header {
@@ -35,13 +57,4 @@
 
 .sort:hover {
   text-shadow: 0 0 3px white, 0 0 5px #ce1212;
-}
-
-@media all and (max-width: 500px) {
-  #list-header {
-    display: none;
-  }
-  .mobile-list-header {
-    display: block;
-  }
 }
