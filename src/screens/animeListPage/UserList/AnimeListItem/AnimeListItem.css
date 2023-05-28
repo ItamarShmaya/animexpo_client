@@ -41,23 +41,3 @@
 .remove-button:hover {
   cursor: pointer;
 }
-
-@media all and (max-width: 500px) {
-  .mylist-item-title {
-    margin-left: 10px;
-  }
-
-  .remove-button {
-    width: 50px;
-    height: 20px;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.mylist-item-comment > * {
-  font-size: 1.2rem;
-  word-wrap: break-word;
-}

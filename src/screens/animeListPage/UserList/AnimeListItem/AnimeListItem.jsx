@@ -229,6 +229,8 @@ const AnimeListItem = ({ item, username, userList, setUserList, number }) => {
               <option value="Watching">Watching</option>
               <option value="Completed">Completed</option>
               <option value="Dropped">Dropped</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Plan to Watch">Plan to Watch</option>
             </select>
           ) : (
             <span className="editable" onClick={() => setStatusEditMode(true)}>

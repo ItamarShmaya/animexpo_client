@@ -4,8 +4,15 @@ import { updateFieldInAnimeListEntry } from "../../../../apis/animexpo/animexpo_
 import { useLoggedInUser } from "../../../../context/context_custom_hooks";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
-const MobileEditWindow = ({ item, isEdit, setIsEdit, userList, setUserList }) => {
-  const { title, episodes, progress, score, status, comment, _id, mal_id } = item;
+const MobileEditWindow = ({
+  item,
+  isEdit,
+  setIsEdit,
+  userList,
+  setUserList,
+}) => {
+  const { title, episodes, progress, score, status, comment, _id, mal_id } =
+    item;
   const [statusInput, setStatusInput] = useState(status);
   const [scoreInput, setScoreInput] = useState(score);
   const [progressInput, setProgressInput] = useState(progress);
@@ -99,6 +106,8 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, userList, setUserList }) =>
               <option value="Watching">Watching</option>
               <option value="Completed">Completed</option>
               <option value="Dropped">Dropped</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Plan to Watch">Plan to Watch</option>
             </select>
           </div>
           <div className="mobile-item-edit-input-group">
@@ -123,7 +132,7 @@ const MobileEditWindow = ({ item, isEdit, setIsEdit, userList, setUserList }) =>
           <div className="mobile-item-edit-input-group">
             <label htmlFor="progress">Progress</label>
             <div
-              className="mobile-item-edit-progress-input"
+              className="anime-mobile-item-edit-progress-input"
               data-episodes={episodes}
             >
               <input
