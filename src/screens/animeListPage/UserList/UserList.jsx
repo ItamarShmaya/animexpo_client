@@ -37,7 +37,7 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
   };
 
   const sortListByScoreDesc = () => {
-    const sortedList = [...userList];
+    const sortedList = [...viewedList];
     sortedList.sort((item1, item2) => {
       return item2.score - item1.score;
     });
@@ -45,7 +45,7 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
   };
 
   const sortListByScoreAsc = () => {
-    const sortedList = [...userList];
+    const sortedList = [...viewedList];
     sortedList.sort((item1, item2) => {
       return item1.score - item2.score;
     });
@@ -53,7 +53,7 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
   };
 
   const sortListByTitleDesc = () => {
-    const sortedList = [...userList];
+    const sortedList = [...viewedList];
     sortedList.sort((item1, item2) => {
       return item2.title.toLowerCase().localeCompare(item1.title.toLowerCase());
     });
@@ -61,7 +61,7 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
   };
 
   const sortListByTitleAsc = () => {
-    const sortedList = [...userList];
+    const sortedList = [...viewedList];
     sortedList.sort((item1, item2) => {
       return item1.title.toLowerCase().localeCompare(item2.title.toLowerCase());
     });
