@@ -41,14 +41,19 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .about-me {
   width: 100%;
-  min-height: 300px;
   border: 1px solid #ccc;
   padding: 1rem;
   font-size: 1.2rem;
+}
+
+.statistics {
+  display: flex;
+  flex-direction: column;
 }
 
 .user-info {

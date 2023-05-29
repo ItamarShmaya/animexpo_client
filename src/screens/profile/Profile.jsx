@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import SideMenu from "./SideMenu/SideMenu";
 import UserInfo from "./UserInfo/UserInfo";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUserProfileData } from "../../apis/animexpo/animexpo_requests.js";
+import {
+  getUserAnimeList,
+  getUserMangaList,
+  getUserProfileData,
+} from "../../apis/animexpo/animexpo_requests.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
 import {
@@ -13,6 +17,7 @@ import {
 } from "../../components/SimplyCarousel/profilePageCarouselSettings.js";
 import FavoriteCard from "./FavoriteCard/FavoriteCard";
 import SimplyCarousel from "../../components/SimplyCarousel/SimplyCarousel";
+import Statistics from "./Statistics/Statistics";
 
 const Profile = () => {
   const { username } = useParams();
@@ -20,6 +25,8 @@ const Profile = () => {
   const [viewedProfile, setViewedProfile] = useState(null);
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
+  const [viewedUserAnimeList, setViewedUserAnimeList] = useState(null);
+  const [viewedUserMangaList, setViewedUserMangaList] = useState(null);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -28,16 +35,22 @@ const Profile = () => {
         const FavCharList = getLocalStorage("loggedInUserFavCharsList");
         const FavPeopleList = getLocalStorage("loggedInUserFavPeopleList");
         const friendsList = getLocalStorage("loggedInUserFriendsList");
+        const animeList = getLocalStorage("loggedInUserAnimeList");
+        const mangaList = getLocalStorage("loggedInUserMangaList");
         profileData.favoriteCharacters = FavCharList;
         profileData.favoritePeople = FavPeopleList;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
+        setViewedUserAnimeList(animeList);
+        setViewedUserMangaList(mangaList);
       } else {
         try {
           const profileData = await getUserProfileData(username);
-          if (profileData) {
-            setViewedProfile(profileData);
-          }
+          if (profileData) setViewedProfile(profileData);
+          const animeList = await getUserAnimeList(username);
+          if (animeList) setViewedUserAnimeList(animeList);
+          const mangaList = await getUserMangaList(username);
+          if (mangaList) setViewedUserMangaList(mangaList);
         } catch (e) {
           if (e === "UserNotFound") {
             navigate("/notfound");
@@ -88,6 +101,13 @@ const Profile = () => {
                 </h1>
                 <div className="about-me">
                   {viewedProfile.personalInfo.aboutMe}
+                </div>
+                <div className="statistics">
+                  <Statistics
+                    viewedUserAnimeList={viewedUserAnimeList}
+                    viewedUserMangaList={viewedUserMangaList}
+                  />
+                  <div className="manga-stats"></div>
                 </div>
                 <div className="fav-lists">
                   {viewedProfile.favoriteCharacters.list.length > 0 && (
