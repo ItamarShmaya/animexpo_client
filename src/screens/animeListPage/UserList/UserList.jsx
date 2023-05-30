@@ -1,23 +1,19 @@
-import { useEffect } from "react";
+import { useReducer } from "react";
 import { useState } from "react";
+import { viewedListReducer } from "../../../reducers/animeListReducer";
 import "./UserList.css";
 
-const UserList = ({ userList, username, setUserList, ListItem }) => {
-  const [scoreAsc, setScoreAsc] = useState(null);
-  const [titleAsc, setTitleAsc] = useState(null);
-  const [viewedList, setViewedList] = useState(userList);
+const UserList = ({
+  userList,
+  username,
+  setUserList,
+  ListItem,
+  StatusMenu,
+}) => {
+  const [, setScoreAsc] = useState(null);
+  const [, setTitleAsc] = useState(null);
   const [viewedStatus, setViewedStatus] = useState("All");
-
-  useEffect(() => {
-    if (scoreAsc === false) sortListByScoreDesc();
-    if (scoreAsc === true) sortListByScoreAsc();
-    // eslint-disable-next-line
-  }, [scoreAsc]);
-  useEffect(() => {
-    if (titleAsc === false) sortListByTitleDesc();
-    if (titleAsc === true) sortListByTitleAsc();
-    // eslint-disable-next-line
-  }, [titleAsc]);
+  const [viewedList, dispatch] = useReducer(viewedListReducer, userList);
 
   const renderList = (list) => {
     return list.map((item, i) => {
@@ -28,85 +24,50 @@ const UserList = ({ userList, username, setUserList, ListItem }) => {
           username={username}
           userList={userList}
           setUserList={setUserList}
-          viewedList={viewedList}
-          setViewedList={setViewedList}
+          dispatch={dispatch}
           number={i + 1}
         />
       );
     });
   };
 
-  const sortListByScoreDesc = () => {
-    const sortedList = [...viewedList];
-    sortedList.sort((item1, item2) => {
-      return item2.score - item1.score;
+  const onTitleClick = () => {
+    setTitleAsc((prev) => {
+      prev === true
+        ? dispatch({ type: "sort_titleDesc" })
+        : dispatch({ type: "sort_titleAsc" });
+      return !prev;
     });
-    setViewedList(sortedList);
   };
 
-  const sortListByScoreAsc = () => {
-    const sortedList = [...viewedList];
-    sortedList.sort((item1, item2) => {
-      return item1.score - item2.score;
+  const onScoreClick = () => {
+    setScoreAsc((prev) => {
+      prev === true
+        ? dispatch({ type: "sort_scoreDesc" })
+        : dispatch({ type: "sort_scoreAsc" });
+      return !prev;
     });
-    setViewedList(sortedList);
   };
-
-  const sortListByTitleDesc = () => {
-    const sortedList = [...viewedList];
-    sortedList.sort((item1, item2) => {
-      return item2.title.toLowerCase().localeCompare(item1.title.toLowerCase());
-    });
-    setViewedList(sortedList);
-  };
-
-  const sortListByTitleAsc = () => {
-    const sortedList = [...viewedList];
-    sortedList.sort((item1, item2) => {
-      return item1.title.toLowerCase().localeCompare(item2.title.toLowerCase());
-    });
-    setViewedList(sortedList);
-  };
-
-  useEffect(() => {
-    if (viewedStatus === "All") {
-      setViewedList(userList);
-      return;
-    }
-    const filteredList = userList.filter((entry) => {
-      return entry.status === viewedStatus;
-    });
-    setViewedList(filteredList);
-  }, [viewedStatus, userList]);
 
   return (
     <>
-      <div className="status-menu">
-        <h1 onClick={() => setViewedStatus("All")}>All</h1>
-        <h1 onClick={() => setViewedStatus("Watching")}>Currently Watching</h1>
-        <h1 onClick={() => setViewedStatus("Completed")}>Completed</h1>
-        <h1 onClick={() => setViewedStatus("On Hold")}>On Hold</h1>
-        <h1 onClick={() => setViewedStatus("Dropped")}>Dropped</h1>
-        <h1 onClick={() => setViewedStatus("Plan to Watch")}>Plan to Watch</h1>
-      </div>
+      <StatusMenu
+        setViewedStatus={setViewedStatus}
+        dispatch={dispatch}
+        userList={userList}
+      />
       <h1 className="viewed-status">{viewedStatus}</h1>
       <div className="mylist-container">
         <div id="list-header" className="list-item">
           <div className="mylist-item-number">#</div>
           <div className="mylist-item-img-container"></div>
-          <div
-            className="mylist-item-title sort"
-            onClick={() => setTitleAsc((prev) => !prev)}
-          >
+          <div className="mylist-item-title sort" onClick={onTitleClick}>
             Title
           </div>
           <div className="mylist-item-type">Type</div>
           <div className="mylist-item-episodes">Progress</div>
           <div className="mylist-item-status">Status</div>
-          <div
-            className="mylist-item-score sort"
-            onClick={() => setScoreAsc((prev) => !prev)}
-          >
+          <div className="mylist-item-score sort" onClick={onScoreClick}>
             Score
           </div>
           <div className="mylist-item-comment">Comment</div>
