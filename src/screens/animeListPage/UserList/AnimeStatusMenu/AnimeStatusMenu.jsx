@@ -30,8 +30,8 @@ const AnimeStatusMenu = ({ userList, setViewedStatus, dispatch }) => {
       <h1 onClick={onAllClick}>All</h1>
       <h1 onClick={onCurrentlyWatchingClick}>Currently Watching</h1>
       <h1 onClick={onCompletedClick}>Completed</h1>
-      <h1 onClick={onDroppedClick}>On Hold</h1>
-      <h1 onClick={onOnHoldClick}>Dropped</h1>
+      <h1 onClick={onDroppedClick}>Dropped</h1>
+      <h1 onClick={onOnHoldClick}>On Hold</h1>
       <h1 onClick={onPlanToWatchClick}>Plan to Watch</h1>
     </div>
   );

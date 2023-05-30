@@ -8,7 +8,14 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import "./MangaListItem.css";
 
-const MangaListItem = ({ item, username, userList, setUserList, number }) => {
+const MangaListItem = ({
+  item,
+  username,
+  userList,
+  setUserList,
+  number,
+  dispatch,
+}) => {
   const {
     title,
     image,
@@ -53,12 +60,21 @@ const MangaListItem = ({ item, username, userList, setUserList, number }) => {
         body
       );
 
-      const index = userList.findIndex((item) => item.mal_id === mal_id);
-      const updatedUserList = [...userList];
-      updatedUserList[index] = updatedMangaListEntry;
-      setUserList(updatedUserList);
+      dispatch({
+        type: "update_entry",
+        mal_id,
+        updatedListEntry: updatedMangaListEntry,
+      });
+
+      const FullListEntryIndex = userList.findIndex(
+        (entry) => entry.mal_id === mal_id
+      );
+      const updatedFullUserList = [...userList];
+      updatedFullUserList[FullListEntryIndex] = updatedMangaListEntry;
+      setUserList(updatedFullUserList);
+
       const mangaList = getLocalStorage("loggedInUserAnimeList");
-      mangaList.list = [...updatedUserList];
+      mangaList.list = [...updatedFullUserList];
       setLocalStorage("loggedInUserMangaList", mangaList);
     } catch (e) {
       console.log(e);
@@ -282,6 +298,7 @@ const MangaListItem = ({ item, username, userList, setUserList, number }) => {
         loggedInUser.token,
         mal_id
       );
+      dispatch({ type: "remove_entry", mal_id });
       setUserList(updatedMangaList.list);
       setLocalStorage("loggedInUserMangaList", updatedMangaList);
     } catch (e) {

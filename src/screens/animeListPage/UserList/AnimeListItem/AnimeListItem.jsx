@@ -62,21 +62,18 @@ const AnimeListItem = ({
       dispatch({
         type: "update_entry",
         mal_id,
-        updatedAnimeListEntry,
+        updatedListEntry: updatedAnimeListEntry,
       });
 
       const FullListEntryIndex = userList.findIndex(
-        (item) => item.mal_id === mal_id
+        (entry) => entry.mal_id === mal_id
       );
       const updatedFullUserList = [...userList];
       updatedFullUserList[FullListEntryIndex] = updatedAnimeListEntry;
       setUserList(updatedFullUserList);
 
       const animeList = getLocalStorage("loggedInUserAnimeList");
-      const fullUserListEntryIndex = animeList.list.findIndex(
-        (item) => item.mal_id === mal_id
-      );
-      animeList.list[fullUserListEntryIndex] = updatedAnimeListEntry;
+      animeList.list = [...updatedFullUserList];
       setLocalStorage("loggedInUserAnimeList", animeList);
     } catch (e) {
       console.log(e);

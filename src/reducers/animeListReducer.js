@@ -34,6 +34,18 @@ export function viewedListReducer(viewedList, action) {
       });
     }
 
+    case "filter_reading": {
+      return [...action.list].filter((entry) => {
+        return entry.status === "Reading";
+      });
+    }
+
+    case "filter_plantoread": {
+      return [...action.list].filter((entry) => {
+        return entry.status === "Plan to Read";
+      });
+    }
+
     case "sort_titleDesc": {
       return [...viewedList].sort((entry1, entry2) => {
         return entry2.title
@@ -67,7 +79,7 @@ export function viewedListReducer(viewedList, action) {
       const index = updatedList.findIndex(
         (entry) => entry.mal_id === action.mal_id
       );
-      updatedList[index] = action.updatedAnimeListEntry;
+      updatedList[index] = action.updatedListEntry;
       return updatedList;
     }
 
