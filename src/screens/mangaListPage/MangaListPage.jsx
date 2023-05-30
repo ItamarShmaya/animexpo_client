@@ -9,6 +9,7 @@ import MangaListItem from "./MangaListItem/MangaListItem.jsx";
 import { getUserMangaList } from "../../apis/animexpo/animexpo_requests.js";
 import MobileMangaList from "./MobileMangaList/MobileMangaList.jsx";
 import MobileMangaListItem from "./MobileMangaList/MobileMangaListItem/MobileMangaListItem.jsx";
+import MangaStatusMenu from "./MangaStatusMenu/MangaStatusMenu.jsx";
 
 const MangaListPage = () => {
   const [userMangaList, setUserMangaList] = useState([]);
@@ -48,6 +49,7 @@ const MangaListPage = () => {
           setUserList={setUserMangaList}
           username={username}
           ListItem={MangaListItem}
+          StatusMenu={MangaStatusMenu}
         />
       ) : (
         <MobileMangaList

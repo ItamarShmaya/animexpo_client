@@ -106,6 +106,8 @@ const MobileMangaEditWindow = ({
               <option value="Reading">Reading</option>
               <option value="Completed">Completed</option>
               <option value="Dropped">Dropped</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Plan to Read">Plan to Read</option>
             </select>
           </div>
           <div className="mobile-item-edit-input-group">

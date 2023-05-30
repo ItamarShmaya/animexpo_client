@@ -8,7 +8,7 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import "./MangaListItem.css";
 
-const MangaListItem = ({ item, username, setUserList, number }) => {
+const MangaListItem = ({ item, username, userList, setUserList, number }) => {
   const {
     title,
     image,
@@ -36,6 +36,7 @@ const MangaListItem = ({ item, username, setUserList, number }) => {
   const commentRef = useRef();
   const statusRef = useRef();
   const scoreRef = useRef();
+  const { getLocalStorage } = useLocalStorage();
 
   useEffect(() => {
     setIsLoggedInUserList(false);
@@ -46,13 +47,19 @@ const MangaListItem = ({ item, username, setUserList, number }) => {
 
   const updateMangaEntry = async (body) => {
     try {
-      const updatedMangaList = await updateFieldInMangaListEntry(
+      const updatedMangaListEntry = await updateFieldInMangaListEntry(
         loggedInUser.username,
         loggedInUser.token,
         body
       );
-      setUserList(updatedMangaList.list);
-      setLocalStorage("loggedInUserMangaList", updatedMangaList);
+
+      const index = userList.findIndex((item) => item.mal_id === mal_id);
+      const updatedUserList = [...userList];
+      updatedUserList[index] = updatedMangaListEntry;
+      setUserList(updatedUserList);
+      const mangaList = getLocalStorage("loggedInUserAnimeList");
+      mangaList.list = [...updatedUserList];
+      setLocalStorage("loggedInUserMangaList", mangaList);
     } catch (e) {
       console.log(e);
     }
@@ -222,6 +229,8 @@ const MangaListItem = ({ item, username, setUserList, number }) => {
               <option value="Reading">Reading</option>
               <option value="Completed">Completed</option>
               <option value="Dropped">Dropped</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Plan to Read">Plan to Read</option>
             </select>
           ) : (
             <span className="editable" onClick={() => setStatusEditMode(true)}>
