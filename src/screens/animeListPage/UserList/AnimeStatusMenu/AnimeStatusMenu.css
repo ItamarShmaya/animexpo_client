@@ -1,0 +1,13 @@
+.status-menu {
+  display: flex;
+  color: white;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 50px;
+  margin-bottom: 45px;
+}
+
+.status-menu h1:hover {
+  cursor: pointer;
+  text-shadow: 0 0 3px white, 0 0 5px #ce1212;
+}

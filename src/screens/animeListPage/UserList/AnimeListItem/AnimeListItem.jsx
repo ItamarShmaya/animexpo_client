@@ -8,7 +8,14 @@ import {
 } from "../../../../apis/animexpo/animexpo_updates.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 
-const AnimeListItem = ({ item, username, userList, setUserList, number }) => {
+const AnimeListItem = ({
+  item,
+  username,
+  userList,
+  setUserList,
+  number,
+  dispatch,
+}) => {
   const {
     title,
     image,
@@ -52,12 +59,24 @@ const AnimeListItem = ({ item, username, userList, setUserList, number }) => {
         body
       );
 
-      const index = userList.findIndex((item) => item.mal_id === mal_id);
-      const updatedUserList = [...userList];
-      updatedUserList[index] = updatedAnimeListEntry;
-      setUserList(updatedUserList);
+      dispatch({
+        type: "update_entry",
+        mal_id,
+        updatedAnimeListEntry,
+      });
+
+      const FullListEntryIndex = userList.findIndex(
+        (item) => item.mal_id === mal_id
+      );
+      const updatedFullUserList = [...userList];
+      updatedFullUserList[FullListEntryIndex] = updatedAnimeListEntry;
+      setUserList(updatedFullUserList);
+
       const animeList = getLocalStorage("loggedInUserAnimeList");
-      animeList.list = [...updatedUserList];
+      const fullUserListEntryIndex = animeList.list.findIndex(
+        (item) => item.mal_id === mal_id
+      );
+      animeList.list[fullUserListEntryIndex] = updatedAnimeListEntry;
       setLocalStorage("loggedInUserAnimeList", animeList);
     } catch (e) {
       console.log(e);
@@ -282,6 +301,8 @@ const AnimeListItem = ({ item, username, userList, setUserList, number }) => {
         loggedInUser.token,
         mal_id
       );
+
+      dispatch({ type: "remove_entry", mal_id });
       setUserList(updatedAnimeList.list);
       setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
     } catch (e) {

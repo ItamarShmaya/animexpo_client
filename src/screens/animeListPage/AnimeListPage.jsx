@@ -9,6 +9,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import AnimeListItem from "./UserList/AnimeListItem/AnimeListItem";
 import MobileAnimeList from "./MobileAnimeList/MobileAnimeList";
 import MobileAnimeListItem from "./MobileAnimeList/MobileAnimeListItem/MobileAnimeListItem";
+import AnimeStatusMenu from "./UserList/AnimeStatusMenu/AnimeStatusMenu";
 
 const AnimeListPage = () => {
   const [userAnimeList, setUserAnimeList] = useState([]);
@@ -58,6 +59,7 @@ const AnimeListPage = () => {
           setUserList={setUserAnimeList}
           username={username}
           ListItem={AnimeListItem}
+          StatusMenu={AnimeStatusMenu}
         />
       ) : (
         <MobileAnimeList
