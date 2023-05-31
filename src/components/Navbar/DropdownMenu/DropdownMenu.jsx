@@ -1,9 +1,14 @@
 import "./DropdownMenu.css";
 import { NavLink } from "react-router-dom";
 
-const DropdownMenu = ({ username, setDropdownOpen, onLogoutButtonClick }) => {
+const DropdownMenu = ({
+  username,
+  setDropdownOpen,
+  onLogoutButtonClick,
+  dropdownMenuRef,
+}) => {
   return (
-    <div className="drop-down-menu">
+    <div className="drop-down-menu" ref={dropdownMenuRef}>
       <div className="dropdown-item logged-user">{username}</div>
       <NavLink
         to={`/profile/${username}`}
