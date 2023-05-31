@@ -4,20 +4,21 @@ import { Chart } from "react-chartjs-2";
 
 import "./ChartDisplay.css";
 const ChartDisplay = ({
-  type,
-  watching,
+  labels,
+  chartType,
+  currentlyEngaging,
   completed,
   dropped,
   onHold,
-  planToWatch,
+  planTo,
   totalEntries,
 }) => {
   const [barChartData, setBarChartData] = useState({
-    labels: ["Watching", "Completed", "Dropped", "On Hold", "Plan to Watch"],
+    labels: labels,
     datasets: [
       {
         label: `Total Entries: ${totalEntries}`,
-        data: [watching, completed, dropped, onHold, planToWatch],
+        data: [currentlyEngaging, completed, dropped, onHold, planTo],
         backgroundColor: [
           "rgba(0, 0, 255, 0.2)",
           "rgba(8, 255, 8, 0.2)",
@@ -55,10 +56,10 @@ const ChartDisplay = ({
     maintainAspectRatio: false,
   });
   const [pieChartData, setPieChartData] = useState({
-    labels: ["Watching", "Completed", "Dropped", "On Hold", "Plan to Watch"],
+    labels: labels,
     datasets: [
       {
-        data: [watching, completed, dropped, onHold, planToWatch],
+        data: [currentlyEngaging, completed, dropped, onHold, planTo],
         backgroundColor: [
           "rgba(0, 0, 255, 0.2)",
           "rgba(8, 255, 8, 0.2)",
@@ -94,11 +95,11 @@ const ChartDisplay = ({
 
   useEffect(() => {
     const barChartDataObj = {
-      labels: ["Watching", "Completed", "Dropped", "On Hold", "Plan to Watch"],
+      labels: labels,
       datasets: [
         {
           label: `Total Entries: ${totalEntries}`,
-          data: [watching, completed, dropped, onHold, planToWatch],
+          data: [currentlyEngaging, completed, dropped, onHold, planTo],
           backgroundColor: [
             "rgba(0, 0, 255, 0.2)",
             "rgba(8, 255, 8, 0.2)",
@@ -138,10 +139,10 @@ const ChartDisplay = ({
     };
 
     const pieChartDataObj = {
-      labels: ["Watching", "Completed", "Dropped", "On Hold", "Plan to Watch"],
+      labels: labels,
       datasets: [
         {
-          data: [watching, completed, dropped, onHold, planToWatch],
+          data: [currentlyEngaging, completed, dropped, onHold, planTo],
           backgroundColor: [
             "rgba(0, 0, 255, 0.2)",
             "rgba(8, 255, 8, 0.2)",
@@ -180,15 +181,23 @@ const ChartDisplay = ({
     setBarChartOptions(barChartOptionsObj);
     setPieChartData(pieChartDataObj);
     setChartPieOptions(pieChartOptionsObj);
-  }, [totalEntries, watching, completed, dropped, onHold, planToWatch]);
+  }, [
+    totalEntries,
+    currentlyEngaging,
+    completed,
+    dropped,
+    onHold,
+    planTo,
+    labels,
+  ]);
 
   return (
     <div className="chart-container">
-      {type === "pie" && (
-        <Chart type={type} data={pieChartData} options={pieChartOptions} />
+      {chartType === "pie" && (
+        <Chart type={chartType} data={pieChartData} options={pieChartOptions} />
       )}
-      {type === "bar" && (
-        <Chart type={type} data={barChartData} options={barchartOptions} />
+      {chartType === "bar" && (
+        <Chart type={chartType} data={barChartData} options={barchartOptions} />
       )}
     </div>
   );

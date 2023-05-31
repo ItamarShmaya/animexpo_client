@@ -130,6 +130,7 @@ const Profile = () => {
                       </SimplyCarousel>
                     </div>
                   )}
+                  <hr />
                   {viewedProfile.favoritePeople.list.length > 0 && (
                     <div className="fav-people">
                       <h1>

@@ -1,60 +1,78 @@
 import { useEffect, useState } from "react";
 import ChartDisplay from "./ChartDisplay/ChartDisplay";
-import "./AnimeStatistics.css";
+import "./ListStatistics.css";
 
-const AnimeStatistics = ({ viewedUserAnimeList }) => {
-  const [watching, setWatching] = useState(0);
+const ListStatistics = ({ listType, viewedUserList }) => {
+  const [currentlyEngaging, setCurrentlyEngaging] = useState(0);
   const [completed, setCompleted] = useState(0);
   const [dropped, setDropped] = useState(0);
   const [onHold, setOnHold] = useState(0);
-  const [planToWatch, setPlanToWatch] = useState(0);
+  const [planTo, setPlanTo] = useState(0);
   const [meanScore, setMeanScore] = useState(0);
-  const [animeList, setAnimeList] = useState(viewedUserAnimeList);
   const [chartType, setChartType] = useState("bar");
+  const [chartLabels, setChartLabels] = useState([]);
 
   useEffect(() => {
-    setAnimeList(viewedUserAnimeList);
-  }, [viewedUserAnimeList]);
-
-  useEffect(() => {
-    let watchingCounter = 0;
+    let currentlyEngaging = 0;
     let completedCounter = 0;
     let droppedCounter = 0;
     let onHoldCounter = 0;
-    let planToWatchCounter = 0;
+    let planToCounter = 0;
     let totalScore = 0;
 
-    animeList.list.forEach((entry) => {
+    viewedUserList.list.forEach((entry) => {
       totalScore += entry.score;
-      if (entry.status === "Watching") return (watchingCounter += 1);
+      if (listType === "anime") {
+        setChartLabels([
+          "Watching",
+          "Completed",
+          "Dropped",
+          "On Hold",
+          "Plan to Watch",
+        ]);
+        if (entry.status === "Watching") return (currentlyEngaging += 1);
+        if (entry.status === "Plan to Watch") return (planToCounter += 1);
+      } else if (listType === "manga") {
+        setChartLabels([
+          "Reading",
+          "Completed",
+          "Dropped",
+          "On Hold",
+          "Plan to Read",
+        ]);
+        if (entry.status === "Reading") return (currentlyEngaging += 1);
+        if (entry.status === "Plan to Read") return (planToCounter += 1);
+      }
       if (entry.status === "Completed") return (completedCounter += 1);
       if (entry.status === "Dropped") return (droppedCounter += 1);
       if (entry.status === "On Hold") return (onHoldCounter += 1);
-      if (entry.status === "Plan to Watch") return (planToWatchCounter += 1);
     });
 
-    setWatching(watchingCounter);
+    setCurrentlyEngaging(currentlyEngaging);
     setCompleted(completedCounter);
     setDropped(droppedCounter);
     setOnHold(onHoldCounter);
-    setPlanToWatch(planToWatchCounter);
-    if (animeList.list.length < 1) return setMeanScore(0);
-    setMeanScore((totalScore / animeList.list.length).toFixed(2));
+    setPlanTo(planToCounter);
+    if (viewedUserList.list.length < 1) return setMeanScore(0);
+    setMeanScore((totalScore / viewedUserList.list.length).toFixed(2));
   }, [
-    animeList,
-    watching,
+    viewedUserList,
+    currentlyEngaging,
     completed,
     dropped,
     onHold,
-    planToWatch,
+    planTo,
+    listType,
   ]);
 
   return (
     <>
-      <div className="profile-anime-stats">
+      <div className="profile-stats">
         <div className="stats-data">
           <p className="watching">
-            Watching: <span>{watching}</span>
+            {listType === "anime" && "Watching: "}
+            {listType === "manga" && "Reading: "}
+            <span>{currentlyEngaging}</span>
           </p>
           <p className="completed">
             Completed: <span>{completed}</span>
@@ -66,10 +84,12 @@ const AnimeStatistics = ({ viewedUserAnimeList }) => {
             On Hold: <span>{onHold}</span>
           </p>
           <p className="plan-to-watch">
-            Plan to Watch: <span>{planToWatch}</span>
+            {listType === "anime" && "Plan to Watch: "}
+            {listType === "manga" && "Plan to Read: "}
+            <span>{planTo}</span>
           </p>
           <p>
-            Total Entries: <span>{animeList.list.length}</span>
+            Total Entries: <span>{viewedUserList.list.length}</span>
           </p>
           <p>
             Mean Score: <span>{meanScore}</span>
@@ -94,18 +114,20 @@ const AnimeStatistics = ({ viewedUserAnimeList }) => {
           </div>
           {
             <ChartDisplay
-              type={chartType}
-              watching={watching}
+              labels={chartLabels}
+              chartType={chartType}
+              currentlyEngaging={currentlyEngaging}
               completed={completed}
               dropped={dropped}
               onHold={onHold}
-              planToWatch={planToWatch}
-              totalEntries={animeList.list.length}
+              planTo={planTo}
+              totalEntries={viewedUserList.list.length}
             />
           }
         </div>
       </div>
+      <hr />
     </>
   );
 };
-export default AnimeStatistics;
+export default ListStatistics;
