@@ -68,31 +68,26 @@ export const profileCarouselResponsive = [
   {
     itemsToShow: 7,
     itemsToScroll: 1,
-    maxWidth: 950,
+    maxWidth: 900,
   },
   {
     itemsToShow: 6,
     itemsToScroll: 1,
-    maxWidth: 900,
+    maxWidth: 800,
   },
   {
     itemsToShow: 5,
     itemsToScroll: 1,
-    maxWidth: 800,
+    maxWidth: 700,
   },
   {
     itemsToShow: 4,
     itemsToScroll: 1,
-    maxWidth: 700,
+    maxWidth: 550,
   },
   {
     itemsToShow: 3,
     itemsToScroll: 1,
-    maxWidth: 650,
-  },
-  {
-    itemsToShow: 2,
-    itemsToScroll: 1,
-    maxWidth: 550,
+    maxWidth: 400,
   },
 ];

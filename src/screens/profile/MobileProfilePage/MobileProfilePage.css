@@ -1,0 +1,26 @@
+.mobile-main-profile-content {
+  width: 90%;
+  min-height: 100vh;
+  background-color: #eeebdd;
+  margin: auto;
+  padding: 10px;
+  /* display: flex; */
+}
+
+.avatar-user-function {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  height: auto;
+}
+
+.mobile-profile-page hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+@media all and (max-width: 1000px) {
+  .fav-lists {
+    gap: 0;
+  }
+}

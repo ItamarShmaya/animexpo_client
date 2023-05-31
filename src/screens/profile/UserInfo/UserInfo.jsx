@@ -1,8 +1,8 @@
 import "./UserInfo.css";
 import Avatar from "../Avatar/Avatar";
-import { NavLink } from "react-router-dom";
 import UserFunction from "../UserFunction/UserFunction";
 import ProfileFriends from "../ProfileFriends/ProfileFriends";
+import PersonnalInfo from "../personnalInfo/PersonnalInfo";
 
 const UserInfo = ({ profile, username, setViewedProfile }) => {
   const { gender, birthday, joined, avatar, reviewsCount } =
@@ -12,18 +12,15 @@ const UserInfo = ({ profile, username, setViewedProfile }) => {
     <>
       <Avatar image={avatar.secure_url} />
       <UserFunction setViewedProfile={setViewedProfile} />
-      <div className="presonnal-info">
-        {gender && <div>Gender: {gender}</div>}
-        <div>Birthday: {new Date(birthday).toDateString().slice(3)}</div>
-        <div>Joined: {new Date(joined).toDateString().slice(3)}</div>
-        <hr />
-        <NavLink to={`/profile/${username}/reviews`}>
-          <div>
-            <span className="left">Reviews:</span>
-            <span className="right">{reviewsCount}</span>
-          </div>
-        </NavLink>
-      </div>
+      <hr />
+      <PersonnalInfo
+        username={username}
+        gender={gender}
+        birthday={birthday}
+        joined={joined}
+        reviewsCount={reviewsCount}
+      />
+      <hr />
       <ProfileFriends friendsList={profile.friendsList.list} />
     </>
   );

@@ -1,0 +1,34 @@
+.personnal-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.personnal-info div {
+  padding: 10px;
+}
+
+.personnal-info hr {
+  margin-top: 10px;
+}
+
+.personnal-info a:hover {
+  background-color: antiquewhite;
+}
+
+.personnal-info a > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+}
+
+.personnal-info a > div .mid {
+  flex-grow: 1;
+  border-bottom: 2px dotted black;
+}
+
+.personnal-info a:hover > div .left {
+  text-decoration: underline;
+  text-underline-position: under;
+}
