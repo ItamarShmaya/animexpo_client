@@ -12,19 +12,19 @@
   margin-top: 10px;
 }
 
-.watching {
+.watching .right {
   color: rgba(0, 0, 255, 0.7);
 }
-.completed {
+.completed .right {
   color: rgba(8, 205, 8, 0.7);
 }
-.dropped {
+.dropped .right {
   color: rgba(255, 0, 0, 0.7);
 }
-.on-hold {
+.on-hold .right {
   color: rgba(255, 165, 0, 0.7);
 }
-.plan-to-watch {
+.plan-to-watch .right {
   color: rgba(128, 128, 128, 0.7);
 }
 
@@ -32,10 +32,16 @@
   display: flex;
   justify-content: space-between;
   font-weight: bold;
+  gap: 3px;
 }
 
 .stats-data p span {
   color: black;
+}
+
+.stats-data p .mid {
+  flex-grow: 1;
+  border-bottom: 2px dotted black;
 }
 
 .chart {
@@ -45,7 +51,6 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 250px;
   position: relative;
 }
 
@@ -67,4 +72,22 @@
 .chart .chart-icon i:hover {
   cursor: pointer;
   color: white;
+}
+
+@media all and (max-width: 1000px) {
+  .profile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .chart .chart-icon i {
+    margin-right: 5px;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .chart-container {
+    width: 90%;
+  }
 }

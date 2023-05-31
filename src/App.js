@@ -5,7 +5,7 @@ import AnimeListPage from "./screens/animeListPage/AnimeListPage";
 import MangaListPage from "./screens/mangaListPage/MangaListPage";
 import CharacterPage from "./screens/characterPage/CharacterPage/CharacterPage";
 import AnimePage from "./screens/animepage/AnimePage/AnimePage";
-import Profile from "./screens/profile/Profile";
+import ProfilePage from "./screens/profile/ProfilePage";
 import React from "react";
 import LandingPage from "./screens/landingpage/LandingPage";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
@@ -28,7 +28,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<LandingPage />} />
             <Route path="/signup" exact element={<SignupPage />} />
-            <Route path="/profile/:username" exact element={<Profile />} />
+            <Route path="/profile/:username" exact element={<ProfilePage />} />
             <Route
               path="/:username/animelist"
               exact

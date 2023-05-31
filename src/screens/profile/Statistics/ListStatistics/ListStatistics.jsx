@@ -70,29 +70,45 @@ const ListStatistics = ({ listType, viewedUserList }) => {
       <div className="profile-stats">
         <div className="stats-data">
           <p className="watching">
-            {listType === "anime" && "Watching: "}
-            {listType === "manga" && "Reading: "}
-            <span>{currentlyEngaging}</span>
+            <span className="right">
+              {listType === "anime" && "Watching: "}
+              {listType === "manga" && "Reading: "}
+            </span>
+            <span className="mid"></span>
+            <span className="left">{currentlyEngaging}</span>
           </p>
           <p className="completed">
-            Completed: <span>{completed}</span>
+            <span className="right">Completed: </span>
+            <span className="mid"></span>
+            <span className="left">{completed}</span>
           </p>
           <p className="dropped">
-            Dropped: <span>{dropped}</span>
+            <span className="right">Dropped: </span>
+            <span className="mid"></span>
+            <span className="left">{dropped}</span>
           </p>
           <p className="on-hold">
-            On Hold: <span>{onHold}</span>
+            <span className="right">On Hold: </span>
+            <span className="mid"></span>
+            <span className="left">{onHold}</span>
           </p>
           <p className="plan-to-watch">
-            {listType === "anime" && "Plan to Watch: "}
-            {listType === "manga" && "Plan to Read: "}
-            <span>{planTo}</span>
+            <span className="right">
+              {listType === "anime" && "Plan to Watch: "}
+              {listType === "manga" && "Plan to Read: "}
+            </span>
+            <span className="mid"></span>
+            <span className="left">{planTo}</span>
           </p>
           <p>
-            Total Entries: <span>{viewedUserList.list.length}</span>
+            <span className="right">Total Entries: </span>
+            <span className="mid"></span>
+            <span className="left">{viewedUserList.list.length}</span>
           </p>
           <p>
-            Mean Score: <span>{meanScore}</span>
+            <span className="right">Mean Score: </span>
+            <span className="mid"></span>
+            <span className="left">{meanScore}</span>
           </p>
         </div>
         <div className="chart">
