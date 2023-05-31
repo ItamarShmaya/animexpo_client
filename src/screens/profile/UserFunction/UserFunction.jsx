@@ -129,21 +129,23 @@ const UserFunction = ({ setViewedProfile }) => {
   return (
     <div className="user-function">
       {!loggedInUser && (
-        <div
-          className="friend-request abled"
-          data-type="Send friend request"
-          onClick={() => setDisplayMessage(true)}
-        >
+        <>
+          <div
+            className="friend-request abled"
+            data-type="Send friend request"
+            onClick={() => setDisplayMessage(true)}
+          >
+            <img
+              src={
+                "https://res.cloudinary.com/dhzbwclpj/image/upload/v1657534811/icon/add_cj2xaz.png"
+              }
+              alt="Friend request icon"
+            />
+          </div>
           {displayMessage && (
             <MustBeLoggedIn setDisplayMessage={setDisplayMessage} />
           )}
-          <img
-            src={
-              "https://res.cloudinary.com/dhzbwclpj/image/upload/v1657534811/icon/add_cj2xaz.png"
-            }
-            alt="Friend request icon"
-          />
-        </div>
+        </>
       )}
       {loggedInUser && loggedInUser.username === username && (
         <div className="friend-request disabled">
