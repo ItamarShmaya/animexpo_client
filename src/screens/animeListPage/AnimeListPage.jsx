@@ -10,6 +10,7 @@ import AnimeListItem from "./UserList/AnimeListItem/AnimeListItem";
 import MobileAnimeList from "./MobileAnimeList/MobileAnimeList";
 import MobileAnimeListItem from "./MobileAnimeList/MobileAnimeListItem/MobileAnimeListItem";
 import AnimeStatusMenu from "./UserList/AnimeStatusMenu/AnimeStatusMenu";
+import SideMenu from "../profile/SideMenu/SideMenu";
 
 const AnimeListPage = () => {
   const [userAnimeList, setUserAnimeList] = useState([]);
@@ -54,20 +55,26 @@ const AnimeListPage = () => {
       {isLoading ? (
         <Spinner />
       ) : window.innerWidth > 1000 ? (
-        <UserList
-          userList={userAnimeList}
-          setUserList={setUserAnimeList}
-          username={username}
-          ListItem={AnimeListItem}
-          StatusMenu={AnimeStatusMenu}
-        />
+        <>
+          <SideMenu username={username} />
+          <UserList
+            userList={userAnimeList}
+            setUserList={setUserAnimeList}
+            username={username}
+            ListItem={AnimeListItem}
+            StatusMenu={AnimeStatusMenu}
+          />
+        </>
       ) : (
-        <MobileAnimeList
-          userList={userAnimeList}
-          setUserList={setUserAnimeList}
-          username={username}
-          ListItem={MobileAnimeListItem}
-        />
+        <>
+          <SideMenu username={username} />
+          <MobileAnimeList
+            userList={userAnimeList}
+            setUserList={setUserAnimeList}
+            username={username}
+            ListItem={MobileAnimeListItem}
+          />
+        </>
       )}
     </>
   );
