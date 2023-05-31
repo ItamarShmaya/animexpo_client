@@ -1,0 +1,25 @@
+.drop-down-menu {
+  position: absolute;
+  right: 0;
+  background-color: #810000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  font-size: 1.5rem;
+  padding: 1rem;
+  color: #eeebdd;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  color: #810000;
+  background-color: #eeebdd;
+  cursor: pointer;
+}
+
+.logged-user {
+  border-bottom: 1px solid #eeebdd;
+}
