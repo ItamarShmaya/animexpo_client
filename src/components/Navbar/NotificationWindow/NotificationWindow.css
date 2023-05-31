@@ -3,13 +3,13 @@
   top: 100%;
   border: 2px solid #ce1212;
   right: 0;
+  z-index: 99;
 }
 
 .notification-msg {
   white-space: nowrap;
   background: #eeebdd;
   color: #1b1717;
-  min-width: 350px;
   display: flex;
   flex-direction: column;
   padding: 5px;
@@ -24,6 +24,7 @@
 .notif-heading {
   display: flex;
   justify-content: space-between;
+  gap: 15px;
 }
 
 .notif-avatar img {
@@ -41,4 +42,17 @@
 }
 .notification-window a:hover {
   text-decoration: underline;
+}
+
+@media screen and (max-width: 500px) {
+  .notif-heading {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .notification-msg_left {
+    flex-direction: column;
+  }
 }
