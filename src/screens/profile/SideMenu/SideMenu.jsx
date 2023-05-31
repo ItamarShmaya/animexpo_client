@@ -4,8 +4,16 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks";
 
 const SideMenu = ({ username }) => {
   const { loggedInUser } = useLoggedInUser();
+  console.log(loggedInUser);
   return (
     <aside className="profile-side-menu">
+      <NavLink
+        data-type={"Profile Page"}
+        className="side-menu-item side-menu-list"
+        to={`/profile/${username}`}
+      >
+        <i className="fa-solid fa-house-user"></i>
+      </NavLink>
       <NavLink
         data-type={"Anime List"}
         className="side-menu-item side-menu-list"
