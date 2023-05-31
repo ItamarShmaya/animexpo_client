@@ -18,6 +18,8 @@ const Navbar = () => {
   const [notifOpen, setNotifOpen] = useState(null);
   const formWrapperRef = useRef();
   const loginRef = useRef();
+  const dropdownMenuRef = useRef();
+  const userMenuRef = useRef();
   const {
     loggedInUser,
     setLoggedInUser,
@@ -72,6 +74,27 @@ const Navbar = () => {
       };
     }
   }, [open]);
+
+  useEffect(() => {
+    if (dropdownOpen) {
+      const onBodyClick = ({ target }) => {
+        if (
+          dropdownMenuRef.current.contains(target) ||
+          userMenuRef.current.contains(target)
+        )
+          return;
+        setDropdownOpen(false);
+      };
+
+      document.body.addEventListener("click", onBodyClick, { capture: true });
+
+      return () => {
+        document.body.removeEventListener("click", onBodyClick, {
+          capture: true,
+        });
+      };
+    }
+  }, [dropdownOpen]);
 
   const onLogoutButtonClick = async () => {
     try {
@@ -143,6 +166,7 @@ const Navbar = () => {
               <div className="user-menu">
                 <div
                   className="avatar-wrapper"
+                  ref={userMenuRef}
                   onClick={() => setDropdownOpen((prev) => !prev)}
                 >
                   <img
@@ -159,6 +183,7 @@ const Navbar = () => {
                     username={loggedInUser.username}
                     setDropdownOpen={setDropdownOpen}
                     onLogoutButtonClick={onLogoutButtonClick}
+                    dropdownMenuRef={dropdownMenuRef}
                   />
                 )}
               </div>
