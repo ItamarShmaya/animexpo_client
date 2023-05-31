@@ -1,12 +1,22 @@
 import "./Statistics.css";
-import AnimeStatistics from "./AnimeStatistics/AnimeStatistics";
+import ListStatistics from "./ListStatistics/ListStatistics";
 
 const Statistics = ({ viewedUserAnimeList, viewedUserMangaList }) => {
   return (
     <>
       <h1>Anime Stats</h1>
       {viewedUserAnimeList && (
-        <AnimeStatistics viewedUserAnimeList={viewedUserAnimeList} />
+        <ListStatistics
+          listType={"anime"}
+          viewedUserList={viewedUserAnimeList}
+        />
+      )}
+      <h1>Manga Stats</h1>
+      {viewedUserMangaList && (
+        <ListStatistics
+          listType={"manga"}
+          viewedUserList={viewedUserMangaList}
+        />
       )}
     </>
   );
