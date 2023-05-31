@@ -4,7 +4,6 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks";
 
 const SideMenu = ({ username }) => {
   const { loggedInUser } = useLoggedInUser();
-  console.log(loggedInUser);
   return (
     <aside className="profile-side-menu">
       <NavLink
