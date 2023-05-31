@@ -12,6 +12,7 @@ const NotificationWindow = ({ notifications, setNotifOpen }) => {
             <p>Friend List</p>
             <p>{new Date(notif.createdAt).toUTCString()}</p>
           </div>
+
           <div className="notification-msg_left">
             <div className="notif-avatar">
               <img
@@ -19,7 +20,6 @@ const NotificationWindow = ({ notifications, setNotifOpen }) => {
                 alt={notif.requester.username}
               />
             </div>
-
             <p onClick={() => setNotifOpen(false)}>
               <NavLink to={`/profile/${notif.requester.username}`}>
                 {notif.requester.username}

@@ -10,11 +10,14 @@ import {
 } from "../../apis/animexpo/animexpo_requests.js";
 import NotificationWindow from "./NotificationWindow/NotificationWindow";
 import { updateNotificationsToRead } from "../../apis/animexpo/animexpo_updates";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import DropdownMenu from "./DropdownMenu/DropdownMenu";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(null);
   const formWrapperRef = useRef();
+  const loginRef = useRef();
   const {
     loggedInUser,
     setLoggedInUser,
@@ -22,6 +25,8 @@ const Navbar = () => {
     setNotifications,
     socket,
   } = useLoggedInUser();
+  const { getLocalStorage } = useLocalStorage();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +55,11 @@ const Navbar = () => {
   useEffect(() => {
     if (open) {
       const onBodyClick = ({ target }) => {
-        if (formWrapperRef.current.contains(target)) return;
+        if (
+          formWrapperRef.current.contains(target) ||
+          target === loginRef.current
+        )
+          return;
         setOpen(false);
       };
 
@@ -77,18 +86,13 @@ const Navbar = () => {
         localStorage.removeItem("loggedInUserProfileData");
         localStorage.removeItem("loggedInUserFriendsList");
         socket?.emit("logout", { socketId: socket.id });
+        setDropdownOpen(false);
         navigate(`/`);
       }
     } catch (e) {
       console.log(e);
       navigate(`/`);
       window.location.reload();
-    }
-  };
-
-  const renderLoginWindow = () => {
-    if (open) {
-      return <LoginWindow formWrapperRef={formWrapperRef} setOpen={setOpen} />;
     }
   };
 
@@ -115,22 +119,10 @@ const Navbar = () => {
           <NavLink className="nav-item" to="/">
             <Logo firstColor={"#EEEBDD"} secondColor={"#84A9AC"} />
           </NavLink>
-          <NavLink className="nav-item" to="/">
-            Home
-          </NavLink>
-          {loggedInUser && (
-            <NavLink
-              className="nav-item"
-              to={`/profile/${loggedInUser.username}`}
-            >
-              My Profle
-            </NavLink>
-          )}
         </div>
         <div className="navbar-right">
           {loggedInUser ? (
             <>
-              {/* <NavLink to={`/profile/${loggedInUser.username}/notifications`}> */}
               <div className="notification-bell">
                 <i
                   className="fa-solid fa-bell nav-item"
@@ -148,19 +140,48 @@ const Navbar = () => {
                   />
                 )}
               </div>
-              {/* </NavLink> */}
-              <div className="nav-item" onClick={onLogoutButtonClick}>
-                Logout
+              <div className="user-menu">
+                <div
+                  className="avatar-wrapper"
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                >
+                  <img
+                    src={
+                      getLocalStorage("loggedInUserProfileData").personalInfo
+                        .avatar.secure_url
+                    }
+                    alt="Avatar"
+                  />
+                  <span className="drop-down-arrow"></span>
+                </div>
+                {dropdownOpen && (
+                  <DropdownMenu
+                    username={loggedInUser.username}
+                    setDropdownOpen={setDropdownOpen}
+                    onLogoutButtonClick={onLogoutButtonClick}
+                  />
+                )}
               </div>
             </>
           ) : (
-            <div className="nav-item" onClick={() => setOpen((prev) => !prev)}>
-              Login
-            </div>
+            <>
+              <div
+                className="nav-item"
+                ref={loginRef}
+                onClick={() => setOpen((prev) => !prev)}
+              >
+                Login
+              </div>
+              <NavLink to={"/signup"} className="nav-item">
+                Signup
+              </NavLink>
+            </>
           )}
         </div>
       </nav>
-      {renderLoginWindow()}
+      {open && (
+        <LoginWindow formWrapperRef={formWrapperRef} setOpen={setOpen} />
+      )}
     </>
   );
 };

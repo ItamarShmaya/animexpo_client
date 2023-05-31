@@ -7,6 +7,13 @@ const SideMenu = ({ username }) => {
   return (
     <aside className="profile-side-menu">
       <NavLink
+        data-type={"Profile Page"}
+        className="side-menu-item side-menu-list"
+        to={`/profile/${username}`}
+      >
+        <i className="fa-solid fa-house-user"></i>
+      </NavLink>
+      <NavLink
         data-type={"Anime List"}
         className="side-menu-item side-menu-list"
         to={`/${username}/animelist`}
