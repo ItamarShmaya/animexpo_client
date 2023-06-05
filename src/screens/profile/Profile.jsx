@@ -19,7 +19,7 @@ const Profile = ({
         <div className="main-profile-content__left-side">
           <div className="user-info">
             <UserInfo
-              profile={viewedProfile}
+              viewedProfile={viewedProfile}
               username={username}
               setViewedProfile={setViewedProfile}
             />

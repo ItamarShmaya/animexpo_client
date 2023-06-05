@@ -19,7 +19,7 @@ const DeleteAccountConfirmWindow = ({ setOpenConfirmWindow }) => {
         localStorage.removeItem("loggedInUserMangaList");
         localStorage.removeItem("loggedInUserProfileData");
         localStorage.removeItem("loggedInUserFriendsList");
-        socket?.emit("logout", { socketId: socket.id });
+        socket?.emit("logout");
         navigate(`/`);
       } else throw new Error("Ran into some problems deleting the account");
     } catch (e) {

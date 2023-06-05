@@ -12,52 +12,13 @@ import { useEffect } from "react";
 import MustBeLoggedIn from "../../../components/MustBeLoggedIn/MustBeLoggedIn";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 
-const UserFunction = ({ setViewedProfile }) => {
+const UserFunction = ({ viewedProfile }) => {
   const { loggedInUser, socket } = useLoggedInUser();
   const { username } = useParams();
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isUserInFriendsList, setIsUserInFriendsList] = useState(null);
   const [sentFriendRequest, setSentFriendRequest] = useState(null);
   const { setLocalStorage } = useLocalStorage();
-
-  useEffect(() => {
-    socket?.on("updated_accepter_friendslist", ({ friendsList }) => {
-      setLocalStorage("loggedInUserFriendsList", friendsList);
-      setViewedProfile((prev) => ({ ...prev, friendsList }));
-    });
-
-    socket?.on(
-      "updated_reciever_friendslist",
-      ({ accepterFriendsList, recieverFriendsList }) => {
-        setViewedProfile((prev) => ({
-          ...prev,
-          friendsList: accepterFriendsList,
-        }));
-        setLocalStorage("loggedInUserFriendsList", recieverFriendsList);
-        setIsUserInFriendsList(true);
-        setSentFriendRequest(false);
-      }
-    );
-
-    socket?.on("updated_removed_friendslist", ({ friendsList }) => {
-      setLocalStorage("loggedInUserFriendsList", friendsList);
-      setViewedProfile((prev) => ({ ...prev, friendsList }));
-    });
-
-    socket?.on(
-      "updated_remover_friendslist",
-      ({ removedFriendsList, removerFriendsList }) => {
-        setViewedProfile((prev) => ({
-          ...prev,
-          friendsList: removedFriendsList,
-        }));
-        setLocalStorage("loggedInUserFriendsList", removerFriendsList);
-        setIsUserInFriendsList(false);
-        setSentFriendRequest(false);
-      }
-    );
-    // eslint-disable-next-line
-  }, [socket, setViewedProfile]);
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.username !== username) {
@@ -68,7 +29,13 @@ const UserFunction = ({ setViewedProfile }) => {
             loggedInUser.token,
             username
           );
-          if (response) return setIsUserInFriendsList(response);
+          if (response) {
+            setIsUserInFriendsList(response);
+            setSentFriendRequest(false);
+            return;
+          }
+
+          setIsUserInFriendsList(false);
 
           const response1 = await checkWasFriendRequestSent(
             loggedInUser.username,
@@ -82,7 +49,7 @@ const UserFunction = ({ setViewedProfile }) => {
       };
       getUserFriendsList();
     }
-  }, [loggedInUser, loggedInUser?.username, username]);
+  }, [loggedInUser, loggedInUser?.username, username, viewedProfile]);
 
   const onAddFriendClick = async () => {
     try {
@@ -94,7 +61,12 @@ const UserFunction = ({ setViewedProfile }) => {
       if (friendRequest) {
         setSentFriendRequest(true);
         setIsUserInFriendsList(false);
-        socket?.emit("username_to_notify", { recipient: username });
+
+        socket.emit("online_users");
+        socket.once("online_users", async ({ users }) => {
+          const to = users.find((user) => user.username === username);
+          if (to) socket.emit("friend_req", { to });
+        });
       }
     } catch (e) {
       console.log(e);
@@ -112,13 +84,11 @@ const UserFunction = ({ setViewedProfile }) => {
         setLocalStorage("loggedInUserFriendsList", updatedFriendsList);
         setIsUserInFriendsList(false);
         setSentFriendRequest(false);
-        socket?.emit("username_to_notify", { recipient: username });
-        socket?.emit("remover_client_lists_updates", {
-          remover: loggedInUser.username,
-          removed: username,
-        });
-        socket?.emit("removed_client_lists_updates", {
-          removed: username,
+
+        socket.emit("online_users");
+        socket.once("online_users", async ({ users }) => {
+          const to = users.find((user) => user.username === username);
+          if (to) socket.emit("remove_friend", { to });
         });
       }
     } catch (e) {

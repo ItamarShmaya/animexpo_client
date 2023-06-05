@@ -24,13 +24,13 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
         "loggedInUserFriendsList",
         updatedLists.updatedFriendsList
       );
-      socket?.emit("username_to_notify", { recipient: requester.username });
-      socket?.emit("accepter_client_lists_updates", {
-        accepter: loggedInUser.username,
-      });
-      socket?.emit("reciever_client_lists_updates", {
-        accepter: loggedInUser.username,
-        reciever: requester.username,
+
+      socket?.emit("online_users");
+      socket?.on("online_users", ({ users }) => {
+        const from = users.find((user) => user.username === requester.username);
+        if (from) {
+          socket?.emit("accept_friend_req", { from });
+        }
       });
     } catch (e) {
       console.log(e);
@@ -45,7 +45,12 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
         requester
       );
       setFriendRequests(updatedFriendRequestsList);
-      socket?.emit("username_to_notify", { recipient: requester.username });
+      socket?.on("online_users", ({ users }) => {
+        const from = users.find((user) => user.username === requester.username);
+        if (from) {
+          socket?.emit("reject_friend_req", { from });
+        }
+      });
     } catch (e) {
       console.log(e);
     }

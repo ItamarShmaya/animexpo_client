@@ -1,17 +1,32 @@
-import { createContext, useState } from "react";
-import io from "socket.io-client";
+import { createContext, useEffect, useState } from "react";
+import socket from "../socket.io/sio";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const LoggedInUserContext = createContext({});
 
 const LoggedInUserProvider = ({ children }) => {
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const [loggedInUser, setLoggedInUser] = useState(
-    JSON.parse(localStorage.getItem("loggedInUser")) || null
+    getLocalStorage("loggedInUser") || null
   );
   const [notifications, setNotifications] = useState([]);
-  const [socket, setSocket] = useState(
-    io("https://animexposerver.onrender.com")
-  );
-  // const [socket, setSocket] = useState(io("http://localhost:5050"));
+
+  useEffect(() => {
+    if (loggedInUser) {
+      const sessionID = getLocalStorage("sessionID");
+      socket.auth = { sessionID, username: loggedInUser.username };
+      socket.connect();
+      socket.on("session", ({ sessionID }) => {
+        setLocalStorage("sessionID", sessionID);
+      });
+    }
+
+    return () => {
+      socket.disconnect();
+    };
+
+    // eslint-disable-next-line
+  }, [loggedInUser]);
 
   return (
     <LoggedInUserContext.Provider
@@ -21,7 +36,6 @@ const LoggedInUserProvider = ({ children }) => {
         notifications,
         setNotifications,
         socket,
-        setSocket,
       }}
     >
       {children}
