@@ -14,7 +14,7 @@ import MobileProfilePage from "./MobileProfilePage/MobileProfilePage";
 const ProfilePage = () => {
   const { getLocalStorage } = useLocalStorage();
   const navigate = useNavigate();
-  const { loggedInUser, socket } = useLoggedInUser();
+  const { loggedInUser } = useLoggedInUser();
   const { username } = useParams();
   const [viewedProfile, setViewedProfile] = useState(null);
   const [viewedUserAnimeList, setViewedUserAnimeList] = useState(null);
@@ -54,17 +54,6 @@ const ProfilePage = () => {
 
     // eslint-disable-next-line
   }, [loggedInUser?.username, username, navigate]);
-
-  useEffect(() => {
-    if (loggedInUser) {
-      socket.on("updated_friendslist", ({ friendsList }) => {
-        setViewedProfile((prev) => {
-          return { ...prev, friendsList };
-        });
-      });
-    }
-    // eslint-disable-next-line
-  }, [socket, loggedInUser]);
 
   return (
     <div className="profile-page">

@@ -26,8 +26,11 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
       );
 
       socket?.emit("online_users");
-      socket?.on("online_users", ({ users }) => {
-        const from = users.find((user) => user.username === requester.username);
+      socket?.once("online_users", ({ users }) => {
+        console.log("accept online_users");
+        const from = users.filter(
+          (user) => user.username === requester.username
+        );
         if (from) {
           socket?.emit("accept_friend_req", { from });
         }
@@ -45,8 +48,11 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
         requester
       );
       setFriendRequests(updatedFriendRequestsList);
-      socket?.on("online_users", ({ users }) => {
-        const from = users.find((user) => user.username === requester.username);
+      socket?.once("online_users", ({ users }) => {
+        console.log("reject online_users");
+        const from = users.filter(
+          (user) => user.username === requester.username
+        );
         if (from) {
           socket?.emit("reject_friend_req", { from });
         }
