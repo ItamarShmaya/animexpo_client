@@ -4,14 +4,17 @@ import UserFunction from "../UserFunction/UserFunction";
 import ProfileFriends from "../ProfileFriends/ProfileFriends";
 import PersonnalInfo from "../personnalInfo/PersonnalInfo";
 
-const UserInfo = ({ profile, username, setViewedProfile }) => {
+const UserInfo = ({ viewedProfile, username, setViewedProfile }) => {
   const { gender, birthday, joined, avatar, reviewsCount } =
-    profile.personalInfo;
+    viewedProfile.personalInfo;
 
   return (
     <>
       <Avatar image={avatar.secure_url} />
-      <UserFunction setViewedProfile={setViewedProfile} />
+      <UserFunction
+        viewedProfile={viewedProfile}
+        setViewedProfile={setViewedProfile}
+      />
       <hr />
       <PersonnalInfo
         username={username}
@@ -21,7 +24,7 @@ const UserInfo = ({ profile, username, setViewedProfile }) => {
         reviewsCount={reviewsCount}
       />
       <hr />
-      <ProfileFriends friendsList={profile.friendsList.list} />
+      <ProfileFriends friendsList={viewedProfile.friendsList.list} />
     </>
   );
 };

@@ -23,7 +23,12 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
       const credentials = { username, password };
       const user = await loginUser(credentials);
       if (user) {
-        socket.emit("new_user", { username: user.user.username });
+        socket.auth = { username: user.user.username };
+        socket.connect();
+        socket.on("session", ({ sessionID }) => {
+          setLocalStorage("sessionID", sessionID);
+        });
+
         setLoggedInUser({
           _id: user.user._id,
           username: user.user.username,

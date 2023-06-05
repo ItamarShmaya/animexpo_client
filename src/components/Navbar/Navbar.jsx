@@ -32,11 +32,13 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket?.on("recieve_notifs", ({ notifs }) => {
-      setNotifications(notifs);
-    });
+    if (loggedInUser) {
+      socket?.on("new_notifications", ({ notifications }) => {
+        setNotifications(notifications);
+      });
+    }
     // eslint-disable-next-line
-  }, [socket]);
+  }, [socket, loggedInUser]);
 
   useEffect(() => {
     const getUserNotifs = async () => {
@@ -108,7 +110,11 @@ const Navbar = () => {
         localStorage.removeItem("loggedInUserMangaList");
         localStorage.removeItem("loggedInUserProfileData");
         localStorage.removeItem("loggedInUserFriendsList");
-        socket?.emit("logout", { socketId: socket.id });
+        localStorage.removeItem("sessionID");
+
+        socket?.emit("logout");
+        socket?.disconnect();
+
         setDropdownOpen(false);
         navigate(`/`);
       }

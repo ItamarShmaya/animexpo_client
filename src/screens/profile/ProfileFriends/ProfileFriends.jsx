@@ -3,7 +3,9 @@ import "./ProfileFriends.css";
 
 const ProfileFriends = ({ friendsList }) => {
   const renderFriends = (friendsList) => {
-    return friendsList.map((friend) => {
+    const list = [...friendsList];
+    if (list > 8) list.splice(8);
+    return list.map((friend) => {
       return (
         <NavLink key={friend.username} to={`/profile/${friend.username}`}>
           <div className="friend-avatar-container" data-type={friend.username}>
