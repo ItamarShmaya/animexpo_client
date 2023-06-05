@@ -27,14 +27,19 @@ const Navbar = () => {
     setNotifications,
     socket,
   } = useLoggedInUser();
-  const { getLocalStorage } = useLocalStorage();
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loggedInUser) {
       socket?.on("new_notifications", ({ notifications }) => {
+        console.log("navbar new_notifications");
         setNotifications(notifications);
+      });
+      socket.on("updated_friendslist", ({ friendsList }) => {
+        console.log("updated_friendslist");
+        setLocalStorage("loggedInUserFriendsList", friendsList);
       });
     }
     // eslint-disable-next-line
@@ -159,7 +164,7 @@ const Navbar = () => {
                 ></i>
                 {notifications.length > 0 && (
                   <span className="notification-badge">
-                    {notifications.length}
+                    {notifications.length < 100 ? notifications.length : `99+`}
                   </span>
                 )}
                 {notifOpen && (

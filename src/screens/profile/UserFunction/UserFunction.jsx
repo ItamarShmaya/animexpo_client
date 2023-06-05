@@ -64,7 +64,8 @@ const UserFunction = ({ viewedProfile }) => {
 
         socket.emit("online_users");
         socket.once("online_users", async ({ users }) => {
-          const to = users.find((user) => user.username === username);
+          console.log("add online_users");
+          const to = users.filter((user) => user.username === username);
           if (to) socket.emit("friend_req", { to });
         });
       }
@@ -87,7 +88,8 @@ const UserFunction = ({ viewedProfile }) => {
 
         socket.emit("online_users");
         socket.once("online_users", async ({ users }) => {
-          const to = users.find((user) => user.username === username);
+          console.log("remove online_users");
+          const to = users.filter((user) => user.username === username);
           if (to) socket.emit("remove_friend", { to });
         });
       }
