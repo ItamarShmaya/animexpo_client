@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getPeopleById } from "../../../apis/jikan/jikan_api_requests";
+import {
+  getPeopleById,
+  controller,
+} from "../../../apis/jikan/jikan_api_requests";
 import VARoleCard from "./VARoleCard/VARoleCard";
 import "./PersonPage.css";
 import Spinner from "../../../components/Spinner/Spinner";
@@ -32,6 +35,10 @@ const PersonPage = () => {
       }
     };
     getPerson();
+
+    return () => {
+      controller.abort();
+    };
   }, [id, navigate]);
 
   const renderVARoles = (roles) => {

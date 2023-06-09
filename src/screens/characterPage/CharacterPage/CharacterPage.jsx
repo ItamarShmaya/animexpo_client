@@ -2,6 +2,7 @@ import "./CharacterPage.css";
 import {
   getCharacterById,
   getCharacterPicturesById,
+  controller,
 } from "../../../apis/jikan/jikan_api_requests.js";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,6 +41,10 @@ const CharacterPage = () => {
       }
     };
     getCharacter();
+
+    return () => {
+      controller.abort();
+    };
   }, [id, navigate]);
 
   useEffect(() => {
@@ -54,6 +59,10 @@ const CharacterPage = () => {
       }
     };
     getCharacterPictures();
+
+    return () => {
+      controller.abort();
+    };
   }, [id, navigate]);
 
   const renderVoiceActor = (voiceActors) => {
