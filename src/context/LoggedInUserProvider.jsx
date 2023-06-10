@@ -20,11 +20,6 @@ const LoggedInUserProvider = ({ children }) => {
         setLocalStorage("sessionID", sessionID);
       });
     }
-
-    return () => {
-      socket.disconnect();
-    };
-
     // eslint-disable-next-line
   }, [loggedInUser]);
 
