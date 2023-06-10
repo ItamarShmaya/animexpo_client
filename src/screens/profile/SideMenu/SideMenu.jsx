@@ -1,17 +1,40 @@
 import "./SideMenu.css";
 import { NavLink } from "react-router-dom";
 import { useLoggedInUser } from "../../../context/context_custom_hooks";
+import { useEffect, useRef, useState } from "react";
 
 const SideMenu = ({ username }) => {
   const { loggedInUser } = useLoggedInUser();
+  const sideMenuRef = useRef();
+  const [calcMid, setCalcMid] = useState(0);
+ 
+  useEffect(() => {
+    if(sideMenuRef) {
+      const toppx = window.innerHeight / 2 - sideMenuRef.current.clientHeight / 2;
+      setCalcMid(toppx)
+    }
+
+  }, [])
+
   return (
-    <aside className="profile-side-menu">
+    <aside
+      ref={sideMenuRef}
+      className="profile-side-menu"
+      style={{ top: `${calcMid}px` }}
+    >
+      <NavLink
+        data-type={"Home"}
+        className="side-menu-item side-menu-list"
+        to={"/"}
+      >
+        <i className="fa-solid fa-home"></i>
+      </NavLink>
       <NavLink
         data-type={"Profile Page"}
         className="side-menu-item side-menu-list"
         to={`/profile/${username}`}
       >
-        <i className="fa-solid fa-house-user"></i>
+        <i className="fa-solid fa-user"></i>
       </NavLink>
       <NavLink
         data-type={"Anime List"}
