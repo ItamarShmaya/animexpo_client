@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "../../../../../../context/context_custom_hooks";
 import "./DeleteAccountConfirmWindow.css";
 import { deleteUser } from "../../../../../../apis/animexpo/animexpo_updates";
+import { useLocalStorage } from "../../../../../../hooks/useLocalStorage";
 
 const DeleteAccountConfirmWindow = ({ setOpenConfirmWindow }) => {
   const { loggedInUser, setLoggedInUser, socket } = useLoggedInUser();
+  const { removeUserFromLocalStorage } = useLocalStorage();
   const navigate = useNavigate();
 
   const onConfirmBtnClick = async (e) => {
@@ -12,14 +14,9 @@ const DeleteAccountConfirmWindow = ({ setOpenConfirmWindow }) => {
       const res = await deleteUser(loggedInUser.username, loggedInUser.token);
       if (res.data.delete === "success") {
         setLoggedInUser(null);
-        localStorage.removeItem("loggedInUser");
-        localStorage.removeItem("loggedInUserAnimeList");
-        localStorage.removeItem("loggedInUserFavCharsList");
-        localStorage.removeItem("loggedInUserFavPeopleList");
-        localStorage.removeItem("loggedInUserMangaList");
-        localStorage.removeItem("loggedInUserProfileData");
-        localStorage.removeItem("loggedInUserFriendsList");
+        removeUserFromLocalStorage();
         socket?.emit("logout");
+        socket?.disconnect();
         navigate(`/`);
       } else throw new Error("Ran into some problems deleting the account");
     } catch (e) {

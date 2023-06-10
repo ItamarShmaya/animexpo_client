@@ -10,7 +10,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [password, setPassword] = useState("");
   const [credentialsError, setCredentialsError] = useState("");
   const { setLoggedInUser, socket } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { setLocalStorage, saveUserToLocalStorage } = useLocalStorage();
 
   useEffect(() => {
     if (credentialsError) setCredentialsError(false);
@@ -25,39 +25,18 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
       if (user) {
         socket.auth = { username: user.user.username };
         socket.connect();
-        socket.on("session", ({ sessionID }) => {
+        socket.once("session", ({ sessionID }) => {
           setLocalStorage("sessionID", sessionID);
-        });
 
-        setLoggedInUser({
-          _id: user.user._id,
-          username: user.user.username,
-          email: user.user.email,
-          token: user.token,
+          setLoggedInUser({
+            _id: user.user._id,
+            username: user.user.username,
+            email: user.user.email,
+            token: user.token,
+          });
+          saveUserToLocalStorage(user);
+          setOpen(false);
         });
-        setLocalStorage("loggedInUser", {
-          _id: user.user._id,
-          username: user.user.username,
-          email: user.user.email,
-          token: user.token,
-        });
-        setLocalStorage("loggedInUserAnimeList", user.user.animeList);
-        setLocalStorage("loggedInUserMangaList", user.user.mangaList);
-        setLocalStorage("loggedInUserProfileData", user.user.profileData);
-        setLocalStorage(
-          "loggedInUserFavCharsList",
-          user.user.profileData.favoriteCharacters
-        );
-        setLocalStorage(
-          "loggedInUserFavPeopleList",
-          user.user.profileData.favoritePeople
-        );
-        setLocalStorage(
-          "loggedInUserFriendsList",
-          user.user.profileData.friendsList
-        );
-
-        setOpen(false);
       }
     } catch (e) {
       if (e === "IncorrectCredentials") {

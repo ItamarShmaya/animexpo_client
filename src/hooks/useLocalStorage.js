@@ -11,5 +11,45 @@ export const useLocalStorage = () => {
     return "";
   };
 
-  return { getLocalStorage, setLocalStorage };
+  const saveUserToLocalStorage = (user) => {
+    setLocalStorage("loggedInUser", {
+      _id: user.user._id,
+      username: user.user.username,
+      email: user.user.email,
+      token: user.token,
+    });
+    setLocalStorage("loggedInUserAnimeList", user.user.animeList);
+    setLocalStorage("loggedInUserMangaList", user.user.mangaList);
+    setLocalStorage("loggedInUserProfileData", user.user.profileData);
+    setLocalStorage(
+      "loggedInUserFavCharsList",
+      user.user.profileData.favoriteCharacters
+    );
+    setLocalStorage(
+      "loggedInUserFavPeopleList",
+      user.user.profileData.favoritePeople
+    );
+    setLocalStorage(
+      "loggedInUserFriendsList",
+      user.user.profileData.friendsList
+    );
+  };
+
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUserAnimeList");
+    localStorage.removeItem("loggedInUserFavCharsList");
+    localStorage.removeItem("loggedInUserFavPeopleList");
+    localStorage.removeItem("loggedInUserMangaList");
+    localStorage.removeItem("loggedInUserProfileData");
+    localStorage.removeItem("loggedInUserFriendsList");
+    localStorage.removeItem("sessionID");
+  };
+
+  return {
+    getLocalStorage,
+    setLocalStorage,
+    saveUserToLocalStorage,
+    removeUserFromLocalStorage,
+  };
 };

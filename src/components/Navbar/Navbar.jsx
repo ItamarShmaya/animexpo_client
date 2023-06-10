@@ -27,18 +27,17 @@ const Navbar = () => {
     setNotifications,
     socket,
   } = useLoggedInUser();
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, setLocalStorage, removeUserFromLocalStorage } =
+    useLocalStorage();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loggedInUser) {
       socket?.on("new_notifications", ({ notifications }) => {
-        console.log("navbar new_notifications");
         setNotifications(notifications);
       });
       socket.on("updated_friendslist", ({ friendsList }) => {
-        console.log("updated_friendslist");
         setLocalStorage("loggedInUserFriendsList", friendsList);
       });
     }
@@ -108,18 +107,10 @@ const Navbar = () => {
       const response = await logoutUser(loggedInUser);
       if (response.status === 200) {
         setLoggedInUser(null);
-        localStorage.removeItem("loggedInUser");
-        localStorage.removeItem("loggedInUserAnimeList");
-        localStorage.removeItem("loggedInUserFavCharsList");
-        localStorage.removeItem("loggedInUserFavPeopleList");
-        localStorage.removeItem("loggedInUserMangaList");
-        localStorage.removeItem("loggedInUserProfileData");
-        localStorage.removeItem("loggedInUserFriendsList");
-        localStorage.removeItem("sessionID");
+        removeUserFromLocalStorage();
 
         socket?.emit("logout");
         socket?.disconnect();
-
         setDropdownOpen(false);
         navigate(`/`);
       }
