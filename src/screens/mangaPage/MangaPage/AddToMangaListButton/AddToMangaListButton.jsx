@@ -5,7 +5,14 @@ import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import { useState } from "react";
 import { addToMangaList } from "../../../../apis/animexpo/animexpo_updates.js";
 
-const AddToMangaListButton = ({ manga, setWatching }) => {
+const AddToMangaListButton = ({
+  id,
+  title,
+  image,
+  format,
+  volumes,
+  setInList,
+}) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -18,12 +25,11 @@ const AddToMangaListButton = ({ manga, setWatching }) => {
       setClicked(false);
       setDisplayMessage(true);
     } else {
-      const { mal_id, title, images, type, volumes } = manga;
       const mangaEntry = {
-        mal_id,
+        id,
         title,
-        image: images.jpg.image_url,
-        type,
+        image,
+        format,
         status: "Reading",
         volumes: volumes || 1,
         score: 1,
@@ -39,7 +45,7 @@ const AddToMangaListButton = ({ manga, setWatching }) => {
         );
         if (updatedMangaList) {
           setLocalStorage("loggedInUserMangaList", updatedMangaList);
-          setWatching(true);
+          setInList(true);
         }
         setClicked(false);
       } catch (e) {

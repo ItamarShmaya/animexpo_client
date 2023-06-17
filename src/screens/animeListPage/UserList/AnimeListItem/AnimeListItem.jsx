@@ -21,9 +21,9 @@ const AnimeListItem = ({
     image,
     episodes,
     progress,
-    type,
+    format,
     comment,
-    mal_id,
+    id,
     status,
     score,
     _id,
@@ -61,13 +61,11 @@ const AnimeListItem = ({
 
       dispatch({
         type: "update_entry",
-        mal_id,
+        id,
         updatedListEntry: updatedAnimeListEntry,
       });
 
-      const FullListEntryIndex = userList.findIndex(
-        (entry) => entry.mal_id === mal_id
-      );
+      const FullListEntryIndex = userList.findIndex((entry) => entry.id === id);
       const updatedFullUserList = [...userList];
       updatedFullUserList[FullListEntryIndex] = updatedAnimeListEntry;
       setUserList(updatedFullUserList);
@@ -296,10 +294,10 @@ const AnimeListItem = ({
       const updatedAnimeList = await removeFromAnimeList(
         loggedInUser.username,
         loggedInUser.token,
-        mal_id
+        id
       );
 
-      dispatch({ type: "remove_entry", mal_id });
+      dispatch({ type: "remove_entry", id });
       setUserList(updatedAnimeList.list);
       setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
     } catch (e) {
@@ -311,12 +309,12 @@ const AnimeListItem = ({
     <div className="list-item">
       <div className="mylist-item-number">{number}</div>
       <div className="mylist-item-img-container">
-        <NavLink to={`/anime/${mal_id}`}>
+        <NavLink to={`/anime/${id}`}>
           <img alt={title} src={image} />
         </NavLink>
       </div>
       <div className="mylist-item-title">{title}</div>
-      <div className="mylist-item-type">{type}</div>
+      <div className="mylist-item-type">{format}</div>
       <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-status">{renderStatusCol()}</div>
       <div className="mylist-item-score">{renderScoreCol()}</div>

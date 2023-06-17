@@ -1,0 +1,34 @@
+.scroll-box {
+  position: fixed;
+  color: black;
+  display: inline-flex;
+  gap: 10px;
+  z-index: 1000;
+  right: 30px;
+  opacity: 0;
+  transition: opacity 0.5s linear;
+}
+
+.scroll-box i {
+  font-size: 30px;
+}
+
+.scroll {
+  background-color: #eeebdd;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #1b1717;
+}
+
+.scroll-box:hover {
+  opacity: 1 !important;
+}
+.scroll:hover {
+  color: #eeebdd;
+  background-color: #1b1717;
+  cursor: pointer;
+}

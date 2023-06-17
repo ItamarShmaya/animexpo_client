@@ -5,7 +5,7 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import "./AddReview.css";
 
-const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
+const AddReview = ({ id, title, image, episodes, type, setReviews }) => {
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [reviewContent, setReviewContent] = useState("");
@@ -21,7 +21,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       const userList = getLocalStorage(
         `loggedInUser${type.slice(0, 1).toUpperCase() + type.slice(1)}List`
       );
-      const entry = userList.list.find((item) => item.mal_id === mal_id);
+      const entry = userList.list.find((item) => item.id === id);
       if (entry) {
         setScore(entry.score);
         setStatus(entry.status.toLowerCase());
@@ -32,20 +32,20 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
     setScore("");
     setStatus("");
     setProgress("");
-    // eslint-disable-next-line
-  }, [loggedInUser, mal_id, type]);
+
+  }, [loggedInUser, id, type, getLocalStorage]);
 
   const onReviewSubmit = async (e) => {
     e.preventDefault();
     if (!loggedInUser) return setNotLoggedInError(true);
     if (type === "anime") {
       const list = getLocalStorage("loggedInUserAnimeList");
-      const anime = list.list.find((anime) => anime.mal_id === mal_id);
+      const anime = list.list.find((anime) => anime.id === id);
       if (!anime) return setNotOnListError(true);
     }
     if (type === "manga") {
       const list = getLocalStorage("loggedInUserMangaList");
-      const manga = list.list.find((manga) => manga.mal_id === mal_id);
+      const manga = list.list.find((manga) => manga.id === id);
       if (!manga) return setNotOnListError(true);
     }
 
@@ -54,7 +54,7 @@ const AddReview = ({ mal_id, title, image, episodes, type, setReviews }) => {
       const body = {
         author: loggedInUser._id,
         text: reviewContent,
-        mal_id,
+        id,
         title,
         image,
         score,

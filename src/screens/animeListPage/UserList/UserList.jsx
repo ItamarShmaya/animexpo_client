@@ -19,7 +19,7 @@ const UserList = ({
     return list.map((item, i) => {
       return (
         <ListItem
-          key={item.mal_id}
+          key={item.id}
           item={item}
           username={username}
           userList={userList}
@@ -64,7 +64,7 @@ const UserList = ({
           <div className="mylist-item-title sort" onClick={onTitleClick}>
             Title
           </div>
-          <div className="mylist-item-type">Type</div>
+          <div className="mylist-item-type">Format</div>
           <div className="mylist-item-episodes">Progress</div>
           <div className="mylist-item-status">Status</div>
           <div className="mylist-item-score sort" onClick={onScoreClick}>

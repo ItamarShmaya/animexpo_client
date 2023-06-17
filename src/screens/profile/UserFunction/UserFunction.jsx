@@ -18,7 +18,7 @@ const UserFunction = ({ viewedProfile }) => {
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isUserInFriendsList, setIsUserInFriendsList] = useState(null);
   const [sentFriendRequest, setSentFriendRequest] = useState(null);
-  const { setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.username !== username) {
@@ -62,6 +62,8 @@ const UserFunction = ({ viewedProfile }) => {
         setSentFriendRequest(true);
         setIsUserInFriendsList(false);
 
+        const sessionID = getLocalStorage("sessionID");
+        socket.auth = { sessionID, username: loggedInUser.username };
         socket.emit("online_users");
         socket.once("online_users", async ({ users }) => {
           const to = users.filter((user) => user.username === username);
@@ -85,6 +87,8 @@ const UserFunction = ({ viewedProfile }) => {
         setIsUserInFriendsList(false);
         setSentFriendRequest(false);
 
+        const sessionID = getLocalStorage("sessionID");
+        socket.auth = { sessionID, username: loggedInUser.username };
         socket.emit("online_users");
         socket.once("online_users", async ({ users }) => {
           const to = users.filter((user) => user.username === username);

@@ -1,62 +1,16 @@
-.person-page h1 {
-  width: 95%;
-  margin: auto;
-  color: #eeebdd;
-  font-size: 2rem;
-  margin-top: 20px;
+.person-page {
+  width: 100%;
+  min-height: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.person-page hr {
-  width: 95%;
-  margin: 10px auto;
-}
 .person-content {
   display: flex;
+  flex-direction: column;
   width: 95%;
   margin: auto;
-  gap: 20px;
-}
-
-.person-content__left-side {
-  flex-grow: 0.2;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 225px;
-}
-
-.person-content__right-side {
-  flex-grow: 0.8;
-  display: flex;
-  flex-direction: column;
-}
-
-.person-about {
-  color: #eeebdd;
-  font-size: 1.3rem;
-  line-height: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.person-poster img {
-  width: 225px;
-  height: 320px;
-}
-
-.roles-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-@media all and (max-width: 750px) {
-  .person-content {
-    flex-direction: column;
-  }
-
-  .person-content__left-side {
-    margin: auto;
-  }
+  gap: 40px;
 }

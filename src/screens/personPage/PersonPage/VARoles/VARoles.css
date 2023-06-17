@@ -1,0 +1,13 @@
+.roles-container {
+  position: relative;
+}
+
+.roles-container .va-role-card {
+  margin-bottom: 10px;
+}
+
+.roles-container h2 {
+  color: #eeebdd;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+}

@@ -31,3 +31,8 @@
 .reviews-list hr {
   margin-bottom: 15px;
 }
+
+.no-reviews {
+  color: #eeebdd;
+  font-size: 1.3rem;
+}

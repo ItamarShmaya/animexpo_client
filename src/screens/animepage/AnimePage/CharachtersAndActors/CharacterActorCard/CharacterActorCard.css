@@ -14,12 +14,14 @@
   display: flex;
   flex-direction: column;
   color: #eeebdd;
-  gap: 20px;
-  padding-top: 1rem;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .actor .some-info {
   align-items: flex-end;
+  text-align: right;
 }
 
 .name {

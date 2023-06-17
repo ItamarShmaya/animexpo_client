@@ -20,8 +20,8 @@ const LoggedInUserProvider = ({ children }) => {
         setLocalStorage("sessionID", sessionID);
       });
     }
-    // eslint-disable-next-line
-  }, [loggedInUser]);
+
+  }, [loggedInUser, getLocalStorage, setLocalStorage]);
 
   return (
     <LoggedInUserContext.Provider

@@ -3,20 +3,20 @@ import SimplyCarousel from "../../../components/SimplyCarousel/SimplyCarousel";
 import {
   profileCarouselForwardButton,
   profileCarouselBackwardButton,
-  profileCarouselResponsive,
-} from "../../../components/SimplyCarousel/profilePageCarouselSettings";
-import FavoriteCard from "../FavoriteCard/FavoriteCard";
+} from "../../../components/SimplyCarousel/carouselSettings";
+import Card from "../../../components/Card/Card";
 
-const FavoriteList = ({ favList, type }) => {
+const FavoriteList = ({ favList, type, profileCarouselResponsive }) => {
   const renderFavoriteList = (list, type) => {
     return list.map((item) => {
       return (
-        <FavoriteCard
+        <Card
           type={type}
-          key={item.mal_id}
-          mal_id={item.mal_id}
-          name={item.name}
+          key={item.id}
+          id={item.id}
+          title={item.name}
           image={item.image}
+          showRank={false}
           cardHeight={90}
           cardWidth={70}
         />
@@ -24,15 +24,17 @@ const FavoriteList = ({ favList, type }) => {
     });
   };
   return (
-    <SimplyCarousel
-      itemsToShow={12}
-      itemsToScroll={1}
-      forwardBtnProps={profileCarouselForwardButton}
-      backwardBtnProps={profileCarouselBackwardButton}
-      responsiveProps={profileCarouselResponsive}
-    >
-      {renderFavoriteList(favList, type)}
-    </SimplyCarousel>
+    <div className="fav-list-container">
+      <SimplyCarousel
+        itemsToShow={12}
+        itemsToScroll={1}
+        forwardBtnProps={profileCarouselForwardButton}
+        backwardBtnProps={profileCarouselBackwardButton}
+        responsiveProps={profileCarouselResponsive}
+      >
+        {renderFavoriteList(favList, type)}
+      </SimplyCarousel>
+    </div>
   );
 };
 

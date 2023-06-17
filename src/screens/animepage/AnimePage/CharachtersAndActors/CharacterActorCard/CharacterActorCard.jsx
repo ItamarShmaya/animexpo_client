@@ -2,37 +2,43 @@ import { NavLink } from "react-router-dom";
 import "./CharacterActorCard.css";
 
 const CharacterActorCard = ({ char, role, voiceActor }) => {
-  const { mal_id, images, name } = char;
   return (
     <div className="character-actor-card">
-      <NavLink to={`/characters/${mal_id}`}>
-        <div className="character block">
-          <img alt={mal_id} src={images.jpg.image_url} />
-          <div className="some-info">
-            <span className="name">{name}</span>
-            <span className="role">{role}</span>
-          </div>
-        </div>
-      </NavLink>
-      {voiceActor && (
-        <NavLink to={`/people/${voiceActor.person.mal_id}`}>
-          <div className="actor block">
-            {voiceActor && (
-              <>
-                <div className="some-info">
-                  <span className="name">{voiceActor.person.name}</span>
-                  <span className="language">{voiceActor.language}</span>
-                </div>
-                <img
-                  alt={voiceActor.person.mal_id}
-                  src={voiceActor.person.images.jpg.image_url}
-                />
-              </>
-            )}
-          </div>
-        </NavLink>
-      )}
+      {char && <CharacterBlock char={char} role={role} />}
+      {voiceActor && <ActorBlock voiceActor={voiceActor} />}
     </div>
   );
 };
 export default CharacterActorCard;
+
+const CharacterBlock = ({ char, role }) => {
+  const { id, image, name } = char;
+  return (
+    <NavLink to={`/characters/${id}`}>
+      <div className="character block">
+        <img alt={name} src={image.large} />
+        <div className="some-info">
+          <span className="name">{name.userPreferred}</span>
+          <span className="role">
+            {role[0] + role.substring(1).toLowerCase()}
+          </span>
+        </div>
+      </div>
+    </NavLink>
+  );
+};
+
+const ActorBlock = ({ voiceActor }) => {
+  const { id, name, languageV2, image } = voiceActor;
+  return (
+    <NavLink to={`/people/${id}`}>
+      <div className="actor block">
+        <div className="some-info">
+          <span className="name">{name.userPreferred}</span>
+          <span className="language">{languageV2}</span>
+        </div>
+        <img alt={id} src={image.large} />
+      </div>
+    </NavLink>
+  );
+};

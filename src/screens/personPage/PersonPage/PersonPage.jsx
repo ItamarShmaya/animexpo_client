@@ -1,127 +1,147 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getPeopleById,
-  controller,
-} from "../../../apis/jikan/jikan_api_requests";
-import VARoleCard from "./VARoleCard/VARoleCard";
 import "./PersonPage.css";
 import Spinner from "../../../components/Spinner/Spinner";
-import AddToFavPeopleButton from "../AddToFavPeopleButton/AddToFavPeopleButton";
-import RemoveFromFavPeopleButton from "../RemoveFromFavPeopleButton/RemoveFromFavPeopleButton";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
+import obito from "../../../components/Spinner/obito.png";
+import {
+  aniListRequests,
+  personByIdQuery,
+  personCharactersByPage,
+} from "../../../apis/aniList/aniList.queries";
+import { useSessionStorage } from "../../../hooks/useSessionStorage";
+import CharacterHero from "../../characterPage/CharacterPage/CharacterHero/CharacterHero";
+import CharacterBanner from "../../characterPage/CharacterPage/CharacterBanner/CharacterBanner";
+import {
+  addToFavPeopleList,
+  removeFromFavPeopleList,
+} from "../../../apis/animexpo/animexpo_updates";
+import VARoles from "./VARoles/VARoles";
+import { charAppearancesReducer } from "../../../reducers/charAppearancesReducer";
 
 const PersonPage = () => {
   const { id } = useParams();
-  const [person, setPerson] = useState({});
+  const [person, setPerson] = useState(null);
   const { getLocalStorage } = useLocalStorage();
+  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+    useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
   const [inFavorites, setInFavorites] = useState(null);
+  const [pageInfo, setPageInfo] = useState({});
   const navigate = useNavigate();
+  const [vaRolesList, dispatch] = useReducer(charAppearancesReducer, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
   useEffect(() => {
-    const getPerson = async () => {
+    if (loggedInUser) {
+      const favCharsList = getLocalStorage("loggedInUserFavPeopleList");
+      if (favCharsList.list.find((char) => char.id === +id)) {
+        setInFavorites(true);
+      } else {
+        setInFavorites(false);
+      }
+    }
+  }, [id, loggedInUser, getLocalStorage]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const variables = { id };
+
+    const getPersonById = async () => {
       try {
-        const person = await getPeopleById(id);
-        setPerson(person);
+        const { data } = await aniListRequests(
+          personByIdQuery,
+          variables,
+          controller.signal
+        );
+
+        if (data.Staff) {
+          setPerson(data.Staff);
+          dispatch({
+            type: "update_list",
+            list: data.Staff.characterMedia.edges,
+          });
+          addToEntrySessionStorage("peopleList", data.Staff);
+          setPageInfo(data.Staff.characterMedia.pageInfo);
+        } else {
+          throw new Error("Not Found");
+        }
       } catch (e) {
-        navigate("/error");
+        console.log(e);
+        navigate("/");
       }
     };
-    getPerson();
+    const person = getEntryFromSessionStorage("peopleList", id);
+    if (person) {
+      setPerson(person);
+      setPageInfo(person.characterMedia.pageInfo);
+      dispatch({
+        type: "update_list",
+        list: person.characterMedia.edges,
+      });
+      return;
+    } else getPersonById();
 
     return () => {
       controller.abort();
     };
-  }, [id, navigate]);
+  }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
 
-  const renderVARoles = (roles) => {
-    const sortedList = roles.sort((role1, role2) =>
-      role1.anime.title
-        .toLowerCase()
-        .localeCompare(role2.anime.title.toLowerCase())
-    );
-    return sortedList.map((role) => {
-      return (
-        <VARoleCard
-          key={role.anime.mal_id + "" + role.character.mal_id}
-          anime={role.anime}
-          character={role.character}
-          role={role.role}
-        />
-      );
-    });
-  };
+  const getNextPage = async () => {
+    const variables = {
+      id,
+      page: pageInfo.currentPage + 1,
+    };
 
-  const renderAddToButton = () => {
-    if (loggedInUser) {
-      const peopleList = getLocalStorage("loggedInUserFavPeopleList");
-      if (
-        peopleList.list.find((myPerson) => myPerson.mal_id === person.mal_id) ||
-        inFavorites
-      ) {
-        return (
-          <RemoveFromFavPeopleButton
-            mal_id={person.mal_id}
-            setInFavorites={setInFavorites}
-          />
-        );
+    try {
+      const { data } = await aniListRequests(personCharactersByPage, variables);
+
+      if (data) {
+        setPageInfo(data.Staff.characterMedia.pageInfo);
+        dispatch({
+          type: "update_list",
+          list: data.Staff.characterMedia.edges,
+        });
       }
+    } catch (e) {
+      console.log(e);
     }
-    return (
-      <AddToFavPeopleButton person={person} setInFavorites={setInFavorites} />
-    );
   };
 
   return (
     <div className="person-page">
-      {Object.keys(person).length > 0 ? (
+      {person ? (
         <>
-          <h1>{person.name}</h1>
-          <hr />
+          <CharacterBanner />
           <div className="person-content">
-            <div className="person-content__left-side">
-              <div className="person-poster">
-                <img src={person.images.jpg.image_url} alt={person.name} />
-                <div className="add-to-list-container">
-                  {renderAddToButton()}
-                </div>
-              </div>
-              <div className="person-about">
-                <p>
-                  <b>Given name:</b>
-                  {"\u00A0"} {person.given_name}
-                </p>
-                <p>
-                  <b>Family name:</b>
-                  {"\u00A0"} {person.family_name}
-                </p>
-                <p>
-                  <b>Birthday:</b>
-                  {"\u00A0"}
-                  {new Date(person.birthday).toDateString().slice(3)}
-                </p>
-                <p>
-                  <b>More:</b>
-                </p>
-                <div className="display-linebreak">{person.about}</div>
-              </div>
-            </div>
-            <div className="person-content__right-side">
-              <div className="roles-container">
-                {renderVARoles(person.voices)}
-              </div>
-            </div>
+            <CharacterHero
+              id={person.id}
+              name={person.name.userPreferred}
+              image={person.image.large || person.image.medium}
+              description={person.description}
+              inFavorites={inFavorites}
+              addToList={addToFavPeopleList}
+              setInFavorites={setInFavorites}
+              removeFromList={removeFromFavPeopleList}
+              localStorageKey={"loggedInUserFavPeopleList"}
+            />
+            <VARoles
+              rolesList={vaRolesList}
+              cardHeight={120}
+              cardWidth={90}
+              dispatch={dispatch}
+              hasNextPage={pageInfo.hasNextPage}
+              getNextPage={getNextPage}
+            />
           </div>
         </>
       ) : (
-        <Spinner />
+        <Spinner image={obito} />
       )}
     </div>
   );

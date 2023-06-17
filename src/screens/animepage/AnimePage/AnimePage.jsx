@@ -1,33 +1,37 @@
 import "./AnimePage.css";
-import {
-  getAnimeById,
-  getAnimePicturesById,
-  getAnimeCharactersById,
-  getAnimeRecommendationsById,
-} from "../../../apis/jikan/jikan_api_requests";
 import { useEffect, useState } from "react";
-import AnimeHero from "./AnimeHero/AnimeHero";
+import EntryPageHero from "./EntryPageHero/EntryPageHero";
 import Spinner from "../../../components/Spinner/Spinner";
-import AnimeInformation from "./AnimeInformation/AnimeInformation";
-import CharactersAndActors from "./CharachtersAndActors/CharactersAndActors";
-import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
+import EntrySideInformation from "./EntrySideInformation/EntrySideInformation";
+import EntryRecommendations from "./EntryRecommendations/EntryRecommendations";
 import Trailer from "./Trailer/Trailer";
-import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
-import { useNavigate, useParams } from "react-router-dom";
+import EntryPageBanner from "./EntryPageHero/EntryPageBanner/EntryPageBanner";
 import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
+import AddToAnimeListButton from "./AddToAnimeListButton/AddToAnimeListButton";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
+import {
+  aniListRequests,
+  animeByIdQuery,
+} from "../../../apis/aniList/aniList.queries";
+import Characters from "./CharachtersAndActors/Characters";
+import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
+import { useSessionStorage } from "../../../hooks/useSessionStorage";
+import sharingan from "../../../components/Spinner/sharingan.png";
 
 const AnimePage = () => {
-  const [anime, setAnime] = useState({});
-  const [pictures, setPictures] = useState(null);
-  const [characters, setCharacters] = useState({});
-  const [recommendations, setRecommendations] = useState({});
-  const [watching, setWatching] = useState(false);
+  const [anime, setAnime] = useState(null);
+  const [inList, setInList] = useState(false);
+  const [vaLang, setVaLang] = useState("Japanese");
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
+  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+    useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
+
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,138 +40,94 @@ const AnimePage = () => {
   useEffect(() => {
     if (loggedInUser) {
       const animeList = getLocalStorage("loggedInUserAnimeList");
-      if (animeList.list.find((myAnime) => myAnime.mal_id === +id)) {
-        setWatching(true);
+      if (animeList.list.find((myAnime) => myAnime.id === +id)) {
+        setInList(true);
       } else {
-        setWatching(false);
+        setInList(false);
       }
     }
-    // eslint-disable-next-line
-  }, [id, loggedInUser]);
+  }, [id, loggedInUser, getLocalStorage]);
 
   useEffect(() => {
-    let timeOutId;
-    const fetchAnimeData = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const animeResponse = await getAnimeById(id);
-          animeResponse && setAnime(animeResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 1000);
-    };
-    fetchAnimeData();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
+    const controller = new AbortController();
 
-  useEffect(() => {
-    let timeOutId;
-    const fetchAnimePictures = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const picturesResponse = await getAnimePicturesById(id);
-          picturesResponse && setPictures(picturesResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 2000);
+    const variables = {
+      id,
+      type: "ANIME",
     };
-    fetchAnimePictures();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
+    const getAnimeById = async () => {
+      try {
+        const { data } = await aniListRequests(
+          animeByIdQuery,
+          variables,
+          controller.signal
+        );
 
-  useEffect(() => {
-    let timeOutId;
-    const fetchAnimeCharacters = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const charactersResponse = await getAnimeCharactersById(id);
-          charactersResponse && setCharacters(charactersResponse.data);
-        } catch (e) {
-          navigate("/error");
+        if (data.Media) {
+          setAnime(data.Media);
+          addToEntrySessionStorage("animeList", data.Media);
+        } else {
+          throw new Error("Not Found");
         }
-      }, 3000);
-    };
-    fetchAnimeCharacters();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
+      } catch (e) {
+        console.log(e);
+        navigate("/");
       }
     };
-    // eslint-disable-next-line
-  }, [id]);
-  useEffect(() => {
-    let timeOutId;
-    const fetchAnimeRecommendations = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const recommendationResponse = await getAnimeRecommendationsById(id);
-          recommendationResponse &&
-            setRecommendations(recommendationResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 4000);
-    };
-    fetchAnimeRecommendations();
+    const anime = getEntryFromSessionStorage("animeList", id);
+    anime ? setAnime(anime) : getAnimeById();
     return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
+      controller.abort();
     };
-    // eslint-disable-next-line
-  }, [id]);
+  }, [
+    navigate,
+    id,
+    addToEntrySessionStorage,
+    getEntryFromSessionStorage,
+    location,
+  ]);
 
   return (
-    <div className="anime-page">
-      <div className="anime-hero">
-        {pictures && Object.keys(anime).length > 0 && (
-          <AnimeBanner pictures={pictures} images={anime.images} />
-        )}
-        {Object.keys(anime).length > 0 ? (
-          <AnimeHero
-            anime={anime}
-            watching={watching}
-            setWatching={setWatching}
+    <div className="entry-page">
+      {anime ? (
+        <>
+          <EntryPageBanner bannerImage={anime.bannerImage} />
+          <EntryPageHero
+            entry={anime}
+            inList={inList}
+            setInList={setInList}
+            AddButton={AddToAnimeListButton}
           />
-        ) : (
-          <Spinner />
-        )}
-      </div>
-      <div className="main-content">
-        {Object.keys(anime).length > 0 && <AnimeInformation anime={anime} />}
-
-        <div className="main-content-right-side">
-          {Object.keys(characters).length > 0 && (
-            <CharactersAndActors characters={characters} />
+          <div className="info-and-chars">
+            <div className="info">
+              <EntrySideInformation entry={anime} />
+            </div>
+            <div className="chars">
+              <Characters
+                characters={anime.characters}
+                vaLang={vaLang}
+                setVaLang={setVaLang}
+              />
+            </div>
+          </div>
+          {anime.recommendations.edges.length > 0 && (
+            <EntryRecommendations
+              recommendations={anime.recommendations.edges}
+              type={"anime"}
+              sliderSettings={entryPageRecommendationsSliderSettings}
+            />
           )}
-        </div>
-      </div>
-      {Object.keys(recommendations).length > 0 && (
-        <AnimeRecommendations recommendations={recommendations} />
-      )}
-      {Object.keys(anime).length > 0 && anime.trailer.embed_url && (
-        <Trailer trailer={anime.trailer} />
-      )}
-      {Object.keys(anime).length > 0 && (
-        <ReviewsSection
-          mal_id={anime.mal_id}
-          title={anime.title}
-          image={anime.images.jpg.image_url}
-          episodes={anime.episodes}
-          type="anime"
-        />
+          {anime.trailer && <Trailer trailer={anime.trailer} />}
+          <ReviewsSection
+            id={anime.id}
+            title={anime.title.english}
+            image={anime.coverImage.large}
+            episodes={anime.episodes}
+            type={"anime"}
+          />
+        </>
+      ) : (
+        <Spinner image={sharingan} />
       )}
     </div>
   );

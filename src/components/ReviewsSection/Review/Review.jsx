@@ -63,7 +63,7 @@ const Review = ({ review }) => {
           </div>
         </div>
         <div className="review-content ">
-          <div className={textVisible ? "" : "overflow-hidden"}>
+          <div className={textVisible ? "" : "review-overflow-hidden"}>
             <p ref={reviewTextRef} className="display-linebreak review-text">
               {review.text}
             </p>

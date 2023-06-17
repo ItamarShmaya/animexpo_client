@@ -1,0 +1,32 @@
+.about-character {
+  display: flex;
+}
+
+.character-info {
+  color: #eeebdd;
+  font-size: 1.4rem;
+  padding-left: 2rem;
+  line-height: 1.5rem;
+}
+
+.character-info hr {
+  margin: 10px 0;
+}
+
+.character-description {
+  line-height: 19px;
+}
+
+.des-overflow-hidden {
+  height: 300px;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 850px) {
+  .about-character {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+}

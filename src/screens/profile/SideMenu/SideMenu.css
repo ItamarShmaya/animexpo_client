@@ -9,6 +9,16 @@
   z-index: 99;
   transition: opacity 0.3s ease-in;
   opacity: 0.3;
+  animation: comeFromLeft 0.5s linear;
+}
+
+@keyframes comeFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .side-menu-item {

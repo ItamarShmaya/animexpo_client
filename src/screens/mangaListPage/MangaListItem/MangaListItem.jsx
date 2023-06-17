@@ -21,9 +21,9 @@ const MangaListItem = ({
     image,
     volumes,
     progress,
-    type,
+    format,
     comment,
-    mal_id,
+    id,
     status,
     score,
     _id,
@@ -62,13 +62,11 @@ const MangaListItem = ({
 
       dispatch({
         type: "update_entry",
-        mal_id,
+        id,
         updatedListEntry: updatedMangaListEntry,
       });
 
-      const FullListEntryIndex = userList.findIndex(
-        (entry) => entry.mal_id === mal_id
-      );
+      const FullListEntryIndex = userList.findIndex((entry) => entry.id === id);
       const updatedFullUserList = [...userList];
       updatedFullUserList[FullListEntryIndex] = updatedMangaListEntry;
       setUserList(updatedFullUserList);
@@ -296,9 +294,9 @@ const MangaListItem = ({
       const updatedMangaList = await removeFromMangaList(
         loggedInUser.username,
         loggedInUser.token,
-        mal_id
+        id
       );
-      dispatch({ type: "remove_entry", mal_id });
+      dispatch({ type: "remove_entry", id });
       setUserList(updatedMangaList.list);
       setLocalStorage("loggedInUserMangaList", updatedMangaList);
     } catch (e) {
@@ -310,12 +308,12 @@ const MangaListItem = ({
     <div className="list-item">
       <div className="mylist-item-number">{number}</div>
       <div className="mylist-item-img-container">
-        <NavLink to={`/manga/${mal_id}`}>
+        <NavLink to={`/manga/${id}`}>
           <img alt={title} src={image} />
         </NavLink>
       </div>
       <div className="mylist-item-title">{title}</div>
-      <div className="mylist-item-type">{type}</div>
+      <div className="mylist-item-type">{format}</div>
       <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-status">{renderStatusCol()}</div>
       <div className="mylist-item-score">{renderScoreCol()}</div>

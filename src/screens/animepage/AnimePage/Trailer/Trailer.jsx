@@ -3,9 +3,9 @@ import "./Trailer.css";
 const Trailer = ({ trailer }) => {
   return (
     <div className="trailer-container">
-      <h1>Trailer</h1>
+      <h2>Trailer</h2>
       <iframe
-        src={`${trailer.embed_url}`}
+        src={`https://www.youtube.com/embed/${trailer.id}`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

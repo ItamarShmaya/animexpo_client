@@ -1,0 +1,106 @@
+.about-entry {
+  display: flex;
+  width: 95%;
+  margin: auto;
+}
+
+.entry-desc-overflow-hidden {
+  height: 225px;
+  overflow: hidden;
+}
+
+.overflow-button {
+  text-align: center;
+  color: #eeebdd;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.overflow-button:hover {
+  cursor: pointer;
+  color: rgb(0, 128, 255);
+}
+
+.poster img {
+  width: 225px;
+  height: 320px;
+}
+
+.add-to-list-container {
+  width: 100%;
+  height: 40px;
+  background-color: rgb(231 69 56);
+  color: #eeebdd;
+  font-size: 1.5rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entry-info {
+  color: #eeebdd;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding-left: 2rem;
+  width: 100%;
+}
+
+.entry-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}
+
+.title-synopsis {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.entry-hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.entry-hero-synopsis {
+  line-height: 2rem;
+}
+
+.entry-hero-synopsis p {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #eeebdd;
+}
+
+.entry-hero-synopsis {
+  color: #a1a1a1;
+}
+
+.fa-star {
+  color: rgb(255, 235, 53);
+}
+
+.fa-heart {
+  color: rgb(255, 17, 97);
+}
+
+.fa-trophy {
+  color: gold;
+}
+@media screen and (max-width: 850px) {
+  .about-entry {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .poster {
+    align-self: center;
+  }
+  .add-to-list-container {
+    width: 225px;
+  }
+}

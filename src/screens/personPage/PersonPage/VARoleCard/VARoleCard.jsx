@@ -1,22 +1,56 @@
 import { NavLink } from "react-router-dom";
 import "./VARoleCard.css";
+import { AppearanceEntry } from "../../../characterPage/CharacterPage/Appearances/Appearance/Appearance";
+import { parseDateFromAniListApi } from "../../../../helpers/helpers";
 
-const VARoleCard = ({ role, anime, character }) => {
+const VARoleCard = ({
+  role,
+  animeId,
+  animeImage,
+  animeTitle,
+  characterId,
+  characterName,
+  characterImage,
+  sortBy,
+  animePopularity,
+  animeFavourites,
+  animeAverageScore,
+  animeStartDate,
+  animeFormat,
+  cardHeight,
+  cardWidth,
+}) => {
   return (
     <div className="va-role-card">
-      <NavLink to={`/anime/${anime.mal_id}`}>
-        <div className="anime-role">
-          <img src={anime.images.jpg.image_url} alt="" />
-          <p>{anime.title}</p>
-        </div>
-      </NavLink>
-      <NavLink to={`/characters/${character.mal_id}`}>
+      <AppearanceEntry
+        type={"anime"}
+        id={animeId}
+        showRank={false}
+        title={animeTitle}
+        image={animeImage}
+        cardHeight={cardHeight}
+        cardWidth={cardWidth}
+        sortBy={sortBy}
+        popularity={animePopularity}
+        favourites={animeFavourites}
+        averageScore={animeAverageScore}
+        startDate={parseDateFromAniListApi(animeStartDate)}
+        format={animeFormat}
+      />
+      <NavLink to={`/characters/${characterId}`}>
         <div className="character-role">
           <div className="basic-info">
-            <p className="name">{character.name}</p>
+            <p className="name">{characterName}</p>
             <p className="role">{role}</p>
           </div>
-          <img src={character.images.jpg.image_url} alt="" />
+          <img
+            src={characterImage}
+            alt={characterName}
+            style={{
+              width: `${cardWidth}px`,
+              height: `${cardHeight}px`,
+            }}
+          />
         </div>
       </NavLink>
     </div>

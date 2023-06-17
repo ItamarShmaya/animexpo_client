@@ -6,15 +6,15 @@ import { useEffect, useRef, useState } from "react";
 const SideMenu = ({ username }) => {
   const { loggedInUser } = useLoggedInUser();
   const sideMenuRef = useRef();
-  const [calcMid, setCalcMid] = useState(0);
- 
-  useEffect(() => {
-    if(sideMenuRef) {
-      const toppx = window.innerHeight / 2 - sideMenuRef.current.clientHeight / 2;
-      setCalcMid(toppx)
-    }
+  const [calcMid, setCalcMid] = useState(500);
 
-  }, [])
+  useEffect(() => {
+    if (sideMenuRef) {
+      const toppx =
+        window.visualViewport.height / 2 - sideMenuRef.current.clientHeight / 2;
+      setCalcMid(toppx);
+    }
+  }, []);
 
   return (
     <aside
