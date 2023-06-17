@@ -27,7 +27,7 @@ const CharacterPage = () => {
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [pageInfo, setPageInfo] = useState({});
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+  const { getEntryFromUserCache, addEntryToUserCache } =
     useSessionStorage();
   const navigate = useNavigate();
   const [appearancesList, dispatch] = useReducer(charAppearancesReducer, []);
@@ -68,7 +68,7 @@ const CharacterPage = () => {
             type: "update_list",
             list: data.Character.media.edges,
           });
-          addToEntrySessionStorage("charsList", data.Character);
+          addEntryToUserCache("charsList", data.Character);
           setPageInfo(data.Character.media.pageInfo);
         } else {
           throw new Error("Not Found");
@@ -78,7 +78,7 @@ const CharacterPage = () => {
         navigate("/");
       }
     };
-    const char = getEntryFromSessionStorage("charsList", id);
+    const char = getEntryFromUserCache("charsList", id);
     if (char) {
       setCharacter(char);
       setPageInfo(char.media.pageInfo);
@@ -92,7 +92,7 @@ const CharacterPage = () => {
     return () => {
       controller.abort();
     };
-  }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
+  }, [id, navigate, getEntryFromUserCache, addEntryToUserCache]);
 
   return (
     <div className="character-page">

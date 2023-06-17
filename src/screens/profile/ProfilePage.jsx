@@ -16,9 +16,12 @@ import {
   profileCarouselResponsive,
   profileMobileCarouselResponsive,
 } from "../../components/SimplyCarousel/carouselSettings";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const ProfilePage = () => {
   const { getLocalStorage } = useLocalStorage();
+  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+    useSessionStorage();
   const navigate = useNavigate();
   const { loggedInUser } = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(true);
@@ -55,10 +58,18 @@ const ProfilePage = () => {
           const profileData = await getUserProfileData(username);
           if (profileData) setViewedProfile(profileData);
           const animeList = await getUserAnimeList(username);
-          if (animeList) setViewedUserAnimeList(animeList);
+          if (animeList) {
+            profileData.animeList = animeList;
+            setViewedUserAnimeList(animeList);
+          }
           const mangaList = await getUserMangaList(username);
-          if (mangaList) setViewedUserMangaList(mangaList);
+          if (mangaList) {
+            profileData.mangaList = mangaList;
+            setViewedUserMangaList(mangaList);
+          }
           setIsLoading(false);
+          addToEntrySessionStorage("profilesList", profileData);
+          console.log(profileData);
         } catch (e) {
           if (e === "UserNotFound") {
             navigate("/notfound");
@@ -66,6 +77,7 @@ const ProfilePage = () => {
         }
       }
     };
+    // const profileData = getEntryFromSessionStorage("profileList", "username", username);
     getUserProfile();
   }, [loggedInUser?.username, username, navigate, getLocalStorage]);
 

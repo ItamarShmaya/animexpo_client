@@ -8,13 +8,15 @@ import {
   getCharactersBySearchQuery,
   getPeopleBySearchQuery,
 } from "../../apis/aniList/aniList.queries";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [searchResults, setSearchResults] = useState([]);
   const [selectValue, setSelectValue] = useState("anime");
-  const [searchType, setSearchType] = useState("anime");
+  const { addToSearchResultsChache, getFromSearchResultsChache } =
+    useSessionStorage();
   const searchbarRef = useRef();
 
   useEffect(() => {
@@ -44,8 +46,8 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("anime");
               setSearchResults(data.Page.media);
+              addToSearchResultsChache("anime", searchInput, data.Page.media);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -67,8 +69,8 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("manga");
               setSearchResults(data.Page.media);
+              addToSearchResultsChache("manga", searchInput, data.Page.media);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -89,8 +91,12 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("characters");
               setSearchResults(data.Page.characters);
+              addToSearchResultsChache(
+                "characters",
+                searchInput,
+                data.Page.characters
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -111,8 +117,8 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("people");
               setSearchResults(data.Page.staff);
+              addToSearchResultsChache("people", searchInput, data.Page.staff);
 
               return;
             } else throw new Error("Unable to fetch search results");
@@ -126,8 +132,8 @@ const SearchBar = () => {
           try {
             const results = await getUsersBySearch(debouncedSearchInput);
             if (results) {
-              setSearchType("users");
               setSearchResults(results);
+              addToSearchResultsChache("users", searchInput, results);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -141,13 +147,24 @@ const SearchBar = () => {
         }
       }
     };
-    if (debouncedSearchInput !== "") search();
-    else setSearchResults([]);
+
+    if (debouncedSearchInput !== "") {
+      const searchResults = getFromSearchResultsChache(
+        selectValue,
+        searchInput
+      );
+      searchResults ? setSearchResults(searchResults) : search();
+    } else setSearchResults([]);
 
     return () => {
       controller.abort();
     };
-  }, [debouncedSearchInput, selectValue]);
+  }, [
+    debouncedSearchInput,
+    selectValue,
+    addToSearchResultsChache,
+    getFromSearchResultsChache,
+  ]);
 
   useEffect(() => {
     if (searchResults.length > 0) {
@@ -182,7 +199,10 @@ const SearchBar = () => {
           <select
             className="search-categories"
             value={selectValue}
-            onChange={({ target }) => setSelectValue(target.value)}
+            onChange={({ target }) => {
+              setSearchResults([])
+              setSelectValue(target.value)
+            }}
           >
             <option value="anime">Anime</option>
             <option value="manga">Manga</option>
@@ -201,7 +221,7 @@ const SearchBar = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
           {searchResults.length > 0 && (
-            <SearchResults results={searchResults} searchType={searchType} />
+            <SearchResults results={searchResults} searchType={selectValue} />
           )}
         </form>
       </div>

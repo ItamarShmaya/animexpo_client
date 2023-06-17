@@ -27,7 +27,7 @@ const AnimePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+  const { getEntryFromUserCache, addEntryToUserCache } =
     useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
@@ -65,7 +65,7 @@ const AnimePage = () => {
 
         if (data.Media) {
           setAnime(data.Media);
-          addToEntrySessionStorage("animeList", data.Media);
+          addEntryToUserCache("animeList", data.Media);
         } else {
           throw new Error("Not Found");
         }
@@ -74,7 +74,7 @@ const AnimePage = () => {
         navigate("/");
       }
     };
-    const anime = getEntryFromSessionStorage("animeList", id);
+    const anime = getEntryFromUserCache("animeList", id);
     anime ? setAnime(anime) : getAnimeById();
     return () => {
       controller.abort();
@@ -82,8 +82,8 @@ const AnimePage = () => {
   }, [
     navigate,
     id,
-    addToEntrySessionStorage,
-    getEntryFromSessionStorage,
+    addEntryToUserCache,
+    getEntryFromUserCache,
     location,
   ]);
 

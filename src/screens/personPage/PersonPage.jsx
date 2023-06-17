@@ -24,7 +24,7 @@ const PersonPage = () => {
   const { id } = useParams();
   const [person, setPerson] = useState(null);
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+  const { getEntryFromUserCache, addEntryToUserCache } =
     useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
   const [inFavorites, setInFavorites] = useState(null);
@@ -65,7 +65,7 @@ const PersonPage = () => {
             type: "update_list",
             list: data.Staff.characterMedia.edges,
           });
-          addToEntrySessionStorage("peopleList", data.Staff);
+          addEntryToUserCache("peopleList", data.Staff);
           setPageInfo(data.Staff.characterMedia.pageInfo);
         } else {
           throw new Error("Not Found");
@@ -75,7 +75,7 @@ const PersonPage = () => {
         navigate("/");
       }
     };
-    const person = getEntryFromSessionStorage("peopleList", id);
+    const person = getEntryFromUserCache("peopleList", id);
     if (person) {
       setPerson(person);
       setPageInfo(person.characterMedia.pageInfo);
@@ -89,7 +89,7 @@ const PersonPage = () => {
     return () => {
       controller.abort();
     };
-  }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
+  }, [id, navigate, getEntryFromUserCache, addEntryToUserCache]);
 
   return (
     <div className="person-page">

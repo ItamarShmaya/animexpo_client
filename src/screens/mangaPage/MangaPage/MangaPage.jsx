@@ -25,7 +25,7 @@ const MangaPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+  const { getEntryFromUserCache, addEntryToUserCache } =
     useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
@@ -61,7 +61,7 @@ const MangaPage = () => {
 
         if (data.Media) {
           setManga(data.Media);
-          addToEntrySessionStorage("mangaList", data.Media);
+          addEntryToUserCache("mangaList", data.Media);
         } else {
           throw new Error("Not Found");
         }
@@ -71,13 +71,13 @@ const MangaPage = () => {
       }
     };
 
-    const manga = getEntryFromSessionStorage("mangaList", id);
+    const manga = getEntryFromUserCache("mangaList", id);
     manga ? setManga(manga) : getMangaById();
 
     return () => {
       controller.abort();
     };
-  }, [navigate, id, addToEntrySessionStorage, getEntryFromSessionStorage]);
+  }, [navigate, id, addEntryToUserCache, getEntryFromUserCache]);
 
   return (
     <div className="entry-page">
