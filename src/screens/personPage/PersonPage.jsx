@@ -2,24 +2,24 @@ import { useReducer, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./PersonPage.css";
-import Spinner from "../../../components/Spinner/Spinner";
-import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
-import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
-import obito from "../../../components/Spinner/obito.png";
+import Spinner from "../../components/Spinner/Spinner";
+import { useLocalStorage } from "../../hooks/useLocalStorage.js";
+import { useLoggedInUser } from "../../context/context_custom_hooks.js";
+import obito from "../../components/Spinner/obito.png";
 import {
   aniListRequests,
   personByIdQuery,
   personCharactersByPage,
-} from "../../../apis/aniList/aniList.queries";
-import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import CharacterHero from "../../characterPage/CharacterPage/CharacterHero/CharacterHero";
-import CharacterBanner from "../../characterPage/CharacterPage/CharacterBanner/CharacterBanner";
+} from "../../apis/aniList/aniList.queries";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
+import CharacterHero from "../characterPage/CharacterPage/CharacterHero/CharacterHero";
+import CharacterBanner from "../characterPage/CharacterPage/CharacterBanner/CharacterBanner";
 import {
   addToFavPeopleList,
   removeFromFavPeopleList,
-} from "../../../apis/animexpo/animexpo_updates";
+} from "../../apis/animexpo/animexpo_updates";
 import VARoles from "./VARoles/VARoles";
-import { charAppearancesReducer } from "../../../reducers/charAppearancesReducer";
+import { charAppearancesReducer } from "../../reducers/charAppearancesReducer";
 
 const PersonPage = () => {
   const { id } = useParams();
