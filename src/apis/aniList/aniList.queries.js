@@ -532,7 +532,7 @@ query($search: String $perPage: Int) {
       lastPage
       hasNextPage
     }
-    characters(search: $search sort:RELEVANCE) {
+    characters(search: $search sort:FAVOURITES_DESC) {
       id
       name {
         userPreferred
@@ -589,4 +589,4 @@ query($search: String $perPage: Int) {
     }
   }
 }
-`
+`;
