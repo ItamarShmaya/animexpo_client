@@ -4,10 +4,6 @@ export function charAppearancesReducer(viewedList, action) {
       return [...viewedList].concat(action.list);
     }
 
-    case "sort_all": {
-      return action.list;
-    }
-
     case "sort_popularity_asc": {
       return [...viewedList].sort((entry1, entry2) => {
         return entry1.node.popularity - entry2.node.popularity;
@@ -85,7 +81,6 @@ export function charAppearancesReducer(viewedList, action) {
 
     case "sort_name_asc": {
       return [...viewedList].sort((entry1, entry2) => {
-        console.log(entry1);
         const entry1Name = entry1.characters[0].name.userPreferred;
         const entry2Name = entry2.characters[0].name.userPreferred;
         return entry1Name.toLowerCase().localeCompare(entry2Name.toLowerCase());

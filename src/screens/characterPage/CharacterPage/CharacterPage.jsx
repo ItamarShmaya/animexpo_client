@@ -9,7 +9,6 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
 import {
   aniListRequests,
   characterByIdQuery,
-  characterAppearancesByPage,
 } from "../../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import CharacterHero from "./CharacterHero/CharacterHero";
@@ -35,6 +34,9 @@ const CharacterPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    return () => {
+      window.scrollTo(0, 0);
+    };
   }, [id]);
 
   useEffect(() => {
@@ -92,30 +94,6 @@ const CharacterPage = () => {
     };
   }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
 
-  const getNextPage = async () => {
-    const variables = {
-      id,
-      page: pageInfo.currentPage + 1,
-    };
-
-    try {
-      const { data } = await aniListRequests(
-        characterAppearancesByPage,
-        variables
-      );
-
-      if (data) {
-        setPageInfo(data.Character.media.pageInfo);
-        dispatch({
-          type: "update_list",
-          list: data.Character.media.edges,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <div className="character-page">
       {character ? (
@@ -137,10 +115,12 @@ const CharacterPage = () => {
             />
             {appearancesList.length > 0 && (
               <Appearances
+                id={id}
                 appearancesList={appearancesList}
-                getNextPage={getNextPage}
                 hasNextPage={pageInfo.hasNextPage}
                 dispatch={dispatch}
+                pageInfo={pageInfo}
+                setPageInfo={setPageInfo}
               />
             )}
           </div>

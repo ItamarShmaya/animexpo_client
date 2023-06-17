@@ -9,7 +9,6 @@ import obito from "../../components/Spinner/obito.png";
 import {
   aniListRequests,
   personByIdQuery,
-  personCharactersByPage,
 } from "../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
 import CharacterHero from "../characterPage/CharacterPage/CharacterHero/CharacterHero";
@@ -92,27 +91,6 @@ const PersonPage = () => {
     };
   }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
 
-  const getNextPage = async () => {
-    const variables = {
-      id,
-      page: pageInfo.currentPage + 1,
-    };
-
-    try {
-      const { data } = await aniListRequests(personCharactersByPage, variables);
-
-      if (data) {
-        setPageInfo(data.Staff.characterMedia.pageInfo);
-        dispatch({
-          type: "update_list",
-          list: data.Staff.characterMedia.edges,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <div className="person-page">
       {person ? (
@@ -131,12 +109,13 @@ const PersonPage = () => {
               localStorageKey={"loggedInUserFavPeopleList"}
             />
             <VARoles
+              id={id}
               rolesList={vaRolesList}
               cardHeight={120}
               cardWidth={90}
               dispatch={dispatch}
-              hasNextPage={pageInfo.hasNextPage}
-              getNextPage={getNextPage}
+              pageInfo={pageInfo}
+              setPageInfo={setPageInfo}
             />
           </div>
         </>

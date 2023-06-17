@@ -5,14 +5,54 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Appearance from "./Appearance/Appearance";
 import SortByDropDown from "./SortByDropDown/SortByDropDown";
 import { useState } from "react";
+import {
+  aniListRequests,
+  characterAppearancesByPage,
+} from "../../../../apis/aniList/aniList.queries";
 
 const Appearances = ({
+  id,
   appearancesList,
-  hasNextPage,
-  getNextPage,
+  pageInfo,
+  setPageInfo,
   dispatch,
 }) => {
   const [sortBy, setSortBy] = useState("Sort by");
+
+  const getNextPage = async () => {
+    const variables = {
+      id,
+      page: pageInfo.currentPage + 1,
+      perPage: 25
+    };
+
+    try {
+      const { data } = await aniListRequests(
+        characterAppearancesByPage,
+        variables
+      );
+
+      if (data) {
+        setPageInfo(data.Character.media.pageInfo);
+        dispatch({
+          type: "update_list",
+          list: data.Character.media.edges,
+        });
+
+        if (sortBy === "Popularity")
+          return dispatch({ type: "sort_popularity_desc" });
+        if (sortBy === "Favourites")
+          return dispatch({ type: "sort_favourites_desc" });
+        if (sortBy === "Score")
+          return dispatch({ type: "sort_averageScore_desc" });
+        if (sortBy === "Newest") return dispatch({ type: "sort_newest" });
+        if (sortBy === "Oldest") return dispatch({ type: "sort_oldest" });
+        if (sortBy === "Title") return dispatch({ type: "sort_title_asc" });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const renderAppearancesList = (appearancesList) => {
     return appearancesList.map((appearance) => {
@@ -39,7 +79,7 @@ const Appearances = ({
         <InfiniteScroll
           dataLength={appearancesList.length}
           next={getNextPage}
-          hasMore={hasNextPage}
+          hasMore={pageInfo.hasNextPage}
           loader={<InlineSpinner image={gojoEye} />}
           scrollThreshold={0.9}
           style={{ overflowY: "hidden" }}

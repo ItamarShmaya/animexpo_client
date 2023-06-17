@@ -5,16 +5,54 @@ import SortByDropDown from "../../characterPage/CharacterPage/Appearances/SortBy
 import InfiniteScroll from "react-infinite-scroll-component";
 import InlineSpinner from "../../../components/Spinner/InlineSpinner";
 import gojoEye from "../../../components/Spinner/GojoEye.png";
+import {
+  aniListRequests,
+  personCharactersByPage,
+} from "../../../apis/aniList/aniList.queries";
 
 const VARoles = ({
   rolesList,
   cardWidth,
   cardHeight,
   dispatch,
-  getNextPage,
-  hasNextPage,
+  id,
+  pageInfo,
+  setPageInfo,
 }) => {
   const [sortBy, setSortBy] = useState("Sort by");
+
+  const getNextPage = async () => {
+    const variables = {
+      id,
+      page: pageInfo.currentPage + 1,
+      perPage: 25,
+    };
+
+    try {
+      const { data } = await aniListRequests(personCharactersByPage, variables);
+
+      if (data) {
+        setPageInfo(data.Staff.characterMedia.pageInfo);
+        dispatch({
+          type: "update_list",
+          list: data.Staff.characterMedia.edges,
+        });
+
+        if (sortBy === "Popularity")
+          return dispatch({ type: "sort_popularity_desc" });
+        if (sortBy === "Favourites")
+          return dispatch({ type: "sort_favourites_desc" });
+        if (sortBy === "Score")
+          return dispatch({ type: "sort_averageScore_desc" });
+        if (sortBy === "Newest") return dispatch({ type: "sort_newest" });
+        if (sortBy === "Oldest") return dispatch({ type: "sort_oldest" });
+        if (sortBy === "Title") return dispatch({ type: "sort_title_asc" });
+        if (sortBy === "Name") return dispatch({ type: "sort_name_asc" });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const renderVARoles = (roles) => {
     return roles.map((role) => {
@@ -54,7 +92,7 @@ const VARoles = ({
         <InfiniteScroll
           dataLength={rolesList.length}
           next={getNextPage}
-          hasMore={hasNextPage}
+          hasMore={pageInfo.hasNextPage}
           loader={<InlineSpinner image={gojoEye} />}
           scrollThreshold={0.9}
           style={{ overflowY: "hidden" }}
