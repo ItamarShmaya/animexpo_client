@@ -7,10 +7,12 @@ import { getUserAnimeList } from "../../apis/animexpo/animexpo_requests.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import AnimeListItem from "./UserList/AnimeListItem/AnimeListItem";
-import MobileAnimeList from "./MobileAnimeList/MobileAnimeList";
-import MobileAnimeListItem from "./MobileAnimeList/MobileAnimeListItem/MobileAnimeListItem";
+import MobileUserList from "./MobileAnimeList/MobileUserList";
+import MobileUserListItem from "./MobileAnimeList/MobileAnimeListItem/MobileUserListItem";
 import AnimeStatusMenu from "./UserList/AnimeStatusMenu/AnimeStatusMenu";
 import SideMenu from "../profile/SideMenu/SideMenu";
+import { updateAnimeEntry } from "./userListUtils";
+import sharingan from "../../components/Spinner/sharingan.png";
 
 const AnimeListPage = () => {
   const [userAnimeList, setUserAnimeList] = useState([]);
@@ -19,6 +21,13 @@ const AnimeListPage = () => {
   const { loggedInUser } = useLoggedInUser();
   const { getLocalStorage } = useLocalStorage();
   const navigate = useNavigate();
+  const [isMobileWidth, setIsMobileWidth] = useState(
+    window.innerWidth <= 1000 ? true : false
+  );
+  const query = matchMedia("(max-width: 1000px)");
+  query.addEventListener("change", () => {
+    query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
+  });
 
   useEffect(() => {
     const getAnimeList = async () => {
@@ -47,14 +56,13 @@ const AnimeListPage = () => {
       }
     };
     getAnimeList();
-    // eslint-disable-next-line
-  }, [username, loggedInUser?.username]);
+  }, [username, loggedInUser?.username, getLocalStorage, navigate]);
 
   return (
     <>
       {isLoading ? (
-        <Spinner />
-      ) : window.innerWidth > 1000 ? (
+        <Spinner image={sharingan} />
+      ) : !isMobileWidth ? (
         <>
           <SideMenu username={username} />
           <UserList
@@ -68,11 +76,12 @@ const AnimeListPage = () => {
       ) : (
         <>
           <SideMenu username={username} />
-          <MobileAnimeList
+          <MobileUserList
             userList={userAnimeList}
             setUserList={setUserAnimeList}
             username={username}
-            ListItem={MobileAnimeListItem}
+            ListItem={MobileUserListItem}
+            updateEntry={updateAnimeEntry}
           />
         </>
       )}

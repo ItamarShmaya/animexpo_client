@@ -41,7 +41,6 @@
 
 .about-me {
   width: 100%;
-  /* border: 1px solid #ccc; */
   padding: 1rem;
   font-size: 1.2rem;
 }
@@ -68,33 +67,41 @@
   gap: 30px;
 }
 
-.fav-char,
-.fav-people {
+.fav-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.fav-char h1,
-.fav-people h1 {
+.fav-list h2 {
   text-decoration: underline;
   text-underline-position: under;
 }
 
 /* slide css */
 
-.fav-char .carouselForwardArrow,
-.fav-char .carouselBackArrow,
-.fav-people .carouselForwardArrow,
-.fav-people .carouselBackArrow {
+.fav-list .carouselForwardArrow,
+.fav-list .carouselBackArrow {
   opacity: 0;
   transition: 0.3s all ease;
+  position: absolute;
+  z-index: 2;
+  background-color: rgba(199, 199, 199, 0.593);
+}
+.fav-list .carouselForwardArrow {
+  right: 0;
 }
 
-.fav-char div:first-of-type:hover .carouselForwardArrow,
-.fav-char div:first-of-type:hover .carouselBackArrow,
-.fav-people div:first-of-type:hover .carouselForwardArrow,
-.fav-people div:first-of-type:hover .carouselBackArrow {
+.fav-list .carouselBackArrow {
+  left: 0;
+}
+
+.fav-list .carouselForwardArrow:hover,
+.fav-list .carouselBackArrow:hover {
+  background-color: rgb(199, 199, 199);
+}
+.fav-list:hover .carouselForwardArrow,
+.fav-list:hover .carouselBackArrow {
   opacity: 1;
 }
 

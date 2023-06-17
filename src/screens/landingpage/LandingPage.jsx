@@ -4,12 +4,16 @@ import CardsList from "../../components/CardsList/CardsList";
 import Spinner from "../../components/Spinner/Spinner";
 import { landingPageSliderSettings } from "../../components/ImageSlide/sliderSettings";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import {
-  getTopAnime,
-  getTopManga,
-  getTopCharacters,
-} from "../../apis/jikan/jikan_api_requests";
 import "./LandingPage.css";
+import axios from "axios";
+import {
+  url,
+  headers,
+  top25AnimeQuery,
+  top25MangaQuery,
+  top25CharactersQuery,
+} from "../../apis/aniList/aniList.queries";
+import sharingan from "../../components/Spinner/sharingan.png";
 
 const LandingPage = () => {
   const [topAnime, setTopAnime] = useState([]);
@@ -18,85 +22,97 @@ const LandingPage = () => {
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
-    let id;
-    const fetchTopAnime = async () => {
-      id = setTimeout(async () => {
-        try {
-          const { data: anime } = await getTopAnime();
-          if (anime) {
-            setTopAnime(anime);
-            setLocalStorage("topAnime", anime);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }, 100);
-    };
+    const controller = new AbortController();
 
+    const getTopAnime = async () => {
+      try {
+        const { data } = await axios({
+          url,
+          method: "POST",
+          headers: headers,
+          data: {
+            query: top25AnimeQuery,
+          },
+          signal: controller.signal,
+        });
+
+        if (data.data.Page.media) {
+          setLocalStorage("topAnime", data.data.Page.media);
+          setTopAnime(data.data.Page.media);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
     const topAnime = getLocalStorage("topAnime");
-    !topAnime ? fetchTopAnime() : setTopAnime(topAnime);
+    !topAnime ? getTopAnime() : setTopAnime(topAnime);
 
     return () => {
-      if (id !== undefined) {
-        clearTimeout(id);
-      }
+      controller.abort();
     };
-    // eslint-disable-next-line
-  }, []);
+  }, [getLocalStorage, setLocalStorage]);
 
   useEffect(() => {
-    let id;
-    const fetchTopManga = async () => {
-      id = setTimeout(async () => {
-        try {
-          const { data: manga } = await getTopManga();
-          if (manga) {
-            setTopManga(manga);
-            setLocalStorage("topManga", manga);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }, 500);
-    };
+    const controller = new AbortController();
 
+    const getTopManga = async () => {
+      try {
+        const { data } = await axios({
+          url,
+          method: "POST",
+          headers: headers,
+          data: {
+            query: top25MangaQuery,
+          },
+          signal: controller.signal,
+        });
+
+        if (data.data.Page.media) {
+          setLocalStorage("topManga", data.data.Page.media);
+          setTopManga(data.data.Page.media);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
     const topManga = getLocalStorage("topManga");
-    !topManga ? fetchTopManga() : setTopManga(topManga);
+    !topManga ? getTopManga() : setTopManga(topManga);
 
     return () => {
-      if (id !== undefined) {
-        clearTimeout(id);
-      }
+      controller.abort();
     };
-    // eslint-disable-next-line
-  }, []);
+  }, [getLocalStorage, setLocalStorage]);
 
   useEffect(() => {
-    let id;
-    const fetchTopCharacters = async () => {
-      id = setTimeout(async () => {
-        try {
-          const { data: top25Characters } = await getTopCharacters();
-          if (top25Characters) {
-            setTopCharacters(top25Characters);
-            setLocalStorage("topCharacters", top25Characters);
-          }
-        } catch (e) {
-          console.log(e);
+    const controller = new AbortController();
+
+    const getTopCharacters = async () => {
+      try {
+        const { data } = await axios({
+          url,
+          method: "POST",
+          headers: headers,
+          data: {
+            query: top25CharactersQuery,
+          },
+          signal: controller.signal,
+        });
+
+        if (data.data.Page.characters) {
+          setLocalStorage("topCharacters", data.data.Page.characters);
+          setTopCharacters(data.data.Page.characters);
         }
-      }, 1000);
-    };
-
-    const topCharacters = getLocalStorage("topCharacters");
-    !topCharacters ? fetchTopCharacters() : setTopCharacters(topCharacters);
-
-    return () => {
-      if (id !== undefined) {
-        clearTimeout(id);
+      } catch (e) {
+        console.log(e);
       }
     };
-    // eslint-disable-next-line
-  }, []);
+    const topCharacters = getLocalStorage("topCharacters");
+    !topCharacters ? getTopCharacters() : setTopCharacters(topCharacters);
+
+    return () => {
+      controller.abort();
+    };
+  }, [getLocalStorage, setLocalStorage]);
 
   return (
     <>
@@ -110,6 +126,7 @@ const LandingPage = () => {
             <CardsList
               list={topAnime}
               type="anime"
+              showRank={true}
               sliderSettings={landingPageSliderSettings}
             />
           </section>
@@ -118,6 +135,7 @@ const LandingPage = () => {
             <CardsList
               list={topManga}
               type="manga"
+              showRank={true}
               sliderSettings={landingPageSliderSettings}
             />
           </section>
@@ -126,12 +144,13 @@ const LandingPage = () => {
             <CardsList
               list={topCharacters}
               type="characters"
+              showRank={true}
               sliderSettings={landingPageSliderSettings}
             />
           </section>
         </div>
       ) : (
-        <Spinner />
+        <Spinner image={sharingan} />
       )}
     </>
   );

@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import "./AppearanceCard.css";
 
-const AppearanceCard = ({ type, mal_id, role, title, image }) => {
+const AppearanceCard = ({ type, id, role, title, image }) => {
   return (
-    <NavLink to={`/${type}/${mal_id}`}>
+    <NavLink to={`/${type}/${id}`}>
       <div className="appearance-card">
         <div className="image-container">
           <img src={image} alt={title} />

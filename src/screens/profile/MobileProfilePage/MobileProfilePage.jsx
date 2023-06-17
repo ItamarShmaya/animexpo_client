@@ -12,6 +12,7 @@ const MobileProfilePage = ({
   setViewedProfile,
   viewedUserAnimeList,
   viewedUserMangaList,
+  profileCarouselResponsive,
 }) => {
   const { username } = useParams();
   const { gender, birthday, joined, avatar, reviewsCount } =
@@ -43,26 +44,28 @@ const MobileProfilePage = ({
             />
             <div className="fav-lists">
               {viewedProfile.favoriteCharacters.list.length > 0 && (
-                <div className="fav-char">
-                  <h1>
+                <div className="fav-list">
+                  <h2>
                     Favorite Characters (
                     {viewedProfile.favoriteCharacters.list.length})
-                  </h1>
+                  </h2>
                   <FavoriteList
                     favList={viewedProfile.favoriteCharacters.list}
                     type={"characters"}
+                    profileCarouselResponsive={profileCarouselResponsive}
                   />
                   <hr />
                 </div>
               )}
               {viewedProfile.favoritePeople.list.length > 0 && (
-                <div className="fav-people">
-                  <h1>
+                <div className="fav-list">
+                  <h2>
                     Favorite People ({viewedProfile.favoritePeople.list.length})
-                  </h1>
+                  </h2>
                   <FavoriteList
                     favList={viewedProfile.favoritePeople.list}
                     type={"people"}
+                    profileCarouselResponsive={profileCarouselResponsive}
                   />
                 </div>
               )}

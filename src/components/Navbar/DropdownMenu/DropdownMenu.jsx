@@ -10,29 +10,53 @@ const DropdownMenu = ({
   return (
     <div className="drop-down-menu" ref={dropdownMenuRef}>
       <div className="dropdown-item logged-user">{username}</div>
+      <NavLink to={"/"} onClick={() => setDropdownOpen(false)}>
+        <div className="dropdown-item">
+          <div className="dropdown-icon-wrapper">
+            <i className="fa-solid fa-house"></i>
+          </div>
+          <span>Home</span>
+        </div>
+      </NavLink>
       <NavLink
         to={`/profile/${username}`}
-        className="dropdown-item"
         onClick={() => setDropdownOpen(false)}
       >
-        Profile
+        <div className="dropdown-item">
+          <div className="dropdown-icon-wrapper">
+            <i className="fa-solid fa-user"></i>
+          </div>
+          <span>Profile</span>
+        </div>
       </NavLink>
       <NavLink
         to={`/${username}/animelist`}
-        className="dropdown-item"
         onClick={() => setDropdownOpen(false)}
       >
-        Anime List
+        <div className="dropdown-item">
+          <div className="dropdown-icon-wrapper">
+            <i className="fa-solid fa-list"></i>
+          </div>
+          <span>AnimeList</span>
+        </div>
       </NavLink>
       <NavLink
         to={`/${username}/mangalist`}
-        className="dropdown-item"
         onClick={() => setDropdownOpen(false)}
       >
-        Manga List
+        <div className="dropdown-item">
+          <div className="dropdown-icon-wrapper">
+            <i className="fa-solid fa-list"></i>
+          </div>
+          <span>MangaList</span>
+        </div>
       </NavLink>
+
       <div className="dropdown-item" onClick={onLogoutButtonClick}>
-        <i className="fa-solid fa-right-from-bracket"></i> Logout
+        <div className="dropdown-icon-wrapper">
+          <i className="fa-solid fa-right-from-bracket"></i>
+        </div>
+        <span>Logout</span>
       </div>
     </div>
   );

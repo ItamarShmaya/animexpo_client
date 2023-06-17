@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
-import {
-  getMangaById,
-  getMangaPicturesById,
-  getMangaCharactersById,
-  getMangaRecommendationsById,
-} from "../../../apis/jikan/jikan_api_requests";
-import "./MangaPage.css";
-import MangaHero from "./MangaHero/MangaHero";
-import MangaBanner from "./MangaHero/MangaBanner/MangaBanner";
-import MangaInformation from "./MangaInformation/MangaInformation";
-import MangaCharacters from "./MangaCharacters/MangaCharacters";
-import MangaRecommendations from "./MangaRecommendations/MangaRecommendations";
 import Spinner from "../../../components/Spinner/Spinner";
 import "../../animepage/AnimePage/AnimePage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsSection from "../../../components/ReviewsSection/ReviewsSection";
 import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
+import EntryPageBanner from "../../animepage/AnimePage/EntryPageHero/EntryPageBanner/EntryPageBanner";
+import EntryPageHero from "../../animepage/AnimePage/EntryPageHero/EntryPageHero";
+import EntrySideInformation from "../../animepage/AnimePage/EntrySideInformation/EntrySideInformation";
+import Characters from "../../animepage/AnimePage/CharachtersAndActors/Characters";
+import EntryRecommendations from "../../animepage/AnimePage/EntryRecommendations/EntryRecommendations";
+import AddToMangaListButton from "./AddToMangaListButton/AddToMangaListButton";
+import {
+  aniListRequests,
+  mangaByIdQuery,
+} from "../../../apis/aniList/aniList.queries";
+import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
+import { useSessionStorage } from "../../../hooks/useSessionStorage";
+import sharingan from "../../../components/Spinner/sharingan.png";
 
 const MangaPage = () => {
-  const [manga, setManga] = useState({});
-  const [pictures, setPictures] = useState(null);
-  const [characters, setCharacters] = useState({});
-  const [recommendations, setRecommendations] = useState({});
-  const [watching, setWatching] = useState(false);
+  const [manga, setManga] = useState(null);
+  const [inList, setInList] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
+  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
+    useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
   useEffect(() => {
@@ -36,135 +36,83 @@ const MangaPage = () => {
   useEffect(() => {
     if (loggedInUser) {
       const mangaList = getLocalStorage("loggedInUserMangaList");
-      if (mangaList.list.find((myManga) => myManga.mal_id === +id)) {
-        setWatching(true);
+      if (mangaList.list.find((myManga) => myManga.id === +id)) {
+        setInList(true);
       } else {
-        setWatching(false);
+        setInList(false);
       }
     }
-    // eslint-disable-next-line
-  }, [id, loggedInUser]);
+  }, [id, loggedInUser, getLocalStorage]);
 
   useEffect(() => {
-    let timeOutId;
-    const fetchMangaData = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const mangaResponse = await getMangaById(id);
-          mangaResponse && setManga(mangaResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 1000);
-    };
-    fetchMangaData();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
+    const controller = new AbortController();
 
-  useEffect(() => {
-    let timeOutId;
-    const fetchMangaPictures = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const picturesResponse = await getMangaPicturesById(id);
-          picturesResponse && setPictures(picturesResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 2000);
+    const variables = {
+      id,
+      type: "MANGA",
     };
-    fetchMangaPictures();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
+    const getMangaById = async () => {
+      try {
+        const { data } = await aniListRequests(
+          mangaByIdQuery,
+          variables,
+          controller.signal
+        );
 
-  useEffect(() => {
-    let timeOutId;
-    const fetchMangaCharacters = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const charactersResponse = await getMangaCharactersById(id);
-          charactersResponse && setCharacters(charactersResponse.data);
-        } catch (e) {
-          navigate("/error");
+        if (data.Media) {
+          setManga(data.Media);
+          addToEntrySessionStorage("mangaList", data.Media);
+        } else {
+          throw new Error("Not Found");
         }
-      }, 3000);
-    };
-    fetchMangaCharacters();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
+      } catch (e) {
+        console.log(e);
+        navigate("/");
       }
     };
-    // eslint-disable-next-line
-  }, [id]);
-  useEffect(() => {
-    let timeOutId;
-    const fetchMagnaRecommendations = async () => {
-      timeOutId = setTimeout(async () => {
-        try {
-          const recommendationResponse = await getMangaRecommendationsById(id);
-          recommendationResponse &&
-            setRecommendations(recommendationResponse.data);
-        } catch (e) {
-          navigate("/error");
-        }
-      }, 4000);
-    };
-    fetchMagnaRecommendations();
+
+    const manga = getEntryFromSessionStorage("mangaList", id);
+    manga ? setManga(manga) : getMangaById();
+
     return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
+      controller.abort();
     };
-    // eslint-disable-next-line
-  }, [id]);
+  }, [navigate, id, addToEntrySessionStorage, getEntryFromSessionStorage]);
 
   return (
-    <div className="anime-page">
-      <div className="anime-hero">
-        {pictures && Object.keys(manga).length > 0 && (
-          <MangaBanner pictures={pictures} images={manga.images} />
-        )}
-        {Object.keys(manga).length > 0 ? (
-          <MangaHero
-            manga={manga}
-            watching={watching}
-            setWatching={setWatching}
+    <div className="entry-page">
+      {manga ? (
+        <>
+          <EntryPageBanner bannerImage={manga.bannerImage} />
+          <EntryPageHero
+            entry={manga}
+            inList={inList}
+            setInList={setInList}
+            AddButton={AddToMangaListButton}
           />
-        ) : (
-          <Spinner />
-        )}
-      </div>
-      <div className="main-content">
-        {Object.keys(manga).length > 0 && <MangaInformation manga={manga} />}
-
-        <div className="main-content-right-side">
-          {Object.keys(characters).length > 0 && (
-            <MangaCharacters characters={characters} />
-          )}
-        </div>
-      </div>
-      {Object.keys(recommendations).length > 0 && (
-        <MangaRecommendations recommendations={recommendations} />
-      )}
-      {Object.keys(manga).length > 0 && (
-        <ReviewsSection
-          mal_id={manga.mal_id}
-          title={manga.title}
-          image={manga.images.jpg.image_url}
-          episodes={manga.volumes}
-          type="manga"
-        />
+          <div className="info-and-chars">
+            <div className="info">
+              <EntrySideInformation entry={manga} />
+            </div>
+            <div className="chars">
+              <Characters characters={manga.characters} />
+            </div>
+          </div>
+          {manga.recommendations.edges.length > 0 && <EntryRecommendations
+            recommendations={manga.recommendations.edges}
+            type={"manga"}
+            sliderSettings={entryPageRecommendationsSliderSettings}
+          />}
+          <ReviewsSection
+            id={manga.id}
+            title={manga.title.english}
+            image={manga.coverImage.large}
+            episodes={manga.volumes}
+            type="anime"
+          />
+        </>
+      ) : (
+        <Spinner image={sharingan} />
       )}
     </div>
   );

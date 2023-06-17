@@ -1,0 +1,30 @@
+.character-content .mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.character-content .mobile .char-poster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.character-content .mobile .char-poster img {
+  width: 225px;
+  height: 320px;
+}
+
+.character-content .mobile .character-about {
+  padding: 0;
+}
+
+.character-content .mobile .voice-actors {
+  padding: 0;
+}
+
+.spoiler:before {
+  content: "Spoiler, click to view"
+}
+
+.spoiler-content {
+  display: none;
+}

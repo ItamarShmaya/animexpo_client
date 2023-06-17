@@ -1,13 +1,13 @@
 import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
-import {
-  getAnimeBySearch,
-  getCharacterBySearch,
-  getMangaBySearch,
-  getPeopleBySearch,
-} from "../../apis/jikan/jikan_api_requests.js";
 import SearchResults from "./SearchResults/SearchResults";
 import { getUsersBySearch } from "../../apis/animexpo/animexpo_requests.js";
+import {
+  aniListRequests,
+  getMediaBySearchQuery,
+  getCharactersBySearchQuery,
+  getPeopleBySearchQuery,
+} from "../../apis/aniList/aniList.queries";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -28,38 +28,127 @@ const SearchBar = () => {
   }, [searchInput]);
 
   useEffect(() => {
+    const controller = new AbortController();
     const search = async () => {
-      let results = [];
-      if (selectValue === "anime") {
-        try {
-          results = await getAnimeBySearch(debouncedSearchInput);
-          setSearchType("anime");
-        } catch (e) {}
-      } else if (selectValue === "manga") {
-        try {
-          results = await getMangaBySearch(debouncedSearchInput);
-          setSearchType("manga");
-        } catch (e) {}
-      } else if (selectValue === "users") {
-        try {
-          results = await getUsersBySearch(debouncedSearchInput);
-          setSearchType("users");
-        } catch (e) {}
-      } else if (selectValue === "characters") {
-        try {
-          results = await getCharacterBySearch(debouncedSearchInput);
-          setSearchType("characters");
-        } catch (e) {}
-      } else if (selectValue === "people") {
-        try {
-          results = await getPeopleBySearch(debouncedSearchInput);
-          setSearchType("people");
-        } catch (e) {}
+      switch (selectValue) {
+        case "anime": {
+          const variables = {
+            search: debouncedSearchInput,
+            perPage: 25,
+            type: "ANIME",
+          };
+          try {
+            const { data } = await aniListRequests(
+              getMediaBySearchQuery,
+              variables,
+              controller.signal
+            );
+            if (data) {
+              setSearchType("anime");
+              setSearchResults(data.Page.media);
+              return;
+            } else throw new Error("Unable to fetch search results");
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        }
+
+        case "manga": {
+          const variables = {
+            search: debouncedSearchInput,
+            perPage: 25,
+            type: "MANGA",
+          };
+          try {
+            const { data } = await aniListRequests(
+              getMediaBySearchQuery,
+              variables,
+              controller.signal
+            );
+            if (data) {
+              setSearchType("manga");
+              setSearchResults(data.Page.media);
+              console.log(data);
+              return;
+            } else throw new Error("Unable to fetch search results");
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        }
+
+        case "characters": {
+          const variables = {
+            search: debouncedSearchInput,
+            perPage: 25,
+          };
+          try {
+            const { data } = await aniListRequests(
+              getCharactersBySearchQuery,
+              variables,
+              controller.signal
+            );
+            if (data) {
+              setSearchType("characters");
+              setSearchResults(data.Page.characters);
+              console.log(data);
+              return;
+            } else throw new Error("Unable to fetch search results");
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        }
+
+        case "people": {
+          const variables = {
+            search: debouncedSearchInput,
+            perPage: 25,
+          };
+          try {
+            const { data } = await aniListRequests(
+              getPeopleBySearchQuery,
+              variables,
+              controller.signal
+            );
+            if (data) {
+              setSearchType("people");
+              setSearchResults(data.Page.staff);
+              console.log(data);
+              return;
+            } else throw new Error("Unable to fetch search results");
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        }
+
+        case "users": {
+          try {
+            const results = await getUsersBySearch(debouncedSearchInput);
+            if (results) {
+              setSearchType("users");
+              setSearchResults(results);
+              return;
+            } else throw new Error("Unable to fetch search results");
+          } catch (e) {
+            console.log(e);
+            return;
+          }
+        }
+
+        default: {
+          throw new Error("Unknown select value");
+        }
       }
-      setSearchResults(results);
     };
     if (debouncedSearchInput !== "") search();
     else setSearchResults([]);
+
+    return () => {
+      controller.abort();
+    };
   }, [debouncedSearchInput, selectValue]);
 
   useEffect(() => {

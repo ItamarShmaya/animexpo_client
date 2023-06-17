@@ -68,7 +68,7 @@ export const landingPageSliderSettings = {
   ],
 };
 
-export const animePageRecommendationsSliderSettings = {
+export const entryPageRecommendationsSliderSettings = {
   infinite: true,
   slidesToShow: 7,
   slidesToScroll: 7,

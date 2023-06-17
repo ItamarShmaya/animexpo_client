@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { removeFromFavCharList } from "../../../../apis/animexpo/animexpo_updates.js";
 import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
-import "./RemoveFromFavoriteButton.css";
 
-const RemoveFromFavoriteButton = ({ mal_id, setInFavorites }) => {
+const RemoveFromFavoriteButton = ({ id, setInFavorites, removeFromList, localStorageKey }) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [clicked, setClicked] = useState(false);
@@ -13,13 +11,13 @@ const RemoveFromFavoriteButton = ({ mal_id, setInFavorites }) => {
     if (clicked) return;
     setClicked(true);
     try {
-      const updatedCharacterList = await removeFromFavCharList(
+      const updatedList = await removeFromList(
         loggedInUser.username,
         loggedInUser.token,
-        mal_id
+        id
       );
-      if (updatedCharacterList) {
-        setLocalStorage("loggedInUserFavCharsList", updatedCharacterList);
+      if (updatedList) {
+        setLocalStorage(localStorageKey, updatedList);
         setInFavorites(false);
       }
       setClicked(false);

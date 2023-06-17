@@ -4,10 +4,21 @@
   justify-content: space-evenly;
   align-items: flex-start;
   background-color: #ce1212;
-  top: 50%;
   margin-left: 10px;
   position: fixed;
   z-index: 99;
+  transition: opacity 0.3s ease-in;
+  opacity: 0.3;
+  animation: comeFromLeft 0.5s linear;
+}
+
+@keyframes comeFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .side-menu-item {
@@ -16,6 +27,15 @@
   color: #eeebdd;
   transition: all 0.2s ease;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+}
+
+.profile-side-menu:hover {
+  opacity: 1;
 }
 
 .side-menu-item:hover {

@@ -77,7 +77,7 @@ export function viewedListReducer(viewedList, action) {
     case "update_entry": {
       const updatedList = [...viewedList];
       const index = updatedList.findIndex(
-        (entry) => entry.mal_id === action.mal_id
+        (entry) => entry.id === action.id
       );
       updatedList[index] = action.updatedListEntry;
       return updatedList;
@@ -86,7 +86,7 @@ export function viewedListReducer(viewedList, action) {
     case "remove_entry": {
       const updatedList = [...viewedList];
       const index = updatedList.findIndex(
-        (entry) => entry.mal_id === action.mal_id
+        (entry) => entry.id === action.id
       );
       updatedList.splice(index, 1);
       return updatedList;

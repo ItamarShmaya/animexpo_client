@@ -5,7 +5,14 @@ import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import { addToAnimeList } from "../../../../apis/animexpo/animexpo_updates.js";
 import MustBeLoggedIn from "../../../../components/MustBeLoggedIn/MustBeLoggedIn";
 
-const AddToAnimeListButton = ({ anime, setWatching }) => {
+const AddToAnimeListButton = ({
+  id,
+  title,
+  image,
+  format,
+  episodes,
+  setInList,
+}) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -18,12 +25,11 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
       setClicked(false);
       setDisplayMessage(true);
     } else {
-      const { mal_id, title, images, type, episodes } = anime;
       const animeEntry = {
-        mal_id,
+        id,
         title,
-        image: images.jpg.image_url,
-        type,
+        image,
+        format,
         status: "Watching",
         score: 1,
         comment: "",
@@ -40,7 +46,7 @@ const AddToAnimeListButton = ({ anime, setWatching }) => {
 
         if (updatedAnimeList) {
           setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
-          setWatching(true);
+          setInList(true);
         }
         setClicked(false);
       } catch (e) {

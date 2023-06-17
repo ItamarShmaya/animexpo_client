@@ -1,104 +1,26 @@
+.character-page {
+  width: 100%;
+  min-height: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .display-linebreak {
   white-space: pre-line;
 }
 
-.character-content .mobile {
-  display: none;
-}
-
 .character-content {
   display: flex;
+  flex-direction: column;
   width: 95%;
   margin: auto;
+  gap: 40px;
 }
 
-.character-content__left-side {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 225px;
-}
-
-.character-content__right-side {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.character-about {
-  color: #eeebdd;
-  font-size: 1.3rem;
-  padding: 2rem;
-  line-height: 1.5rem;
-}
-
-.character-about hr {
-  margin: 10px 0;
-}
-
-.char-poster {
-  padding-top: 2rem;
-}
-
-.char-poster img {
-  width: 225px;
-  height: 320px;
-}
-
-.voice-actors {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-}
-
-.voice-actors p {
-  color: #eeebdd;
-  font-size: 1.3rem;
-  line-height: 1.5rem;
-}
-
-.voice-actors-header {
+.character-page h2 {
   color: #eeebdd;
   font-size: 1.5rem;
-}
-
-.appearance {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.appearance h1 {
-  color: #eeebdd;
-  font-size: 1.5rem;
-  margin-top: 15px;
-}
-
-.anime-appearance,
-.manga-appearance {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-@media all and (max-width: 600px) {
-  .character-content {
-    flex-direction: column;
-  }
-
-  .character-content .mobile {
-    display: unset;
-  }
-
-  .character-content .mobile .char-poster {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .character-content__left-side,
-  .character-content__right-side {
-    display: none;
-  }
+  margin-bottom: 25px;
 }

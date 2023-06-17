@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import "./MobileEditWindow.css";
-import { updateFieldInAnimeListEntry } from "../../../../apis/animexpo/animexpo_updates";
 import { useLoggedInUser } from "../../../../context/context_custom_hooks";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
@@ -10,9 +9,9 @@ const MobileEditWindow = ({
   setIsEdit,
   userList,
   setUserList,
+  updateEntry,
 }) => {
-  const { title, episodes, progress, score, status, comment, _id, mal_id } =
-    item;
+  const { title, episodes, volumes, progress, score, status, comment, _id, id } = item;
   const [statusInput, setStatusInput] = useState(status);
   const [scoreInput, setScoreInput] = useState(score);
   const [progressInput, setProgressInput] = useState(progress);
@@ -21,25 +20,6 @@ const MobileEditWindow = ({
   const { loggedInUser } = useLoggedInUser();
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
 
-  const updateAnimeEntry = async (body) => {
-    try {
-      const updatedAnimeListEntry = await updateFieldInAnimeListEntry(
-        loggedInUser.username,
-        loggedInUser.token,
-        body
-      );
-
-      const index = userList.findIndex((item) => item.mal_id === mal_id);
-      const updatedUserList = [...userList];
-      updatedUserList[index] = updatedAnimeListEntry;
-      setUserList(updatedUserList);
-      const animeList = getLocalStorage("loggedInUserAnimeList");
-      animeList.list = [...updatedUserList];
-      setLocalStorage("loggedInUserAnimeList", animeList);
-    } catch (e) {
-      console.log(e);
-    }
-  };
   const onEditFormSubmit = (e) => {
     e.preventDefault();
     if (
@@ -51,13 +31,21 @@ const MobileEditWindow = ({
       setIsEdit(false);
       return;
     } else {
-      updateAnimeEntry({
-        _id,
-        status: statusInput,
-        score: scoreInput,
-        progress: progressInput,
-        comment: commentInput,
-      });
+      updateEntry(
+        loggedInUser,
+        getLocalStorage,
+        setLocalStorage,
+        id,
+        userList,
+        setUserList,
+        {
+          _id,
+          status: statusInput,
+          score: scoreInput,
+          progress: progressInput,
+          comment: commentInput,
+        }
+      );
       setIsEdit(false);
       return;
     }
@@ -82,7 +70,7 @@ const MobileEditWindow = ({
 
   const onStatusInputChange = ({ target }) => {
     if (target.value === "Completed") {
-      setProgressInput(episodes);
+      episodes ? setProgressInput(episodes) : setProgressInput(volumes)
     }
     setStatusInput(target.value);
   };
@@ -132,15 +120,15 @@ const MobileEditWindow = ({
           <div className="mobile-item-edit-input-group">
             <label htmlFor="progress">Progress</label>
             <div
-              className="anime-mobile-item-edit-progress-input"
-              data-episodes={episodes}
+              className="mobile-item-edit-progress-input"
+              data-max={episodes || volumes}
             >
               <input
                 id="progress"
                 type="number"
                 value={progressInput}
                 min={1}
-                max={episodes}
+                max={episodes || volumes}
                 onChange={({ target }) => setProgressInput(target.value)}
               />
             </div>

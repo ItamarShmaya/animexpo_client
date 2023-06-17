@@ -13,6 +13,9 @@
   color: #eeebdd;
   transition: all 0.2s ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .dropdown-item:hover {
@@ -23,4 +26,12 @@
 
 .logged-user {
   border-bottom: 1px solid #eeebdd;
+}
+
+.dropdown-icon-wrapper {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,49 @@
+.sort-by {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 30px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  width: 150px;
+  background-color: #eeebdd;
+  font-size: 1.5rem;
+  color: black;
+  z-index: 10;
+}
+
+.sort-dropdown-options {
+  flex-direction: column;
+}
+
+.sort-by:hover {
+  cursor: pointer;
+}
+
+.sort-by span {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-left: 5px;
+}
+
+.sort-dropdown-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  width: 100%;
+  background-color: #eeebdd;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sort-option {
+  padding: 5px;
+}
+
+.sort-option:hover {
+  background-color: #ccc;
+}

@@ -41,8 +41,8 @@ const Navbar = () => {
         setLocalStorage("loggedInUserFriendsList", friendsList);
       });
     }
-    // eslint-disable-next-line
-  }, [socket, loggedInUser]);
+    
+  }, [socket, loggedInUser, setLocalStorage, setNotifications]);
 
   useEffect(() => {
     const getUserNotifs = async () => {
@@ -57,8 +57,8 @@ const Navbar = () => {
       }
     };
     if (loggedInUser) getUserNotifs();
-    // eslint-disable-next-line
-  }, [loggedInUser]);
+
+  }, [loggedInUser, setNotifications]);
 
   useEffect(() => {
     if (open) {
@@ -129,12 +129,13 @@ const Navbar = () => {
         updateNotificationsToRead(loggedInUser.username, loggedInUser.token);
       }
     }
-    // eslint-disable-next-line
+
   }, [
     notifOpen,
     loggedInUser?.username,
     loggedInUser?.token,
     notifications?.length,
+    setNotifications
   ]);
 
   return (

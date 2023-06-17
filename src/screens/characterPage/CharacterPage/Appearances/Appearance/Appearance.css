@@ -1,0 +1,111 @@
+.appearance {
+  background-color: #222;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.appearance hr {
+  height: 130px;
+}
+.appearance a {
+  width: fit-content;
+}
+
+.appearance-entry {
+  display: flex;
+  width: 270px;
+}
+
+.appearance-va {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.appearance-va h4 {
+  color: #eeebdd;
+  font-size: 1.3rem;
+  padding-top: 5px;
+}
+
+.voice-actors-list {
+  display: flex;
+  gap: 5px;
+  position: relative;
+}
+
+.voice-actor {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.voice-actor p {
+  color: #eeebdd;
+  font-size: 1.3rem;
+  text-align: center;
+}
+.appearance-entry-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+  flex-grow: 1;
+}
+
+.appearance-entry-info div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  color: #eeebdd;
+  font-size: 13px;
+}
+
+.appearance-entry-info div span:nth-child(1) {
+  font-weight: bold;
+}
+
+.sort-active span {
+  color: rgb(0, 128, 255);
+}
+
+/* slide css */
+
+.voice-actors-list .carouselForwardArrow,
+.voice-actors-list .carouselBackArrow {
+  opacity: 0;
+  transition: 0.3s all ease;
+  position: absolute;
+  z-index: 2;
+  background-color: rgba(199, 199, 199, 0.593);
+}
+
+.voice-actors-list .carouselForwardArrow {
+  right: 0;
+}
+.voice-actors-list .carouselBackArrow {
+  left: 0;
+}
+
+.voice-actors-list .carouselForwardArrow:hover,
+.voice-actors-list .carouselBackArrow:hover {
+  background-color: rgb(199, 199, 199);
+}
+.voice-actors-list:hover .carouselForwardArrow,
+.voice-actors-list:hover .carouselBackArrow {
+  opacity: 1;
+}
+
+/* slide css */
+
+@media all and (max-width: 600px) {
+  .appearance-entry {
+    width: auto;
+  }
+  .appearance-entry-info {
+    display: none;
+  }
+}

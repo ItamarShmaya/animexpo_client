@@ -17,11 +17,11 @@ export const addToAnimeList = async (username, token, animeEntry) => {
   }
 };
 
-export const removeFromAnimeList = async (username, token, mal_id) => {
+export const removeFromAnimeList = async (username, token, id) => {
   try {
     const { data: updatedAnimeList } = await animexpo.patch(
       `/user/${username}/removeFromAnimeList`,
-      { mal_id },
+      { id },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,11 +69,11 @@ export const addToMangaList = async (username, token, mangaEntry) => {
   }
 };
 
-export const removeFromMangaList = async (username, token, mal_id) => {
+export const removeFromMangaList = async (username, token, id) => {
   try {
     const { data: mangaList } = await animexpo.patch(
       `/user/${username}/removeFromMangaList`,
-      { mal_id },
+      { id },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -120,11 +120,11 @@ export const addToFavCharList = async (username, token, charEntry) => {
   }
 };
 
-export const removeFromFavCharList = async (username, token, mal_id) => {
+export const removeFromFavCharList = async (username, token, id) => {
   try {
     const { data: updatedCharacterList } = await animexpo.patch(
       `/user/${username}/removeFromFavCharList`,
-      { mal_id },
+      { id },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -154,11 +154,11 @@ export const addToFavPeopleList = async (username, token, personEntry) => {
   }
 };
 
-export const removeFromFavPeopleList = async (username, token, mal_id) => {
+export const removeFromFavPeopleList = async (username, token, id) => {
   try {
     const { data: updatedPeopleList } = await animexpo.patch(
       `/user/${username}/removeFromFavPeopleList`,
-      { mal_id },
+      { id },
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,0 +1,112 @@
+.mobile-list-item-container {
+  color: #eeebdd;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 200px;
+}
+
+.mobile-list-item-container:nth-child(even) {
+  animation: setupLeft 0.8s linear;
+}
+
+.mobile-list-item-container:nth-child(odd) {
+  animation: setupRight 0.8s linear;
+}
+
+@keyframes setupLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes setupRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-list-item-background {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.mobile-list-item-wrapper:has(.mobile-list-item-background:hover) {
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.mobile-list-item-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-list-item-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  transition: background-color 0.5s ease;
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 10%,
+    rgba(0, 0, 0, 0.3) 20%,
+    rgba(0, 0, 0, 0.45) 30%,
+    rgba(0, 0, 0, 0.5) 40%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.6) 60%,
+    rgba(0, 0, 0, 0.7) 70%,
+    rgba(0, 0, 0, 0.8) 80%,
+    rgba(0, 0, 0, 0.9) 90%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.mobile-list-item-info-left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mobile-list-item-info-right-side {
+  font-size: 1rem;
+  display: flex;
+  gap: 3px;
+}
+
+.mobile-list-item-title {
+  font-weight: bold;
+}
+.mobile-list-item-watched {
+  font-size: 1rem;
+}
+
+.mobile-list-item-edit {
+  margin-top: 5px;
+  margin-left: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mobile-list-edit-icon {
+  background-color: #1b1717;
+  padding: 3px 3px 3px 5px;
+}
+
+.mobile-list-edit-icon:hover {
+  background-color: #eeebdd;
+  color: #1b1717;
+  cursor: pointer;
+}

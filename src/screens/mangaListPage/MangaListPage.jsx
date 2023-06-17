@@ -3,14 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
-import "./MangaListPage.css";
 import UserList from "../animeListPage/UserList/UserList.jsx";
 import MangaListItem from "./MangaListItem/MangaListItem.jsx";
 import { getUserMangaList } from "../../apis/animexpo/animexpo_requests.js";
-import MobileMangaList from "./MobileMangaList/MobileMangaList.jsx";
-import MobileMangaListItem from "./MobileMangaList/MobileMangaListItem/MobileMangaListItem.jsx";
+import MobileUserList from "../animeListPage/MobileAnimeList/MobileUserList.jsx";
+import MobileUserListItem from "../animeListPage/MobileAnimeList/MobileAnimeListItem/MobileUserListItem.jsx";
 import MangaStatusMenu from "./MangaStatusMenu/MangaStatusMenu.jsx";
 import SideMenu from "../profile/SideMenu/SideMenu.jsx";
+import { updateMangaEntry } from "../animeListPage/userListUtils.js";
+import sharingan from "../../components/Spinner/sharingan.png";
 
 const MangaListPage = () => {
   const [userMangaList, setUserMangaList] = useState([]);
@@ -19,6 +20,13 @@ const MangaListPage = () => {
   const { loggedInUser } = useLoggedInUser();
   const { getLocalStorage } = useLocalStorage();
   const navigate = useNavigate();
+  const [isMobileWidth, setIsMobileWidth] = useState(
+    window.innerWidth <= 1000 ? true : false
+  );
+  const query = matchMedia("(max-width: 1000px)");
+  query.addEventListener("change", () => {
+    query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
+  });
 
   useEffect(() => {
     const getMangaList = async () => {
@@ -37,14 +45,13 @@ const MangaListPage = () => {
       }
     };
     getMangaList();
-    // eslint-disable-next-line
-  }, [username, loggedInUser?.username]);
+  }, [username, loggedInUser?.username, getLocalStorage, navigate]);
 
   return (
     <>
       {isLoading ? (
-        <Spinner />
-      ) : window.innerWidth > 1000 ? (
+        <Spinner image={sharingan} />
+      ) : !isMobileWidth ? (
         <>
           <SideMenu username={username} />
           <UserList
@@ -58,11 +65,13 @@ const MangaListPage = () => {
       ) : (
         <>
           <SideMenu username={username} />
-          <MobileMangaList
+          <MobileUserList
             userList={userMangaList}
             setUserList={setUserMangaList}
             username={username}
-            ListItem={MobileMangaListItem}
+            ListItem={MobileUserListItem}
+            updateEntry={updateMangaEntry}
+            type={"manga"}
           />
         </>
       )}

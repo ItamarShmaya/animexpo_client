@@ -14,16 +14,19 @@ import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Error from "./components/Error/Error";
-import PersonPage from "./screens/personPage/PersonPage/PersonPage";
+import PersonPage from "./screens/PersonPage/PersonPage/PersonPage";
 import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
+import ScrollUp from "./components/ScrollUp/ScrollUp";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Navbar />
+        <ScrollUp />
         <ErrorBoundary>
           <Routes>
             <Route path="/" exact element={<LandingPage />} />
@@ -81,6 +84,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>
+        <Footer />
       </BrowserRouter>
     </>
   );

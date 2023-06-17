@@ -1,15 +1,17 @@
-export const useLocalStorage = () => {
-  const setLocalStorage = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-  };
+import { useCallback } from "react";
 
-  const getLocalStorage = (key) => {
+export const useLocalStorage = () => {
+  const setLocalStorage = useCallback((key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, []);
+
+  const getLocalStorage = useCallback((key) => {
     const value = localStorage.getItem(key);
     if (value !== undefined) {
       return JSON.parse(value);
     }
     return "";
-  };
+  }, []);
 
   const saveUserToLocalStorage = (user) => {
     setLocalStorage("loggedInUser", {

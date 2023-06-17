@@ -27,13 +27,13 @@ const UserReview = ({ review }) => {
             <div className="review-details__left-side">
               <div className="author">
                 <p>
-                  <NavLink to={`/${review.type}/${review.mal_id}`}>
+                  <NavLink to={`/${review.type}/${review.id}`}>
                     {review.title}
                   </NavLink>
                 </p>
                 <p>
                   ({"\u00A0"}
-                  <NavLink to={`/${review.type}/${review.mal_id}/reviews`}>
+                  <NavLink to={`/${review.type}/${review.id}/reviews`}>
                     All reviews
                   </NavLink>
                   {"\u00A0"})

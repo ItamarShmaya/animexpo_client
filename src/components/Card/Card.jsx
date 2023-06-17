@@ -1,35 +1,40 @@
+import { NavLink } from "react-router-dom";
 import "./Card.css";
 
 const Card = ({
-  listItem,
+  type,
+  id,
+  title,
+  image,
   index,
-  isReco,
+  showRank,
   cardHeight = 225,
   cardWidth = 150,
 }) => {
-  const { title, images, rank, name } = listItem;
   return (
-    <div
-      className="card-container"
-      style={{
-        backgroundImage: `url(${images.jpg.image_url})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPositionX: "center",
-        backgroundPositionY: "center",
-        backgroundSize: "cover",
-        width: `${cardWidth}px`,
-        height: `${cardHeight}px`,
-      }}
-    >
-      <div className="card-content-wrapper">
-        <div className="card-top">
-          {!isReco && <div className="card-rank">#{rank || index + 1}</div>}
-        </div>
-        <div className="card-bottom">
-          <h2>{title || name}</h2>
+    <NavLink className="card-wrapper" to={`/${type}/${id}`}>
+      <div
+        className="card-container"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPositionX: "center",
+          backgroundPositionY: "center",
+          backgroundSize: "cover",
+          width: `${cardWidth}px`,
+          height: `${cardHeight}px`,
+        }}
+      >
+        <div className="card-content-wrapper">
+          <div className="card-top">
+            {showRank && <div className="card-rank">#{index + 1}</div>}
+          </div>
+          <div className="card-bottom">
+            <h3>{title}</h3>
+          </div>
         </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 export default Card;

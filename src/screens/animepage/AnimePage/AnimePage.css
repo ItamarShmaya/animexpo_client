@@ -1,27 +1,41 @@
-.anime-page {
+.entry-page {
   width: 100%;
   min-height: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
 }
 
-.main-content {
+.info-and-chars {
   width: 95%;
   display: flex;
   margin: auto;
+  gap: 10px;
 }
 
-.main-content-right-side {
+.info-and-chars .chars {
   width: 100%;
+  position: relative;
+}
+
+.entry-page h2 {
+  color: #eeebdd;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
 }
 
 @media screen and (max-width: 850px) {
-  .main-content {
+  .info-and-chars {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .anime-page h2 {
+    margin-bottom: 10px;
   }
 }
