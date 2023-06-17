@@ -25,7 +25,7 @@ const Appearances = ({
       );
     });
   };
-  
+
   return (
     <div className="character-appearances">
       <h2>Appearances</h2>
@@ -33,6 +33,7 @@ const Appearances = ({
         dispatch={dispatch}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        sortByNameAsc={false}
       />
       <div className="appearances-list">
         <InfiniteScroll
