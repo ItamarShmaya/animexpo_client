@@ -69,7 +69,6 @@ const SearchBar = () => {
             if (data) {
               setSearchType("manga");
               setSearchResults(data.Page.media);
-              console.log(data);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -92,7 +91,6 @@ const SearchBar = () => {
             if (data) {
               setSearchType("characters");
               setSearchResults(data.Page.characters);
-              console.log(data);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -115,7 +113,7 @@ const SearchBar = () => {
             if (data) {
               setSearchType("people");
               setSearchResults(data.Page.staff);
-              console.log(data);
+
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
