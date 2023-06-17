@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./VARoleCard.css";
-import { AppearanceEntry } from "../../../characterPage/CharacterPage/Appearances/Appearance/Appearance";
-import { parseDateFromAniListApi } from "../../../../helpers/helpers";
+import { AppearanceEntry } from "../../characterPage/CharacterPage/Appearances/Appearance/Appearance";
+import { parseDateFromAniListApi } from "../../../helpers/helpers";
 
 const VARoleCard = ({
   role,
