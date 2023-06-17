@@ -14,7 +14,7 @@ import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Error from "./components/Error/Error";
-import PersonPage from "./screens/PersonPage/PersonPage/PersonPage";
+import PersonPage from "./screens/personPage/PersonPage";
 import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
