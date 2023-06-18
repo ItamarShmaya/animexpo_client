@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { createUser } from "../../apis/animexpo/animexpo_requests.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
-import InlineSpinner from "../../components/Spinner/InlineSpinner"
-// import InlineSpinner from "../../components/Spinner/InlineSpinner"
+import InlineSpinner from "../../components/Spinner/InlineSpinner";
+import itachi from "../../components/Spinner/spinnerImages/itachi.png";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PWD_REGEX =
@@ -47,9 +47,10 @@ const SignupPage = () => {
   }, [password]);
 
   useEffect(() => {
+    if (retypePwd === "") return;
     retypePwd === password ? setPwdMatch(true) : setPwdMatch(false);
     // eslint-disable-next-line
-  }, [retypePwd]);
+  }, [retypePwd, password]);
 
   useEffect(() => {
     if (isEmailTaken) setIsEmailTaken(false);
@@ -58,6 +59,7 @@ const SignupPage = () => {
 
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     if (isValidUsername && isValidPassword && pwdMatch) {
       const user = {
         username,
@@ -228,7 +230,11 @@ const SignupPage = () => {
           />
         </div>
         <button className="btn">
-          <InlineSpinner />
+          {isLoading ? (
+            <InlineSpinner image={itachi} width={20} height={20} />
+          ) : (
+            "Sign Up"
+          )}
         </button>
       </form>
     </div>
