@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { useLoggedInUser } from "../../context/context_custom_hooks";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { loginUser } from "../../apis/animexpo/animexpo_requests.js";
+import InlineSpinner from "../Spinner/InlineSpinner";
+import itachi from "../Spinner/spinnerImages/itachi.png";
 
 const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [username, setUsername] = useState("");
@@ -11,15 +13,28 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [credentialsError, setCredentialsError] = useState("");
   const { setLoggedInUser, socket } = useLoggedInUser();
   const { setLocalStorage, saveUserToLocalStorage } = useLocalStorage();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (credentialsError) setCredentialsError(false);
     // eslint-disable-next-line
   }, [username, password]);
 
+  useEffect(() => {
+    const closeLoginWindow = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeLoginWindow);
+    return () => {
+      window.removeEventListener("keydown", closeLoginWindow);
+    };
+  }, [setOpen]);
+
   const onLoginSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     try {
+      setIsLoading(true);
       const credentials = { username, password };
       const user = await loginUser(credentials);
       if (user) {
@@ -73,7 +88,13 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button className="btn">Log In</button>
+          <button className="btn">
+            {isLoading ? (
+              <InlineSpinner image={itachi} width={20} height={20} />
+            ) : (
+              "Log In"
+            )}
+          </button>
           <div>Need an account?</div>
           <NavLink to="/signup" onClick={() => setOpen(false)}>
             Sign Up
