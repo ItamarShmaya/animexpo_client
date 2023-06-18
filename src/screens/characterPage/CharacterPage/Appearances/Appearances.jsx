@@ -1,5 +1,5 @@
 import "./Appearances.css";
-import gojoEye from "../../../../components/Spinner/GojoEye.png";
+import gojoEye from "../../../../components/Spinner/spinnerImages/GojoEye.png";
 import InlineSpinner from "../../../../components/Spinner/InlineSpinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Appearance from "./Appearance/Appearance";

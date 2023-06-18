@@ -9,8 +9,6 @@ const MediaSearchResultsItem = ({
   score,
   starDate,
 }) => {
-
-
   return (
     <div className="search-result-item">
       <div className="image">
@@ -18,8 +16,11 @@ const MediaSearchResultsItem = ({
       </div>
       <div className="search-item-info">
         <h3>{title}</h3>
-        <div className="search-item-genre">
-          <span className="underline">Genres:</span> {renderArrayOfStringWithCommas(genres)}
+        <div className="search-item-list">
+          <span className="underline">Genres:</span>{" "}
+          <div className="list-container">
+            {renderArrayOfStringWithCommas(genres)}
+          </div>
         </div>
         <div>
           <span className="underline">Format:</span> {format || "N/A"}

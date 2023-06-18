@@ -7,11 +7,15 @@
   margin: auto;
 }
 
-.search-item-genre {
+.search-item-list {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
   gap: 5px;
+}
+.list-container {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
 }
 
 .search-result-item .image img {

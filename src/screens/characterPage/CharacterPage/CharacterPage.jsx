@@ -13,7 +13,7 @@ import {
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import CharacterHero from "./CharacterHero/CharacterHero";
 import Appearances from "./Appearances/Appearances";
-import madara from "../../../components/Spinner/madara-eternal.png";
+import madara from "../../../components/Spinner/spinnerImages/madara-eternal.png";
 import { charAppearancesReducer } from "../../../reducers/charAppearancesReducer";
 import {
   addToFavCharList,

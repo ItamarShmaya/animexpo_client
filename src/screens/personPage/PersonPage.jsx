@@ -5,7 +5,7 @@ import "./PersonPage.css";
 import Spinner from "../../components/Spinner/Spinner";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
-import obito from "../../components/Spinner/obito.png";
+import obito from "../../components/Spinner/spinnerImages/indra.png";
 import {
   aniListRequests,
   personByIdQuery,

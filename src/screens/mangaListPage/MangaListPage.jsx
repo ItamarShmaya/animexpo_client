@@ -11,7 +11,7 @@ import MobileUserListItem from "../animeListPage/MobileAnimeList/MobileAnimeList
 import MangaStatusMenu from "./MangaStatusMenu/MangaStatusMenu.jsx";
 import SideMenu from "../profile/SideMenu/SideMenu.jsx";
 import { updateMangaEntry } from "../animeListPage/userListUtils.js";
-import sharingan from "../../components/Spinner/sharingan.png";
+import naka from "../../components/Spinner/spinnerImages/naka.png";
 
 const MangaListPage = () => {
   const [userMangaList, setUserMangaList] = useState([]);
@@ -50,7 +50,7 @@ const MangaListPage = () => {
   return (
     <>
       {isLoading ? (
-        <Spinner image={sharingan} />
+        <Spinner image={naka} />
       ) : !isMobileWidth ? (
         <>
           <SideMenu username={username} />

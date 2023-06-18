@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { createUser } from "../../apis/animexpo/animexpo_requests.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
+import InlineSpinner from "../../components/Spinner/InlineSpinner"
+// import InlineSpinner from "../../components/Spinner/InlineSpinner"
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PWD_REGEX =
@@ -28,6 +30,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const { setLocalStorage } = useLocalStorage();
   const { setLoggedInUser, socket } = useLoggedInUser();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isUsernameTaken) setIsUsernameTaken(false);
@@ -63,6 +66,7 @@ const SignupPage = () => {
         birthday,
       };
       try {
+        setIsLoading(true);
         const createdUser = await createUser(user);
         if (createdUser) {
           setLoggedInUser({
@@ -99,6 +103,7 @@ const SignupPage = () => {
           navigate("/");
         }
       } catch (err) {
+        setIsLoading(false);
         if (err === "UsernameAlreadyExists") {
           setIsUsernameTaken(true);
         }
@@ -222,7 +227,9 @@ const SignupPage = () => {
             required
           />
         </div>
-        <button className="btn">Sign Up</button>
+        <button className="btn">
+          <InlineSpinner />
+        </button>
       </form>
     </div>
   );

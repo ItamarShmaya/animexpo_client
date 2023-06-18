@@ -18,7 +18,7 @@ import {
 import Characters from "./CharachtersAndActors/Characters";
 import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import sharingan from "../../../components/Spinner/sharingan.png";
+import fugaku from "../../../components/Spinner/spinnerImages/fugaku.png";
 
 const AnimePage = () => {
   const [anime, setAnime] = useState(null);
@@ -127,7 +127,7 @@ const AnimePage = () => {
           />
         </>
       ) : (
-        <Spinner image={sharingan} />
+        <Spinner image={fugaku} />
       )}
     </div>
   );

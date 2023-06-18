@@ -17,7 +17,7 @@ import {
 } from "../../../apis/aniList/aniList.queries";
 import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import sharingan from "../../../components/Spinner/sharingan.png";
+import naori from "../../../components/Spinner/spinnerImages/naori.png";
 
 const MangaPage = () => {
   const [manga, setManga] = useState(null);
@@ -112,7 +112,7 @@ const MangaPage = () => {
           />
         </>
       ) : (
-        <Spinner image={sharingan} />
+        <Spinner image={naori} />
       )}
     </div>
   );

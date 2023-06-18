@@ -12,7 +12,7 @@ import MobileUserListItem from "./MobileAnimeList/MobileAnimeListItem/MobileUser
 import AnimeStatusMenu from "./UserList/AnimeStatusMenu/AnimeStatusMenu";
 import SideMenu from "../profile/SideMenu/SideMenu";
 import { updateAnimeEntry } from "./userListUtils";
-import sharingan from "../../components/Spinner/sharingan.png";
+import sasuke from "../../components/Spinner/spinnerImages/sasuke-eternal.png";
 
 const AnimeListPage = () => {
   const [userAnimeList, setUserAnimeList] = useState([]);
@@ -61,7 +61,7 @@ const AnimeListPage = () => {
   return (
     <>
       {isLoading ? (
-        <Spinner image={sharingan} />
+        <Spinner image={sasuke} />
       ) : !isMobileWidth ? (
         <>
           <SideMenu username={username} />

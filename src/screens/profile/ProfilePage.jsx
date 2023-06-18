@@ -10,7 +10,7 @@ import {
   getUserProfileData,
 } from "../../apis/animexpo/animexpo_requests";
 import MobileProfilePage from "./MobileProfilePage/MobileProfilePage";
-import obito from "../../components/Spinner/obito.png";
+import obito from "../../components/Spinner/spinnerImages/obito.png";
 import Spinner from "../../components/Spinner/Spinner";
 import {
   profileCarouselResponsive,

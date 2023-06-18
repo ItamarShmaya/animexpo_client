@@ -4,7 +4,7 @@ import "./VARoles.css";
 import SortByDropDown from "../../characterPage/CharacterPage/Appearances/SortByDropDown/SortByDropDown";
 import InfiniteScroll from "react-infinite-scroll-component";
 import InlineSpinner from "../../../components/Spinner/InlineSpinner";
-import gojoEye from "../../../components/Spinner/GojoEye.png";
+import gojoEye from "../../../components/Spinner/spinnerImages/GojoEye.png";
 import {
   aniListRequests,
   personCharactersByPage,
