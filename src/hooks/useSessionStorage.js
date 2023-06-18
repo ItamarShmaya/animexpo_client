@@ -19,11 +19,10 @@ export const useSessionStorage = () => {
   const getEntryFromUserCache = useCallback(
     (listName, id) => {
       const userCache = getUserSessionStorage();
-      if (userCache[listName]?.length > 0) {
-        const entry = userCache[listName].find((entry) => +entry.id === +id);
-        return entry;
-      }
-      return "";
+      if (!userCache) return;
+      if (!userCache[listName]?.length > 0) return;
+
+      return userCache[listName].find((entry) => +entry.id === +id);
     },
     [getUserSessionStorage]
   );
@@ -92,6 +91,19 @@ export const useSessionStorage = () => {
     [getUserSessionStorage]
   );
 
+  const getFromProfilesCache = useCallback(
+    (username) => {
+      const userCache = getUserSessionStorage();
+      if (!userCache) return;
+      if (!userCache.profilesList?.length > 0) return;
+
+      return userCache.profilesList.find(
+        (profile) => profile.personalInfo.displayName.toLowerCase() === username
+      );
+    },
+    [getUserSessionStorage]
+  );
+
   return {
     getUserSessionStorage,
     setUserSessionStorage,
@@ -99,5 +111,6 @@ export const useSessionStorage = () => {
     addEntryToUserCache,
     addToSearchResultsChache,
     getFromSearchResultsChache,
+    getFromProfilesCache,
   };
 };

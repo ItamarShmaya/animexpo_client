@@ -22,6 +22,8 @@ import ScrollUp from "./components/ScrollUp/ScrollUp";
 import Footer from "./components/Footer/Footer";
 
 function App() {
+  const userCache = JSON.parse(sessionStorage.getItem("userCache"))
+  !userCache && sessionStorage.setItem("userCache", JSON.stringify({}));
   return (
     <>
       <BrowserRouter>

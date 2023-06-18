@@ -20,8 +20,7 @@ import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const ProfilePage = () => {
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
-    useSessionStorage();
+  const { getFromProfilesCache, addEntryToUserCache } = useSessionStorage();
   const navigate = useNavigate();
   const { loggedInUser } = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(true);
@@ -68,8 +67,7 @@ const ProfilePage = () => {
             setViewedUserMangaList(mangaList);
           }
           setIsLoading(false);
-          addToEntrySessionStorage("profilesList", profileData);
-          console.log(profileData);
+          addEntryToUserCache("profilesList", profileData);
         } catch (e) {
           if (e === "UserNotFound") {
             navigate("/notfound");
@@ -77,9 +75,21 @@ const ProfilePage = () => {
         }
       }
     };
-    // const profileData = getEntryFromSessionStorage("profileList", "username", username);
-    getUserProfile();
-  }, [loggedInUser?.username, username, navigate, getLocalStorage]);
+    const profileData = getFromProfilesCache(username);
+    if (profileData) {
+      setViewedProfile(profileData);
+      setViewedUserAnimeList(profileData.animeList);
+      setViewedUserMangaList(profileData.mangaList);
+      setIsLoading(false);
+    } else getUserProfile();
+  }, [
+    loggedInUser?.username,
+    username,
+    navigate,
+    getLocalStorage,
+    getFromProfilesCache,
+    addEntryToUserCache,
+  ]);
 
   return (
     <div className="profile-page">
