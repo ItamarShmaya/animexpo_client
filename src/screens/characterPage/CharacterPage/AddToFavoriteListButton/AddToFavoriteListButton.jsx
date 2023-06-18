@@ -2,6 +2,8 @@ import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import { useState } from "react";
 import MustBeLoggedIn from "../../../../components/MustBeLoggedIn/MustBeLoggedIn.jsx";
+import InlineSpinner from "../../../../components/Spinner/InlineSpinner.jsx";
+import itachi from "../../../../components/Spinner/spinnerImages/itachi.png";
 
 const AddToFavoriteListButton = ({
   id,
@@ -14,13 +16,13 @@ const AddToFavoriteListButton = ({
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    if (clicked) return;
-    setClicked(true);
+    if (isLoading) return;
+    setIsLoading(true);
     if (!loggedInUser) {
-      setClicked(false);
+      setIsLoading(false);
       setDisplayMessage(true);
     } else {
       const characterEntry = {
@@ -39,16 +41,21 @@ const AddToFavoriteListButton = ({
           setLocalStorage(localStorageKey, updatedCharacterList);
           setInFavorites(true);
         }
-        setClicked(false);
+        setIsLoading(false);
       } catch (e) {
         console.log(e);
+        setIsLoading(false);
       }
     }
   };
   return (
     <>
       <button onClick={onClick} className="add-to-list-button">
-        Add to Favorites
+        {isLoading ? (
+          <InlineSpinner image={itachi} width={20} height={20} />
+        ) : (
+          "Add to Favorites"
+        )}
       </button>
       {displayMessage && (
         <MustBeLoggedIn setDisplayMessage={setDisplayMessage} />
