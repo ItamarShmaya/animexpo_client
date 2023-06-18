@@ -3,7 +3,12 @@ import MustBeLoggedIn from "../../../../components/MustBeLoggedIn/MustBeLoggedIn
 import { useLoggedInUser } from "../../../../context/context_custom_hooks.js";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 import { useState } from "react";
-import { addToMangaList } from "../../../../apis/animexpo/animexpo_updates.js";
+import {
+  addToMangaList,
+  removeFromMangaList,
+} from "../../../../apis/animexpo/animexpo_updates.js";
+import InlineSpinner from "../../../../components/Spinner/InlineSpinner";
+import itachi from "../../../../components/Spinner/spinnerImages/itachi.png";
 
 const AddToMangaListButton = ({
   id,
@@ -11,18 +16,19 @@ const AddToMangaListButton = ({
   image,
   format,
   volumes,
+  inList,
   setInList,
 }) => {
   const { loggedInUser } = useLoggedInUser();
   const { setLocalStorage } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    if (clicked) return;
-    setClicked(true);
+    if (isLoading) return;
+    setIsLoading(true);
     if (!loggedInUser) {
-      setClicked(false);
+      setIsLoading(false);
       setDisplayMessage(true);
     } else {
       const mangaEntry = {
@@ -47,17 +53,60 @@ const AddToMangaListButton = ({
           setLocalStorage("loggedInUserMangaList", updatedMangaList);
           setInList(true);
         }
-        setClicked(false);
+        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
     }
   };
+
+  const onRemoveClick = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const updatedAnimeList = await removeFromMangaList(
+        loggedInUser.username,
+        loggedInUser.token,
+        id
+      );
+      if (updatedAnimeList) {
+        setLocalStorage("loggedInUserMangaList", updatedAnimeList);
+        setInList(false);
+      }
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
+
+  const renderAddToButton = () => {
+    if (loggedInUser) {
+      if (inList) {
+        return (
+          <div className="remove-from-list" onClick={onRemoveClick}>
+            {isLoading ? (
+              <InlineSpinner image={itachi} width={20} height={20} />
+            ) : (
+              "Remove from list"
+            )}
+          </div>
+        );
+      }
+    }
+    return (
+      <button onClick={onClick} className="add-to-list-button">
+        {isLoading ? (
+          <InlineSpinner image={itachi} width={20} height={20} />
+        ) : (
+          "Add to List"
+        )}
+      </button>
+    );
+  };
   return (
     <>
-      <button onClick={onClick} className="add-to-list-button">
-        Add to List
-      </button>
+      {renderAddToButton()}
       {displayMessage && (
         <MustBeLoggedIn setDisplayMessage={setDisplayMessage} />
       )}

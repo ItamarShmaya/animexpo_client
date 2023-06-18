@@ -38,6 +38,18 @@
   justify-content: center;
 }
 
+.remove-from-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.remove-from-list:hover {
+  cursor: pointer;
+}
+
 .entry-info {
   color: #eeebdd;
   font-size: 1.5rem;
