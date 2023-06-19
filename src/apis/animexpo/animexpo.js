@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const animexpo = axios.create({
-  baseURL: "https://animexposerver.onrender.com",
-});
-// const animexpo = axios.create({
-//   baseURL: "http://localhost:5050",
-// });
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://animexposerver.onrender.com"
+    : "http://localhost:5050";
+
+const animexpo = axios.create({ baseURL });
 
 export default animexpo;

@@ -22,7 +22,7 @@ import ScrollUp from "./components/ScrollUp/ScrollUp";
 import Footer from "./components/Footer/Footer";
 
 function App() {
-  const userCache = JSON.parse(sessionStorage.getItem("userCache"))
+  const userCache = JSON.parse(sessionStorage.getItem("userCache"));
   !userCache && sessionStorage.setItem("userCache", JSON.stringify({}));
   return (
     <>
@@ -32,20 +32,24 @@ function App() {
         <ErrorBoundary>
           <Routes>
             <Route path="/" exact element={<LandingPage />} />
-            <Route path="/signup" exact element={<SignupPage />} />
-            <Route path="/profile/:username" exact element={<ProfilePage />} />
+            <Route path="/signup/*" exact element={<SignupPage />} />
             <Route
-              path="/:username/animelist"
+              path="/profile/:username/*"
+              exact
+              element={<ProfilePage />}
+            />
+            <Route
+              path="/:username/animelist/*"
               exact
               element={<AnimeListPage />}
             />
             <Route
-              path="/:username/mangalist"
+              path="/:username/mangalist/*"
               exact
               element={<MangaListPage />}
             />
             <Route
-              path="/:username/editprofile"
+              path="/:username/editprofile/*"
               exact
               element={
                 <PrivateRoute>
@@ -53,27 +57,27 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/anime/:id" exact element={<AnimePage />} />
-            <Route path="/manga/:id" exact element={<MangaPage />} />
-            <Route path="/character/:id" exact element={<CharacterPage />} />
-            <Route path="/staff/:id" exact element={<StaffPage />} />
+            <Route path="/anime/:id/*" exact element={<AnimePage />} />
+            <Route path="/manga/:id/*" exact element={<MangaPage />} />
+            <Route path="/character/:id/*" exact element={<CharacterPage />} />
+            <Route path="/staff/:id/*" exact element={<StaffPage />} />
             <Route
-              path="/profile/:username/reviews"
+              path="/profile/:username/reviews/*"
               exact
               element={<UserReviewsPage />}
             />
             <Route
-              path="/anime/:id/reviews"
+              path="/anime/:id/reviews/*"
               exact
               element={<EntryReviewsPage />}
             />
             <Route
-              path="/manga/:id/reviews"
+              path="/manga/:id/reviews/*"
               exact
               element={<EntryReviewsPage />}
             />
             <Route
-              path="profile/:username/notifications"
+              path="profile/:username/notifications/*"
               exact
               element={
                 <PrivateRoute>
@@ -81,8 +85,8 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/notfound" exact element={<NotFound />} />
-            <Route path="/error" exact element={<Error />} />
+            <Route path="/notfound/*" exact element={<NotFound />} />
+            <Route path="/error/*" exact element={<Error />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>

@@ -19,6 +19,7 @@ import {
   addToFavCharList,
   removeFromFavCharList,
 } from "../../../apis/animexpo/animexpo_updates";
+import { parseDateFromAniListApi } from "../../../helpers/helpers";
 
 const CharacterPage = () => {
   const { id } = useParams();
@@ -27,16 +28,12 @@ const CharacterPage = () => {
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [pageInfo, setPageInfo] = useState({});
-  const { getEntryFromUserCache, addEntryToUserCache } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const navigate = useNavigate();
   const [appearancesList, dispatch] = useReducer(charAppearancesReducer, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    return () => {
-      window.scrollTo(0, 0);
-    };
   }, [id]);
 
   useEffect(() => {
@@ -79,6 +76,7 @@ const CharacterPage = () => {
       }
     };
     const char = getEntryFromUserCache("charsList", id);
+    console.log(char);
     if (char) {
       setCharacter(char);
       setPageInfo(char.media.pageInfo);
@@ -107,6 +105,10 @@ const CharacterPage = () => {
               name={character.name.userPreferred}
               image={character.image.large || character.image.medium}
               description={character.description}
+              age={character.age}
+              bloodType={character.bloodType}
+              gender={character.gender}
+              birthday={parseDateFromAniListApi(character.dateOfBirth)}
               inFavorites={inFavorites}
               setInFavorites={setInFavorites}
               addToList={addToFavCharList}
