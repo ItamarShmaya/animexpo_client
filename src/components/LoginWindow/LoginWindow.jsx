@@ -54,6 +54,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
         });
       }
     } catch (e) {
+      setIsLoading(false);
       if (e === "IncorrectCredentials") {
         setCredentialsError(true);
       }
