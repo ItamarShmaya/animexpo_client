@@ -56,23 +56,25 @@ const UserList = ({
         dispatch={dispatch}
         userList={userList}
       />
-      <h1 className="viewed-status">{viewedStatus}</h1>
-      <div className="mylist-container">
-        <div id="list-header" className="list-item">
-          <div className="mylist-item-number">#</div>
-          <div className="mylist-item-img-container"></div>
-          <div className="mylist-item-title sort" onClick={onTitleClick}>
-            Title
+      <div className="list-page">
+        <h1 className="viewed-status">{viewedStatus}</h1>
+        <div className="mylist-container">
+          <div id="list-header" className="list-item">
+            <div className="mylist-item-number">#</div>
+            <div className="mylist-item-img-container"></div>
+            <div className="mylist-item-title sort" onClick={onTitleClick}>
+              Title
+            </div>
+            <div className="mylist-item-type">Format</div>
+            <div className="mylist-item-episodes">Progress</div>
+            <div className="mylist-item-status">Status</div>
+            <div className="mylist-item-score sort" onClick={onScoreClick}>
+              Score
+            </div>
+            <div className="mylist-item-comment">Comment</div>
           </div>
-          <div className="mylist-item-type">Format</div>
-          <div className="mylist-item-episodes">Progress</div>
-          <div className="mylist-item-status">Status</div>
-          <div className="mylist-item-score sort" onClick={onScoreClick}>
-            Score
-          </div>
-          <div className="mylist-item-comment">Comment</div>
+          {renderList(viewedList)}
         </div>
-        {renderList(viewedList)}
       </div>
     </>
   );

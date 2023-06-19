@@ -1,4 +1,3 @@
-import "./AnimeListPage.css";
 import UserList from "./UserList/UserList";
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner/Spinner";
