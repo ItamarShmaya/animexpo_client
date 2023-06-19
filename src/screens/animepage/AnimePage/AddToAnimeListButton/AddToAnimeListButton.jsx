@@ -20,7 +20,7 @@ const AddToAnimeListButton = ({
   setInList,
 }) => {
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,7 +51,7 @@ const AddToAnimeListButton = ({
         );
 
         if (updatedAnimeList) {
-          setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+          saveToLoggedUser("animeList", updatedAnimeList);
           setInList(true);
         }
         setIsLoading(false);
@@ -72,7 +72,7 @@ const AddToAnimeListButton = ({
         id
       );
       if (updatedAnimeList) {
-        setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+        saveToLoggedUser("animeList", updatedAnimeList);
         setInList(false);
       }
       setIsLoading(false);

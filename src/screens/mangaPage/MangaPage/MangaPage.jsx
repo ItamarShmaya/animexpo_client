@@ -25,8 +25,7 @@ const MangaPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromUserCache, addEntryToUserCache } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const MangaPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const mangaList = getLocalStorage("loggedInUserMangaList");
+      const mangaList = getLocalStorage("loggedUser").mangaList;
       if (mangaList.list.find((myManga) => myManga.id === +id)) {
         setInList(true);
       } else {
@@ -98,11 +97,13 @@ const MangaPage = () => {
               <Characters characters={manga.characters} />
             </div>
           </div>
-          {manga.recommendations.edges.length > 0 && <EntryRecommendations
-            recommendations={manga.recommendations.edges}
-            type={"manga"}
-            sliderSettings={entryPageRecommendationsSliderSettings}
-          />}
+          {manga.recommendations.edges.length > 0 && (
+            <EntryRecommendations
+              recommendations={manga.recommendations.edges}
+              type={"manga"}
+              sliderSettings={entryPageRecommendationsSliderSettings}
+            />
+          )}
           <ReviewsSection
             id={manga.id}
             title={manga.title.english}

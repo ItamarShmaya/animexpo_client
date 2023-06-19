@@ -7,7 +7,7 @@ import "./AvatarEditForm.css";
 
 const AvatarEditForm = () => {
   const avatarFileRef = useRef();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [formatError, setFormatError] = useState(false);
 
@@ -27,7 +27,7 @@ const AvatarEditForm = () => {
         loggedInUser.token,
         form
       );
-      setLocalStorage("loggedInUserProfileData", updatedProfileData);
+      saveToLoggedUser("profileData", updatedProfileData);
 
       avatarFileRef.current.value = null;
     } catch (e) {

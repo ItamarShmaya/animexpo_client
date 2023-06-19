@@ -31,7 +31,7 @@ const MangaListPage = () => {
   useEffect(() => {
     const getMangaList = async () => {
       if (loggedInUser?.username === username) {
-        const mangalist = getLocalStorage("loggedInUserMangaList");
+        const mangalist = getLocalStorage("loggedUser").mangaList;
         setUserMangaList(mangalist.list);
         setIsLoading(false);
         return;

@@ -28,7 +28,7 @@ const SignupPage = () => {
   const [eyeIcon, setEyeIcon] = useState("fa-eye");
   const pwdRef = useRef();
   const navigate = useNavigate();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveUserToLocalStorage } = useLocalStorage();
   const { setLoggedInUser, socket } = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,30 +77,7 @@ const SignupPage = () => {
             email: createdUser.user.email,
             token: createdUser.token,
           });
-          setLocalStorage("loggedInUser", {
-            _id: createdUser.user._id,
-            username: createdUser.user.username,
-            email: createdUser.user.email,
-            token: createdUser.token,
-          });
-          setLocalStorage("loggedInUserAnimeList", createdUser.user.animeList);
-          setLocalStorage("loggedInUserMangaList", createdUser.user.mangaList);
-          setLocalStorage(
-            "loggedInUserProfileData",
-            createdUser.user.profileData
-          );
-          setLocalStorage(
-            "loggedInUserFavCharsList",
-            createdUser.user.profileData.favoriteCharacters
-          );
-          setLocalStorage(
-            "loggedInUserFavStaffList",
-            createdUser.user.profileData.favoriteStaff
-          );
-          setLocalStorage(
-            "loggedInUserFriendsList",
-            createdUser.user.profileData.friendsList
-          );
+          saveUserToLocalStorage(createdUser)
           socket.emit("new_user", { username: createdUser.user.username });
           navigate("/");
         }

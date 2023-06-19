@@ -2,11 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "../../../../../../context/context_custom_hooks";
 import "./DeleteAccountConfirmWindow.css";
 import { deleteUser } from "../../../../../../apis/animexpo/animexpo_updates";
-import { useLocalStorage } from "../../../../../../hooks/useLocalStorage";
 
 const DeleteAccountConfirmWindow = ({ setOpenConfirmWindow }) => {
   const { loggedInUser, setLoggedInUser, socket } = useLoggedInUser();
-  const { removeUserFromLocalStorage } = useLocalStorage();
   const navigate = useNavigate();
 
   const onConfirmBtnClick = async (e) => {
@@ -14,7 +12,7 @@ const DeleteAccountConfirmWindow = ({ setOpenConfirmWindow }) => {
       const res = await deleteUser(loggedInUser.username, loggedInUser.token);
       if (res.data.delete === "success") {
         setLoggedInUser(null);
-        removeUserFromLocalStorage();
+        localStorage.removeItem("loggedUser");
         socket?.emit("logout");
         socket?.disconnect();
         navigate(`/`);

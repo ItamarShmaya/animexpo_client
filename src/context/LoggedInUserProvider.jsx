@@ -7,7 +7,7 @@ export const LoggedInUserContext = createContext({});
 const LoggedInUserProvider = ({ children }) => {
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const [loggedInUser, setLoggedInUser] = useState(
-    getLocalStorage("loggedInUser") || null
+    getLocalStorage("loggedUser")?.user || null
   );
   const [notifications, setNotifications] = useState([]);
 
@@ -20,7 +20,6 @@ const LoggedInUserProvider = ({ children }) => {
         setLocalStorage("sessionID", sessionID);
       });
     }
-
   }, [loggedInUser, getLocalStorage, setLocalStorage]);
 
   return (

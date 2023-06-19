@@ -6,7 +6,7 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
 import "./AddReview.css";
 
 const AddReview = ({ id, title, image, episodes, type, setReviews }) => {
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [reviewContent, setReviewContent] = useState("");
   const [score, setScore] = useState("");
@@ -18,9 +18,7 @@ const AddReview = ({ id, title, image, episodes, type, setReviews }) => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const userList = getLocalStorage(
-        `loggedInUser${type.slice(0, 1).toUpperCase() + type.slice(1)}List`
-      );
+      const userList = getLocalStorage("loggedUser")[`${type}List`];
       const entry = userList.list.find((item) => item.id === id);
       if (entry) {
         setScore(entry.score);
@@ -32,19 +30,18 @@ const AddReview = ({ id, title, image, episodes, type, setReviews }) => {
     setScore("");
     setStatus("");
     setProgress("");
-
   }, [loggedInUser, id, type, getLocalStorage]);
 
   const onReviewSubmit = async (e) => {
     e.preventDefault();
     if (!loggedInUser) return setNotLoggedInError(true);
     if (type === "anime") {
-      const list = getLocalStorage("loggedInUserAnimeList");
+      const list = getLocalStorage("loggedUser").animeList;
       const anime = list.list.find((anime) => anime.id === id);
       if (!anime) return setNotOnListError(true);
     }
     if (type === "manga") {
-      const list = getLocalStorage("loggedInUserMangaList");
+      const list = getLocalStorage("loggedUser").mangaList;
       const manga = list.list.find((manga) => manga.id === id);
       if (!manga) return setNotOnListError(true);
     }
@@ -65,9 +62,9 @@ const AddReview = ({ id, title, image, episodes, type, setReviews }) => {
       };
       const updatedReviewsList = await postReview(loggedInUser.token, body);
       setReviews(updatedReviewsList);
-      const profileData = getLocalStorage("loggedInUserProfileData");
+      const profileData = getLocalStorage("loggedUser").profileData;
       profileData.personalInfo.reviewsCount += 1;
-      setLocalStorage("loggedInUserProfileData", profileData);
+      saveToLoggedUser("profileData", profileData);
       setReviewContent("");
       setScore("");
       setStatus("");

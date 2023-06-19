@@ -14,7 +14,7 @@ const AddToFavoriteListButton = ({
   localStorageKey,
 }) => {
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +38,7 @@ const AddToFavoriteListButton = ({
           characterEntry
         );
         if (updatedCharacterList) {
-          setLocalStorage(localStorageKey, updatedCharacterList);
+          saveToLoggedUser(localStorageKey, updatedCharacterList);
           setInFavorites(true);
         }
         setIsLoading(false);

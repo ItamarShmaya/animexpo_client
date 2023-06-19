@@ -18,7 +18,7 @@ const MobileEditWindow = ({
   const [commentInput, setCommentInput] = useState(comment);
   const mobileItemEditFormRef = useRef();
   const { loggedInUser } = useLoggedInUser();
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
 
   const onEditFormSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const MobileEditWindow = ({
       updateEntry(
         loggedInUser,
         getLocalStorage,
-        setLocalStorage,
+        saveToLoggedUser,
         id,
         userList,
         setUserList,

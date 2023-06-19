@@ -31,7 +31,7 @@ const AnimeListPage = () => {
   useEffect(() => {
     const getAnimeList = async () => {
       if (loggedInUser?.username === username) {
-        const animeList = getLocalStorage("loggedInUserAnimeList");
+        const animeList = getLocalStorage("loggedUser").animeList;
         const sortedList = [...animeList.list].sort((item1, item2) => {
           return item1.title
             .toLowerCase()

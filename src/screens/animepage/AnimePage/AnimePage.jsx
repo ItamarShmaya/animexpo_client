@@ -27,8 +27,7 @@ const AnimePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromUserCache, addEntryToUserCache } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
   const location = useLocation();
@@ -39,7 +38,7 @@ const AnimePage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const animeList = getLocalStorage("loggedInUserAnimeList");
+      const animeList = getLocalStorage("loggedUser").animeList;
       if (animeList.list.find((myAnime) => myAnime.id === +id)) {
         setInList(true);
       } else {
@@ -79,13 +78,7 @@ const AnimePage = () => {
     return () => {
       controller.abort();
     };
-  }, [
-    navigate,
-    id,
-    addEntryToUserCache,
-    getEntryFromUserCache,
-    location,
-  ]);
+  }, [navigate, id, addEntryToUserCache, getEntryFromUserCache, location]);
 
   return (
     <div className="entry-page">

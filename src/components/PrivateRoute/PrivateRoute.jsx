@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   const [auth, setAuth] = useState(false);
   const { username } = useParams();
   const navigate = useNavigate();
-  const token = getLocalStorage("loggedInUser").token;
+  const token = getLocalStorage("loggedUser").user.token;
   useEffect(() => {
     const auth = async () => {
       try {

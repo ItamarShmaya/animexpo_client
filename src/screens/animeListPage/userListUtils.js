@@ -3,7 +3,7 @@ import { updateFieldInAnimeListEntry, updateFieldInMangaListEntry } from "../../
 export const updateAnimeEntry = async (
   loggedInUser,
   getLocalStorage,
-  setLocalStorage,
+  saveToLoggedUser,
   id,
   userList,
   setUserList,
@@ -20,9 +20,9 @@ export const updateAnimeEntry = async (
     const updatedUserList = [...userList];
     updatedUserList[index] = updatedAnimeListEntry;
     setUserList(updatedUserList);
-    const animeList = getLocalStorage("loggedInUserAnimeList");
+    const animeList = getLocalStorage("loggedUser").animeList;
     animeList.list = [...updatedUserList];
-    setLocalStorage("loggedInUserAnimeList", animeList);
+    saveToLoggedUser("animeList", animeList);
   } catch (e) {
     console.log(e);
   }
@@ -31,7 +31,7 @@ export const updateAnimeEntry = async (
 export const updateMangaEntry = async (
   loggedInUser,
   getLocalStorage,
-  setLocalStorage,
+  saveToLoggedUser,
   id,
   userList,
   setUserList,
@@ -48,9 +48,9 @@ export const updateMangaEntry = async (
     const updatedUserList = [...userList];
     updatedUserList[index] = updatedMangaListEntry;
     setUserList(updatedUserList);
-    const mangaList = getLocalStorage("loggedInUserMangaList");
+    const mangaList = getLocalStorage("loggedUser").mangaList;
     mangaList.list = [...updatedUserList];
-    setLocalStorage("loggedInUserMangaList", mangaList);
+    saveToLoggedUser("mangaList", mangaList);
   } catch (e) {
     console.log(e);
   }

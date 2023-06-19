@@ -9,7 +9,7 @@ import { useLocalStorage } from "../../../../hooks/useLocalStorage.js";
 const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
   const { createdAt, requester } = friendRequest;
   const { loggedInUser, socket } = useLoggedInUser();
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
 
   const onAcceptClick = async () => {
     try {
@@ -20,10 +20,7 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
       );
 
       setFriendRequests(updatedLists.updatedFriendRequestsList);
-      setLocalStorage(
-        "loggedInUserFriendsList",
-        updatedLists.updatedFriendsList
-      );
+      saveToLoggedUser("friendsList", updatedLists.updatedFriendsList);
 
       const sessionID = getLocalStorage("sessionID");
       socket.auth = { sessionID, username: loggedInUser.username };
@@ -50,7 +47,7 @@ const NewFriendRequest = ({ friendRequest, setFriendRequests }) => {
         requester
       );
       setFriendRequests(updatedFriendRequestsList);
-      
+
       const sessionID = getLocalStorage("sessionID");
       socket.auth = { sessionID, username: loggedInUser.username };
       socket?.once("online_users", ({ users }) => {

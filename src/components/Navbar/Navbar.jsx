@@ -27,8 +27,7 @@ const Navbar = () => {
     setNotifications,
     socket,
   } = useLoggedInUser();
-  const { getLocalStorage, setLocalStorage, removeUserFromLocalStorage } =
-    useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -38,11 +37,10 @@ const Navbar = () => {
         setNotifications(notifications);
       });
       socket.on("updated_friendslist", ({ friendsList }) => {
-        setLocalStorage("loggedInUserFriendsList", friendsList);
+        saveToLoggedUser("friendsList", friendsList);
       });
     }
-    
-  }, [socket, loggedInUser, setLocalStorage, setNotifications]);
+  }, [socket, loggedInUser, saveToLoggedUser, setNotifications]);
 
   useEffect(() => {
     const getUserNotifs = async () => {
@@ -57,7 +55,6 @@ const Navbar = () => {
       }
     };
     if (loggedInUser) getUserNotifs();
-
   }, [loggedInUser, setNotifications]);
 
   useEffect(() => {
@@ -107,8 +104,8 @@ const Navbar = () => {
       const response = await logoutUser(loggedInUser);
       if (response.status === 200) {
         setLoggedInUser(null);
-        removeUserFromLocalStorage();
-
+        localStorage.removeItem("loggedUser");
+        localStorage.removeItem("sessionID");
         socket?.emit("logout");
         socket?.disconnect();
         setDropdownOpen(false);
@@ -129,13 +126,12 @@ const Navbar = () => {
         updateNotificationsToRead(loggedInUser.username, loggedInUser.token);
       }
     }
-
   }, [
     notifOpen,
     loggedInUser?.username,
     loggedInUser?.token,
     notifications?.length,
-    setNotifications
+    setNotifications,
   ]);
 
   return (
@@ -174,7 +170,7 @@ const Navbar = () => {
                 >
                   <img
                     src={
-                      getLocalStorage("loggedInUserProfileData").personalInfo
+                      getLocalStorage("loggedUser").profileData.personalInfo
                         .avatar.secure_url
                     }
                     alt="Avatar"

@@ -39,14 +39,15 @@ const ProfilePage = () => {
   useEffect(() => {
     const getUserProfile = async () => {
       if (username === loggedInUser?.username) {
-        const profileData = getLocalStorage("loggedInUserProfileData");
-        const FavCharList = getLocalStorage("loggedInUserFavCharsList");
-        const FavStaffList = getLocalStorage("loggedInUserFavStaffList");
-        const friendsList = getLocalStorage("loggedInUserFriendsList");
-        const animeList = getLocalStorage("loggedInUserAnimeList");
-        const mangaList = getLocalStorage("loggedInUserMangaList");
-        profileData.favoriteCharacters = FavCharList;
-        profileData.favoriteStaff = FavStaffList;
+        const loggedUser = getLocalStorage("loggedUser");
+        const profileData = loggedUser.profileData;
+        const favCharacters = loggedUser.favCharacters;
+        const favStaff = loggedUser.favStaff;
+        const friendsList = loggedUser.friendsList;
+        const animeList = loggedUser.animeList;
+        const mangaList = loggedUser.mangaList;
+        profileData.favoriteCharacters = favCharacters;
+        profileData.favoriteStaff = favStaff;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
         setViewedUserAnimeList(animeList);
@@ -75,13 +76,18 @@ const ProfilePage = () => {
         }
       }
     };
-    const profileData = getFromProfilesCache(username);
-    if (profileData) {
-      setViewedProfile(profileData);
-      setViewedUserAnimeList(profileData.animeList);
-      setViewedUserMangaList(profileData.mangaList);
-      setIsLoading(false);
-    } else getUserProfile();
+
+    if (!loggedInUser) {
+      const profileData = getFromProfilesCache(username);
+      if (profileData) {
+        setViewedProfile(profileData);
+        setViewedUserAnimeList(profileData.animeList);
+        setViewedUserMangaList(profileData.mangaList);
+        setIsLoading(false);
+        return;
+      }
+    }
+    getUserProfile();
   }, [
     loggedInUser?.username,
     username,

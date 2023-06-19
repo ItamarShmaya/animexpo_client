@@ -18,7 +18,7 @@ const UserFunction = ({ viewedProfile }) => {
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isUserInFriendsList, setIsUserInFriendsList] = useState(null);
   const [sentFriendRequest, setSentFriendRequest] = useState(null);
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.username !== username) {
@@ -83,7 +83,7 @@ const UserFunction = ({ viewedProfile }) => {
         username
       );
       if (updatedFriendsList) {
-        setLocalStorage("loggedInUserFriendsList", updatedFriendsList);
+        saveToLoggedUser("friendsList", updatedFriendsList);
         setIsUserInFriendsList(false);
         setSentFriendRequest(false);
 

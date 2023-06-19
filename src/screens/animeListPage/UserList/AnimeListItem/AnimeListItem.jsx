@@ -38,7 +38,7 @@ const AnimeListItem = ({
   const [scoreInput, setScoreInput] = useState(score);
   const { loggedInUser } = useLoggedInUser();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
   const progressRef = useRef();
   const commentRef = useRef();
   const statusRef = useRef();
@@ -70,9 +70,9 @@ const AnimeListItem = ({
       updatedFullUserList[FullListEntryIndex] = updatedAnimeListEntry;
       setUserList(updatedFullUserList);
 
-      const animeList = getLocalStorage("loggedInUserAnimeList");
+      const animeList = getLocalStorage("loggedUser").animeList;
       animeList.list = [...updatedFullUserList];
-      setLocalStorage("loggedInUserAnimeList", animeList);
+      saveToLoggedUser("animeList", animeList);
     } catch (e) {
       console.log(e);
     }
@@ -299,7 +299,7 @@ const AnimeListItem = ({
 
       dispatch({ type: "remove_entry", id });
       setUserList(updatedAnimeList.list);
-      setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+      saveToLoggedUser("animeList", updatedAnimeList);
     } catch (e) {
       console.log(e);
     }

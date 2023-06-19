@@ -20,7 +20,7 @@ const AddToMangaListButton = ({
   setInList,
 }) => {
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,7 +50,7 @@ const AddToMangaListButton = ({
           mangaEntry
         );
         if (updatedMangaList) {
-          setLocalStorage("loggedInUserMangaList", updatedMangaList);
+          saveToLoggedUser("mangaList", updatedMangaList);
           setInList(true);
         }
         setIsLoading(false);
@@ -64,13 +64,13 @@ const AddToMangaListButton = ({
     if (isLoading) return;
     setIsLoading(true);
     try {
-      const updatedAnimeList = await removeFromMangaList(
+      const updatedMangaList = await removeFromMangaList(
         loggedInUser.username,
         loggedInUser.token,
         id
       );
-      if (updatedAnimeList) {
-        setLocalStorage("loggedInUserMangaList", updatedAnimeList);
+      if (updatedMangaList) {
+        saveToLoggedUser("mangaList", updatedMangaList);
         setInList(false);
       }
       setIsLoading(false);
