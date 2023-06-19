@@ -94,8 +94,8 @@ const SignupPage = () => {
             createdUser.user.profileData.favoriteCharacters
           );
           setLocalStorage(
-            "loggedInUserFavPeopleList",
-            createdUser.user.profileData.favoritePeople
+            "loggedInUserFavStaffList",
+            createdUser.user.profileData.favoriteStaff
           );
           setLocalStorage(
             "loggedInUserFriendsList",

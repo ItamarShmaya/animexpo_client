@@ -37,7 +37,7 @@ const VARoleCard = ({
         startDate={parseDateFromAniListApi(animeStartDate)}
         format={animeFormat}
       />
-      <NavLink to={`/characters/${characterId}`}>
+      <NavLink to={`/character/${characterId}`}>
         <div className="character-role">
           <div className="basic-info">
             <p className="name">{characterName}</p>

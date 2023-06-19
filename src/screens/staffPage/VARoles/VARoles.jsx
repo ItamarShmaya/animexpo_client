@@ -7,7 +7,7 @@ import InlineSpinner from "../../../components/Spinner/InlineSpinner";
 import gojoEye from "../../../components/Spinner/spinnerImages/GojoEye.png";
 import {
   aniListRequests,
-  personCharactersByPage,
+  staffCharactersByPage,
 } from "../../../apis/aniList/aniList.queries";
 
 const VARoles = ({
@@ -29,7 +29,7 @@ const VARoles = ({
     };
 
     try {
-      const { data } = await aniListRequests(personCharactersByPage, variables);
+      const { data } = await aniListRequests(staffCharactersByPage, variables);
 
       if (data) {
         setPageInfo(data.Staff.characterMedia.pageInfo);

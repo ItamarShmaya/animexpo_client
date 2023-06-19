@@ -22,6 +22,14 @@
   overflow: hidden;
 }
 
+.character-description h2 {
+  margin-bottom: 0;
+}
+
+.spoiler-tag {
+  color: red;
+}
+
 @media screen and (max-width: 850px) {
   .about-character {
     flex-direction: column;

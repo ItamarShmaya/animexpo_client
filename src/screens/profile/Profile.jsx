@@ -48,20 +48,20 @@ const Profile = ({
                   </h2>
                   <FavoriteList
                     favList={viewedProfile.favoriteCharacters.list}
-                    type={"characters"}
+                    type={"character"}
                     profileCarouselResponsive={profileCarouselResponsive}
                   />
                   <hr />
                 </div>
               )}
-              {viewedProfile.favoritePeople.list.length > 0 && (
+              {viewedProfile.favoriteStaff.list.length > 0 && (
                 <div className="fav-list">
                   <h2>
-                    Favorite People ({viewedProfile.favoritePeople.list.length})
+                    Favorite Staff ({viewedProfile.favoriteStaff.list.length})
                   </h2>
                   <FavoriteList
-                    favList={viewedProfile.favoritePeople.list}
-                    type={"people"}
+                    favList={viewedProfile.favoriteStaff.list}
+                    type={"staff"}
                     profileCarouselResponsive={profileCarouselResponsive}
                   />
                 </div>

@@ -368,7 +368,7 @@ query($id: Int, $page: Int, $perPage: Int) {
 }
 `;
 
-export const personByIdQuery = `
+export const staffByIdQuery = `
 query($id: Int){
   Staff(id: $id) {
    id
@@ -438,7 +438,7 @@ query($id: Int){
 }
 `;
 
-export const personCharactersByPage = `
+export const staffCharactersByPage = `
 query($id: Int, $page: Int, $perPage: Int){
   Staff(id: $id) {
     id
@@ -563,7 +563,7 @@ query($search: String $perPage: Int) {
 }
 `;
 
-export const getPeopleBySearchQuery = `
+export const getStaffBySearchQuery = `
 query($search: String $perPage: Int) {
   Page(perPage: $perPage) {
     pageInfo {

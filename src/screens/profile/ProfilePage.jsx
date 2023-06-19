@@ -41,12 +41,12 @@ const ProfilePage = () => {
       if (username === loggedInUser?.username) {
         const profileData = getLocalStorage("loggedInUserProfileData");
         const FavCharList = getLocalStorage("loggedInUserFavCharsList");
-        const FavPeopleList = getLocalStorage("loggedInUserFavPeopleList");
+        const FavStaffList = getLocalStorage("loggedInUserFavStaffList");
         const friendsList = getLocalStorage("loggedInUserFriendsList");
         const animeList = getLocalStorage("loggedInUserAnimeList");
         const mangaList = getLocalStorage("loggedInUserMangaList");
         profileData.favoriteCharacters = FavCharList;
-        profileData.favoritePeople = FavPeopleList;
+        profileData.favoriteStaff = FavStaffList;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
         setViewedUserAnimeList(animeList);

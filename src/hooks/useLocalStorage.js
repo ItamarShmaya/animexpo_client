@@ -28,8 +28,8 @@ export const useLocalStorage = () => {
       user.user.profileData.favoriteCharacters
     );
     setLocalStorage(
-      "loggedInUserFavPeopleList",
-      user.user.profileData.favoritePeople
+      "loggedInUserFavStaffList",
+      user.user.profileData.favoriteStaff
     );
     setLocalStorage(
       "loggedInUserFriendsList",
@@ -41,7 +41,7 @@ export const useLocalStorage = () => {
     localStorage.removeItem("loggedInUser");
     localStorage.removeItem("loggedInUserAnimeList");
     localStorage.removeItem("loggedInUserFavCharsList");
-    localStorage.removeItem("loggedInUserFavPeopleList");
+    localStorage.removeItem("loggedInUserFavStaffList");
     localStorage.removeItem("loggedInUserMangaList");
     localStorage.removeItem("loggedInUserProfileData");
     localStorage.removeItem("loggedInUserFriendsList");

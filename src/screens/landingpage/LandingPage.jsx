@@ -143,7 +143,7 @@ const LandingPage = () => {
             <h1>Favorite Characters</h1>
             <CardsList
               list={topCharacters}
-              type="characters"
+              type="character"
               showRank={true}
               sliderSettings={landingPageSliderSettings}
             />

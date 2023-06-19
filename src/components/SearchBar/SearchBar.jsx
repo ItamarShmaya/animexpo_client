@@ -6,7 +6,7 @@ import {
   aniListRequests,
   getMediaBySearchQuery,
   getCharactersBySearchQuery,
-  getPeopleBySearchQuery,
+  getStaffBySearchQuery,
 } from "../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
 
@@ -47,7 +47,11 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.media);
-              addToSearchResultsChache("anime", searchInput, data.Page.media);
+              addToSearchResultsChache(
+                "anime",
+                debouncedSearchInput,
+                data.Page.media
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -70,7 +74,11 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.media);
-              addToSearchResultsChache("manga", searchInput, data.Page.media);
+              addToSearchResultsChache(
+                "manga",
+                debouncedSearchInput,
+                data.Page.media
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -79,7 +87,7 @@ const SearchBar = () => {
           }
         }
 
-        case "characters": {
+        case "character": {
           const variables = {
             search: debouncedSearchInput,
             perPage: 25,
@@ -94,7 +102,7 @@ const SearchBar = () => {
               setSearchResults(data.Page.characters);
               addToSearchResultsChache(
                 "characters",
-                searchInput,
+                debouncedSearchInput,
                 data.Page.characters
               );
               return;
@@ -105,20 +113,24 @@ const SearchBar = () => {
           }
         }
 
-        case "people": {
+        case "staff": {
           const variables = {
             search: debouncedSearchInput,
             perPage: 25,
           };
           try {
             const { data } = await aniListRequests(
-              getPeopleBySearchQuery,
+              getStaffBySearchQuery,
               variables,
               controller.signal
             );
             if (data) {
               setSearchResults(data.Page.staff);
-              addToSearchResultsChache("people", searchInput, data.Page.staff);
+              addToSearchResultsChache(
+                "staff",
+                debouncedSearchInput,
+                data.Page.staff
+              );
 
               return;
             } else throw new Error("Unable to fetch search results");
@@ -133,7 +145,7 @@ const SearchBar = () => {
             const results = await getUsersBySearch(debouncedSearchInput);
             if (results) {
               setSearchResults(results);
-              addToSearchResultsChache("users", searchInput, results);
+              addToSearchResultsChache("users", debouncedSearchInput, results);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -151,7 +163,7 @@ const SearchBar = () => {
     if (debouncedSearchInput !== "") {
       const searchResults = getFromSearchResultsChache(
         selectValue,
-        searchInput
+        debouncedSearchInput
       );
       searchResults ? setSearchResults(searchResults) : search();
     } else setSearchResults([]);
@@ -200,14 +212,14 @@ const SearchBar = () => {
             className="search-categories"
             value={selectValue}
             onChange={({ target }) => {
-              setSearchResults([])
-              setSelectValue(target.value)
+              setSearchResults([]);
+              setSelectValue(target.value);
             }}
           >
             <option value="anime">Anime</option>
             <option value="manga">Manga</option>
-            <option value="characters">Characters</option>
-            <option value="people">People</option>
+            <option value="character">Characters</option>
+            <option value="staff">Staff</option>
             <option value="users">Users</option>
           </select>
           <input

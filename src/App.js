@@ -14,7 +14,7 @@ import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Error from "./components/Error/Error";
-import PersonPage from "./screens/personPage/PersonPage";
+import StaffPage from "./screens/staffPage/StaffPage";
 import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserReviewsPage";
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
@@ -55,8 +55,8 @@ function App() {
             />
             <Route path="/anime/:id" exact element={<AnimePage />} />
             <Route path="/manga/:id" exact element={<MangaPage />} />
-            <Route path="/characters/:id" exact element={<CharacterPage />} />
-            <Route path="/people/:id" exact element={<PersonPage />} />
+            <Route path="/character/:id" exact element={<CharacterPage />} />
+            <Route path="/staff/:id" exact element={<StaffPage />} />
             <Route
               path="/profile/:username/reviews"
               exact

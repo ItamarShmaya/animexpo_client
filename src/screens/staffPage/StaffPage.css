@@ -1,4 +1,4 @@
-.person-page {
+.staff-page {
   width: 100%;
   min-height: 100%;
   height: fit-content;
@@ -7,7 +7,7 @@
   gap: 40px;
 }
 
-.person-content {
+.staff-content {
   display: flex;
   flex-direction: column;
   width: 95%;

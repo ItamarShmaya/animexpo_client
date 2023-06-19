@@ -1,7 +1,7 @@
 import { renderArrayOfStringWithCommas } from "../../../../helpers/helpers";
 import "./SearchResultsItem.css";
 
-const PeopleSearchResults = ({
+const StaffSearchResults = ({
   name,
   image,
   age,
@@ -32,4 +32,4 @@ const PeopleSearchResults = ({
     </div>
   );
 };
-export default PeopleSearchResults;
+export default StaffSearchResults;

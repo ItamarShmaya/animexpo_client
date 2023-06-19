@@ -1,28 +1,28 @@
 import { useReducer, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./PersonPage.css";
+import "./StaffPage.css";
 import Spinner from "../../components/Spinner/Spinner";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
 import obito from "../../components/Spinner/spinnerImages/indra.png";
 import {
   aniListRequests,
-  personByIdQuery,
+  staffByIdQuery,
 } from "../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
 import CharacterHero from "../characterPage/CharacterPage/CharacterHero/CharacterHero";
 import CharacterBanner from "../characterPage/CharacterPage/CharacterBanner/CharacterBanner";
 import {
-  addToFavPeopleList,
-  removeFromFavPeopleList,
+  addToFavStaffList,
+  removeFromFavStaffList,
 } from "../../apis/animexpo/animexpo_updates";
 import VARoles from "./VARoles/VARoles";
 import { charAppearancesReducer } from "../../reducers/charAppearancesReducer";
 
-const PersonPage = () => {
+const StaffPage = () => {
   const { id } = useParams();
-  const [person, setPerson] = useState(null);
+  const [staff, setStaff] = useState(null);
   const { getLocalStorage } = useLocalStorage();
   const { getEntryFromUserCache, addEntryToUserCache } =
     useSessionStorage();
@@ -38,7 +38,7 @@ const PersonPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const favCharsList = getLocalStorage("loggedInUserFavPeopleList");
+      const favCharsList = getLocalStorage("loggedInUserFavStaffList");
       if (favCharsList.list.find((char) => char.id === +id)) {
         setInFavorites(true);
       } else {
@@ -51,21 +51,21 @@ const PersonPage = () => {
     const controller = new AbortController();
     const variables = { id };
 
-    const getPersonById = async () => {
+    const getStaffById = async () => {
       try {
         const { data } = await aniListRequests(
-          personByIdQuery,
+          staffByIdQuery,
           variables,
           controller.signal
         );
 
         if (data.Staff) {
-          setPerson(data.Staff);
+          setStaff(data.Staff);
           dispatch({
             type: "update_list",
             list: data.Staff.characterMedia.edges,
           });
-          addEntryToUserCache("peopleList", data.Staff);
+          addEntryToUserCache("staffList", data.Staff);
           setPageInfo(data.Staff.characterMedia.pageInfo);
         } else {
           throw new Error("Not Found");
@@ -75,16 +75,16 @@ const PersonPage = () => {
         navigate("/");
       }
     };
-    const person = getEntryFromUserCache("peopleList", id);
-    if (person) {
-      setPerson(person);
-      setPageInfo(person.characterMedia.pageInfo);
+    const staff = getEntryFromUserCache("staffList", id);
+    if (staff) {
+      setStaff(staff);
+      setPageInfo(staff.characterMedia.pageInfo);
       dispatch({
         type: "update_list",
-        list: person.characterMedia.edges,
+        list: staff.characterMedia.edges,
       });
       return;
-    } else getPersonById();
+    } else getStaffById();
 
     return () => {
       controller.abort();
@@ -92,21 +92,21 @@ const PersonPage = () => {
   }, [id, navigate, getEntryFromUserCache, addEntryToUserCache]);
 
   return (
-    <div className="person-page">
-      {person ? (
+    <div className="staff-page">
+      {staff ? (
         <>
           <CharacterBanner />
-          <div className="person-content">
+          <div className="staff-content">
             <CharacterHero
-              id={person.id}
-              name={person.name.userPreferred}
-              image={person.image.large || person.image.medium}
-              description={person.description}
+              id={staff.id}
+              name={staff.name.userPreferred}
+              image={staff.image.large || staff.image.medium}
+              description={staff.description}
               inFavorites={inFavorites}
-              addToList={addToFavPeopleList}
+              addToList={addToFavStaffList}
               setInFavorites={setInFavorites}
-              removeFromList={removeFromFavPeopleList}
-              localStorageKey={"loggedInUserFavPeopleList"}
+              removeFromList={removeFromFavStaffList}
+              localStorageKey={"loggedInUserFavStaffList"}
             />
             <VARoles
               id={id}
@@ -125,4 +125,4 @@ const PersonPage = () => {
     </div>
   );
 };
-export default PersonPage;
+export default StaffPage;
