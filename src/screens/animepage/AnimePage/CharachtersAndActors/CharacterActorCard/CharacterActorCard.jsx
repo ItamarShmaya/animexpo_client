@@ -14,7 +14,7 @@ export default CharacterActorCard;
 const CharacterBlock = ({ char, role }) => {
   const { id, image, name } = char;
   return (
-    <NavLink to={`/characters/${id}`}>
+    <NavLink to={`/character/${id}`}>
       <div className="character block">
         <img alt={name} src={image.large} />
         <div className="some-info">
@@ -31,7 +31,7 @@ const CharacterBlock = ({ char, role }) => {
 const ActorBlock = ({ voiceActor }) => {
   const { id, name, languageV2, image } = voiceActor;
   return (
-    <NavLink to={`/people/${id}`}>
+    <NavLink to={`/staff/${id}`}>
       <div className="actor block">
         <div className="some-info">
           <span className="name">{name.userPreferred}</span>

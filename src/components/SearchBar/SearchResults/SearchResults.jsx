@@ -3,7 +3,7 @@ import "./SearchResults.css";
 import MediaSearchResultsItem from "./SearchResultsItem/MediaSearchResultsItem";
 import UsersSearchResults from "./SearchResultsItem/UsersSearchResults";
 import CharactersSearchResults from "./SearchResultsItem/CharactersSearchResults";
-import PeopleSearchResults from "./SearchResultsItem/PeopleSearchResults";
+import StaffSearchResults from "./SearchResultsItem/StaffSearchResults";
 import { parseDateFromAniListApi } from "../../../helpers/helpers.js";
 
 const SearchResults = ({ results, searchType }) => {
@@ -46,7 +46,7 @@ const SearchResults = ({ results, searchType }) => {
         character.media?.edges[0]?.node?.title?.userPreferred ||
         character.media?.edges[0]?.node?.title?.english;
       return (
-        <NavLink key={character.id} to={`/characters/${character.id}`}>
+        <NavLink key={character.id} to={`/character/${character.id}`}>
           <CharactersSearchResults
             name={character.name.userPreferred}
             image={character.image.large || character.image.mediuum}
@@ -59,17 +59,17 @@ const SearchResults = ({ results, searchType }) => {
     });
   };
 
-  const renderPeopleResults = () => {
-    return results.map((person) => {
-      const dateOfBirth = parseDateFromAniListApi(person.dateOfBirth);
+  const renderStaffResults = () => {
+    return results.map((staff) => {
+      const dateOfBirth = parseDateFromAniListApi(staff.dateOfBirth);
       return (
-        <NavLink key={person.id} to={`/people/${person.id}`}>
-          <PeopleSearchResults
-            name={person.name.userPreferred}
-            image={person.image.large || person.image.medium}
-            age={person.age}
+        <NavLink key={staff.id} to={`/staff/${staff.id}`}>
+          <StaffSearchResults
+            name={staff.name.userPreferred}
+            image={staff.image.large || staff.image.medium}
+            age={staff.age}
             dateOfBirth={dateOfBirth}
-            primaryOccupations={person.primaryOccupations}
+            primaryOccupations={staff.primaryOccupations}
           />
           ;
         </NavLink>
@@ -103,8 +103,8 @@ const SearchResults = ({ results, searchType }) => {
         >
           {searchType === "anime" && renderedSearchResults(searchType)}
           {searchType === "manga" && renderedSearchResults(searchType)}
-          {searchType === "characters" && renderCharactersResults()}
-          {searchType === "people" && renderPeopleResults()}
+          {searchType === "character" && renderCharactersResults()}
+          {searchType === "staff" && renderStaffResults()}
           {searchType === "users" && renderUsersResults()}
         </div>
       )}

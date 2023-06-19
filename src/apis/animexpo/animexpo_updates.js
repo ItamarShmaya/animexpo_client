@@ -137,27 +137,27 @@ export const removeFromFavCharList = async (username, token, id) => {
   }
 };
 
-export const addToFavPeopleList = async (username, token, personEntry) => {
+export const addToFavStaffList = async (username, token, staffEntry) => {
   try {
-    const { data: updatedPeopleList } = await animexpo.patch(
-      `/user/${username}/addToFavPeopleList`,
-      personEntry,
+    const { data: updatedStaffList } = await animexpo.patch(
+      `/user/${username}/addToFavStaffList`,
+      staffEntry,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    return updatedPeopleList;
+    return updatedStaffList;
   } catch (e) {
     throw e;
   }
 };
 
-export const removeFromFavPeopleList = async (username, token, id) => {
+export const removeFromFavStaffList = async (username, token, id) => {
   try {
-    const { data: updatedPeopleList } = await animexpo.patch(
-      `/user/${username}/removeFromFavPeopleList`,
+    const { data: updatedStaffList } = await animexpo.patch(
+      `/user/${username}/removeFromFavStaffList`,
       { id },
       {
         headers: {
@@ -165,7 +165,7 @@ export const removeFromFavPeopleList = async (username, token, id) => {
         },
       }
     );
-    return updatedPeopleList;
+    return updatedStaffList;
   } catch (e) {
     throw e;
   }

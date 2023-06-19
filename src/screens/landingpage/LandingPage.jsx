@@ -13,7 +13,7 @@ import {
   top25MangaQuery,
   top25CharactersQuery,
 } from "../../apis/aniList/aniList.queries";
-import sharingan from "../../components/Spinner/sharingan.png";
+import baru from "../../components/Spinner/spinnerImages/baru.png";
 
 const LandingPage = () => {
   const [topAnime, setTopAnime] = useState([]);
@@ -143,14 +143,14 @@ const LandingPage = () => {
             <h1>Favorite Characters</h1>
             <CardsList
               list={topCharacters}
-              type="characters"
+              type="character"
               showRank={true}
               sliderSettings={landingPageSliderSettings}
             />
           </section>
         </div>
       ) : (
-        <Spinner image={sharingan} />
+        <Spinner image={baru} />
       )}
     </>
   );

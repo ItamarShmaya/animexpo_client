@@ -7,6 +7,7 @@
   font-size: 1.4rem;
   padding-left: 2rem;
   line-height: 1.5rem;
+  flex-grow: 1;
 }
 
 .character-info hr {
@@ -20,6 +21,47 @@
 .des-overflow-hidden {
   height: 300px;
   overflow: hidden;
+}
+
+.character-description h2 {
+  margin-bottom: 0;
+}
+
+.info-point span {
+  font-weight: bold;
+}
+
+.character-description a {
+  color: rgb(0, 128, 255);
+}
+
+.character-description a:hover {
+  text-decoration: underline;
+}
+
+.spoiler-tag {
+  position: relative;
+  margin-top: 3px;
+}
+
+.show-spoiler {
+  color: rgb(0, 128, 255);
+}
+
+.hide-spoiler {
+  color: rgb(0, 128, 255);
+  display: none;
+}
+
+.show-spoiler:hover,
+.hide-spoiler:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.spoiler-tag .spoiler-content {
+  color: red;
+  display: none;
 }
 
 @media screen and (max-width: 850px) {

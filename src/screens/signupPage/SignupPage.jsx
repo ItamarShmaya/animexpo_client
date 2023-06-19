@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { createUser } from "../../apis/animexpo/animexpo_requests.js";
 import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 import { useLoggedInUser } from "../../context/context_custom_hooks.js";
+import InlineSpinner from "../../components/Spinner/InlineSpinner";
+import itachi from "../../components/Spinner/spinnerImages/itachi.png";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PWD_REGEX =
@@ -28,6 +30,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const { setLocalStorage } = useLocalStorage();
   const { setLoggedInUser, socket } = useLoggedInUser();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isUsernameTaken) setIsUsernameTaken(false);
@@ -44,9 +47,10 @@ const SignupPage = () => {
   }, [password]);
 
   useEffect(() => {
+    if (retypePwd === "") return;
     retypePwd === password ? setPwdMatch(true) : setPwdMatch(false);
     // eslint-disable-next-line
-  }, [retypePwd]);
+  }, [retypePwd, password]);
 
   useEffect(() => {
     if (isEmailTaken) setIsEmailTaken(false);
@@ -55,6 +59,7 @@ const SignupPage = () => {
 
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     if (isValidUsername && isValidPassword && pwdMatch) {
       const user = {
         username,
@@ -63,6 +68,7 @@ const SignupPage = () => {
         birthday,
       };
       try {
+        setIsLoading(true);
         const createdUser = await createUser(user);
         if (createdUser) {
           setLoggedInUser({
@@ -88,8 +94,8 @@ const SignupPage = () => {
             createdUser.user.profileData.favoriteCharacters
           );
           setLocalStorage(
-            "loggedInUserFavPeopleList",
-            createdUser.user.profileData.favoritePeople
+            "loggedInUserFavStaffList",
+            createdUser.user.profileData.favoriteStaff
           );
           setLocalStorage(
             "loggedInUserFriendsList",
@@ -99,6 +105,7 @@ const SignupPage = () => {
           navigate("/");
         }
       } catch (err) {
+        setIsLoading(false);
         if (err === "UsernameAlreadyExists") {
           setIsUsernameTaken(true);
         }
@@ -222,7 +229,13 @@ const SignupPage = () => {
             required
           />
         </div>
-        <button className="btn">Sign Up</button>
+        <button className="btn">
+          {isLoading ? (
+            <InlineSpinner image={itachi} width={20} height={20} />
+          ) : (
+            "Sign Up"
+          )}
+        </button>
       </form>
     </div>
   );

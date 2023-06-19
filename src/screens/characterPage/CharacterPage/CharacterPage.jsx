@@ -9,17 +9,17 @@ import { useLoggedInUser } from "../../../context/context_custom_hooks.js";
 import {
   aniListRequests,
   characterByIdQuery,
-  characterAppearancesByPage,
 } from "../../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import CharacterHero from "./CharacterHero/CharacterHero";
 import Appearances from "./Appearances/Appearances";
-import madara from "../../../components/Spinner/madara-eternal.png";
+import madara from "../../../components/Spinner/spinnerImages/madara-eternal.png";
 import { charAppearancesReducer } from "../../../reducers/charAppearancesReducer";
 import {
   addToFavCharList,
   removeFromFavCharList,
 } from "../../../apis/animexpo/animexpo_updates";
+import { parseDateFromAniListApi } from "../../../helpers/helpers";
 
 const CharacterPage = () => {
   const { id } = useParams();
@@ -28,8 +28,7 @@ const CharacterPage = () => {
   const { getLocalStorage } = useLocalStorage();
   const { loggedInUser } = useLoggedInUser();
   const [pageInfo, setPageInfo] = useState({});
-  const { getEntryFromSessionStorage, addToEntrySessionStorage } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const navigate = useNavigate();
   const [appearancesList, dispatch] = useReducer(charAppearancesReducer, []);
 
@@ -66,7 +65,7 @@ const CharacterPage = () => {
             type: "update_list",
             list: data.Character.media.edges,
           });
-          addToEntrySessionStorage("charsList", data.Character);
+          addEntryToUserCache("charsList", data.Character);
           setPageInfo(data.Character.media.pageInfo);
         } else {
           throw new Error("Not Found");
@@ -76,7 +75,8 @@ const CharacterPage = () => {
         navigate("/");
       }
     };
-    const char = getEntryFromSessionStorage("charsList", id);
+    const char = getEntryFromUserCache("charsList", id);
+    console.log(char);
     if (char) {
       setCharacter(char);
       setPageInfo(char.media.pageInfo);
@@ -90,31 +90,7 @@ const CharacterPage = () => {
     return () => {
       controller.abort();
     };
-  }, [id, navigate, getEntryFromSessionStorage, addToEntrySessionStorage]);
-
-  const getNextPage = async () => {
-    const variables = {
-      id,
-      page: pageInfo.currentPage + 1,
-    };
-
-    try {
-      const { data } = await aniListRequests(
-        characterAppearancesByPage,
-        variables
-      );
-
-      if (data) {
-        setPageInfo(data.Character.media.pageInfo);
-        dispatch({
-          type: "update_list",
-          list: data.Character.media.edges,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  }, [id, navigate, getEntryFromUserCache, addEntryToUserCache]);
 
   return (
     <div className="character-page">
@@ -129,6 +105,10 @@ const CharacterPage = () => {
               name={character.name.userPreferred}
               image={character.image.large || character.image.medium}
               description={character.description}
+              age={character.age}
+              bloodType={character.bloodType}
+              gender={character.gender}
+              birthday={parseDateFromAniListApi(character.dateOfBirth)}
               inFavorites={inFavorites}
               setInFavorites={setInFavorites}
               addToList={addToFavCharList}
@@ -137,10 +117,12 @@ const CharacterPage = () => {
             />
             {appearancesList.length > 0 && (
               <Appearances
+                id={id}
                 appearancesList={appearancesList}
-                getNextPage={getNextPage}
                 hasNextPage={pageInfo.hasNextPage}
                 dispatch={dispatch}
+                pageInfo={pageInfo}
+                setPageInfo={setPageInfo}
               />
             )}
           </div>

@@ -1,9 +1,18 @@
 import "./Spinner.css";
 
-const Spinner = ({image}) => {
+const Spinner = ({ image, spinnerHeight = 50, spinnerWidth = 50 }) => {
   return (
-    <div className="spinner-wrapper">
-      <div className="spinner">
+    <div
+      className="spinner-wrapper"
+      style={{
+        width: window.visualViewport.width,
+        height: window.visualViewport.height,
+      }}
+    >
+      <div
+        className="spinner"
+        style={{ width: `${spinnerWidth}px`, height: `${spinnerHeight}px` }}
+      >
         <img alt="sharingan" src={image} />
       </div>
     </div>

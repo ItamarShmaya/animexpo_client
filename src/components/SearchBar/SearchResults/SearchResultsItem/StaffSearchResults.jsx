@@ -1,7 +1,7 @@
 import { renderArrayOfStringWithCommas } from "../../../../helpers/helpers";
 import "./SearchResultsItem.css";
 
-const PeopleSearchResults = ({
+const StaffSearchResults = ({
   name,
   image,
   age,
@@ -22,12 +22,14 @@ const PeopleSearchResults = ({
         <div>
           <span className="underline">Age:</span> {age || "N/A"}
         </div>
-        <div>
+        <div className="search-item-list">
           <span className="underline">Primary Occupations:</span>{" "}
-          {renderArrayOfStringWithCommas(primaryOccupations) || "N/A"}
+          <div className="list-container">
+            {renderArrayOfStringWithCommas(primaryOccupations) || "N/A"}
+          </div>
         </div>
       </div>
     </div>
   );
 };
-export default PeopleSearchResults;
+export default StaffSearchResults;

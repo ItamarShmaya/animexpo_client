@@ -271,7 +271,7 @@ query($id: Int) {
       large
       medium
     }
-    media{
+    media(sort: POPULARITY_DESC){
       edges {
         characterRole
         node {
@@ -315,12 +315,14 @@ query($id: Int) {
       }
     }
   }
-}`;
+}
+`;
+
 export const characterAppearancesByPage = `
-query($id: Int, $page: Int) {
+query($id: Int, $page: Int, $perPage: Int) {
   Character(id: $id) {
     id
-    media(page: $page){
+    media(page: $page, perPage: $perPage, sort: POPULARITY_DESC){
       edges {
         characterRole
         node {
@@ -363,9 +365,10 @@ query($id: Int, $page: Int) {
       }
     }
   }
-}`;
+}
+`;
 
-export const personByIdQuery = `
+export const staffByIdQuery = `
 query($id: Int){
   Staff(id: $id) {
    id
@@ -392,7 +395,7 @@ query($id: Int){
       large
       medium
     }
-    characterMedia{
+    characterMedia(sort:POPULARITY_DESC){
       edges {
         node{
           format
@@ -435,11 +438,11 @@ query($id: Int){
 }
 `;
 
-export const personCharactersByPage = `
-query($id: Int, $page: Int){
+export const staffCharactersByPage = `
+query($id: Int, $page: Int, $perPage: Int){
   Staff(id: $id) {
     id
-    characterMedia(page: $page){
+    characterMedia(page: $page, perPage: $perPage, sort:POPULARITY_DESC){
      edges {
        node{
          format
@@ -532,7 +535,7 @@ query($search: String $perPage: Int) {
       lastPage
       hasNextPage
     }
-    characters(search: $search sort:RELEVANCE) {
+    characters(search: $search sort:FAVOURITES_DESC) {
       id
       name {
         userPreferred
@@ -560,7 +563,7 @@ query($search: String $perPage: Int) {
 }
 `;
 
-export const getPeopleBySearchQuery = `
+export const getStaffBySearchQuery = `
 query($search: String $perPage: Int) {
   Page(perPage: $perPage) {
     pageInfo {
@@ -589,4 +592,4 @@ query($search: String $perPage: Int) {
     }
   }
 }
-`
+`;

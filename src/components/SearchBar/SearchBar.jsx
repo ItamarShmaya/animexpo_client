@@ -6,15 +6,17 @@ import {
   aniListRequests,
   getMediaBySearchQuery,
   getCharactersBySearchQuery,
-  getPeopleBySearchQuery,
+  getStaffBySearchQuery,
 } from "../../apis/aniList/aniList.queries";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [searchResults, setSearchResults] = useState([]);
   const [selectValue, setSelectValue] = useState("anime");
-  const [searchType, setSearchType] = useState("anime");
+  const { addToSearchResultsChache, getFromSearchResultsChache } =
+    useSessionStorage();
   const searchbarRef = useRef();
 
   useEffect(() => {
@@ -44,8 +46,12 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("anime");
               setSearchResults(data.Page.media);
+              addToSearchResultsChache(
+                "anime",
+                debouncedSearchInput,
+                data.Page.media
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -67,9 +73,12 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("manga");
               setSearchResults(data.Page.media);
-              console.log(data);
+              addToSearchResultsChache(
+                "manga",
+                debouncedSearchInput,
+                data.Page.media
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -78,7 +87,7 @@ const SearchBar = () => {
           }
         }
 
-        case "characters": {
+        case "character": {
           const variables = {
             search: debouncedSearchInput,
             perPage: 25,
@@ -90,9 +99,12 @@ const SearchBar = () => {
               controller.signal
             );
             if (data) {
-              setSearchType("characters");
               setSearchResults(data.Page.characters);
-              console.log(data);
+              addToSearchResultsChache(
+                "characters",
+                debouncedSearchInput,
+                data.Page.characters
+              );
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -101,21 +113,25 @@ const SearchBar = () => {
           }
         }
 
-        case "people": {
+        case "staff": {
           const variables = {
             search: debouncedSearchInput,
             perPage: 25,
           };
           try {
             const { data } = await aniListRequests(
-              getPeopleBySearchQuery,
+              getStaffBySearchQuery,
               variables,
               controller.signal
             );
             if (data) {
-              setSearchType("people");
               setSearchResults(data.Page.staff);
-              console.log(data);
+              addToSearchResultsChache(
+                "staff",
+                debouncedSearchInput,
+                data.Page.staff
+              );
+
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -128,8 +144,8 @@ const SearchBar = () => {
           try {
             const results = await getUsersBySearch(debouncedSearchInput);
             if (results) {
-              setSearchType("users");
               setSearchResults(results);
+              addToSearchResultsChache("users", debouncedSearchInput, results);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
@@ -143,13 +159,24 @@ const SearchBar = () => {
         }
       }
     };
-    if (debouncedSearchInput !== "") search();
-    else setSearchResults([]);
+
+    if (debouncedSearchInput !== "") {
+      const searchResults = getFromSearchResultsChache(
+        selectValue,
+        debouncedSearchInput
+      );
+      searchResults ? setSearchResults(searchResults) : search();
+    } else setSearchResults([]);
 
     return () => {
       controller.abort();
     };
-  }, [debouncedSearchInput, selectValue]);
+  }, [
+    debouncedSearchInput,
+    selectValue,
+    addToSearchResultsChache,
+    getFromSearchResultsChache,
+  ]);
 
   useEffect(() => {
     if (searchResults.length > 0) {
@@ -184,12 +211,15 @@ const SearchBar = () => {
           <select
             className="search-categories"
             value={selectValue}
-            onChange={({ target }) => setSelectValue(target.value)}
+            onChange={({ target }) => {
+              setSearchResults([]);
+              setSelectValue(target.value);
+            }}
           >
             <option value="anime">Anime</option>
             <option value="manga">Manga</option>
-            <option value="characters">Characters</option>
-            <option value="people">People</option>
+            <option value="character">Characters</option>
+            <option value="staff">Staff</option>
             <option value="users">Users</option>
           </select>
           <input
@@ -203,7 +233,7 @@ const SearchBar = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
           {searchResults.length > 0 && (
-            <SearchResults results={searchResults} searchType={searchType} />
+            <SearchResults results={searchResults} searchType={selectValue} />
           )}
         </form>
       </div>

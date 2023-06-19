@@ -1,5 +1,4 @@
 import "./EntryPageHero.css";
-import { useLoggedInUser } from "../../../../context/context_custom_hooks";
 import { useEffect, useRef, useState } from "react";
 import DOMPurify from "dompurify";
 
@@ -16,7 +15,6 @@ const EntryPageHero = ({ entry, inList, setInList, AddButton }) => {
     volumes,
   } = entry;
 
-  const { loggedInUser } = useLoggedInUser();
   const [rank, setRank] = useState();
   const [popularity, setPopularity] = useState();
   const [cleanDescription, setCleanDescription] = useState();
@@ -54,30 +52,25 @@ const EntryPageHero = ({ entry, inList, setInList, AddButton }) => {
     popularityTemp ? setPopularity(popularityTemp.rank) : setPopularity(null);
   }, [rankings]);
 
-  const renderAddToButton = () => {
-    if (loggedInUser) {
-      if (inList) {
-        return <div>In List</div>;
-      }
-    }
-    return (
-      <AddButton
-        id={id}
-        title={title.english}
-        image={coverImage.extraLarge}
-        format={format}
-        episodes={episodes}
-        volumes={volumes}
-        setInList={setInList}
-      />
-    );
-  };
-
   return (
     <div className="about-entry" ref={aboutRef}>
       <div className="poster">
-        <img alt={title.english} src={coverImage.extraLarge} />
-        <div className="add-to-list-container">{renderAddToButton()}</div>
+        <img
+          alt={title.userPreferred || title.english}
+          src={coverImage.extraLarge || coverImage.large}
+        />
+        <div className="add-to-list-container">
+          <AddButton
+            id={id}
+            title={title.userPreferred || title.english}
+            image={coverImage.extraLarge || coverImage.large}
+            format={format}
+            episodes={episodes}
+            volumes={volumes}
+            inList={inList}
+            setInList={setInList}
+          />
+        </div>
       </div>
       <div className="entry-info">
         <div className="entry-stats">

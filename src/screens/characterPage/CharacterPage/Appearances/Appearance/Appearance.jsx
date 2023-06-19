@@ -106,7 +106,7 @@ export const AppearanceVA = ({ voiceActors }) => {
           <div key={`${va.id}${i}`} className="voice-actor">
             <Card
               id={va.id}
-              type={"people"}
+              type={"staff"}
               showRank={false}
               title={va.name.userPreferred}
               image={va.image.large || va.image.medium}

@@ -10,15 +10,17 @@ import {
   getUserProfileData,
 } from "../../apis/animexpo/animexpo_requests";
 import MobileProfilePage from "./MobileProfilePage/MobileProfilePage";
-import obito from "../../components/Spinner/obito.png";
+import obito from "../../components/Spinner/spinnerImages/obito.png";
 import Spinner from "../../components/Spinner/Spinner";
 import {
   profileCarouselResponsive,
   profileMobileCarouselResponsive,
 } from "../../components/SimplyCarousel/carouselSettings";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const ProfilePage = () => {
   const { getLocalStorage } = useLocalStorage();
+  const { getFromProfilesCache, addEntryToUserCache } = useSessionStorage();
   const navigate = useNavigate();
   const { loggedInUser } = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(true);
@@ -39,12 +41,12 @@ const ProfilePage = () => {
       if (username === loggedInUser?.username) {
         const profileData = getLocalStorage("loggedInUserProfileData");
         const FavCharList = getLocalStorage("loggedInUserFavCharsList");
-        const FavPeopleList = getLocalStorage("loggedInUserFavPeopleList");
+        const FavStaffList = getLocalStorage("loggedInUserFavStaffList");
         const friendsList = getLocalStorage("loggedInUserFriendsList");
         const animeList = getLocalStorage("loggedInUserAnimeList");
         const mangaList = getLocalStorage("loggedInUserMangaList");
         profileData.favoriteCharacters = FavCharList;
-        profileData.favoritePeople = FavPeopleList;
+        profileData.favoriteStaff = FavStaffList;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
         setViewedUserAnimeList(animeList);
@@ -55,10 +57,17 @@ const ProfilePage = () => {
           const profileData = await getUserProfileData(username);
           if (profileData) setViewedProfile(profileData);
           const animeList = await getUserAnimeList(username);
-          if (animeList) setViewedUserAnimeList(animeList);
+          if (animeList) {
+            profileData.animeList = animeList;
+            setViewedUserAnimeList(animeList);
+          }
           const mangaList = await getUserMangaList(username);
-          if (mangaList) setViewedUserMangaList(mangaList);
+          if (mangaList) {
+            profileData.mangaList = mangaList;
+            setViewedUserMangaList(mangaList);
+          }
           setIsLoading(false);
+          addEntryToUserCache("profilesList", profileData);
         } catch (e) {
           if (e === "UserNotFound") {
             navigate("/notfound");
@@ -66,8 +75,21 @@ const ProfilePage = () => {
         }
       }
     };
-    getUserProfile();
-  }, [loggedInUser?.username, username, navigate, getLocalStorage]);
+    const profileData = getFromProfilesCache(username);
+    if (profileData) {
+      setViewedProfile(profileData);
+      setViewedUserAnimeList(profileData.animeList);
+      setViewedUserMangaList(profileData.mangaList);
+      setIsLoading(false);
+    } else getUserProfile();
+  }, [
+    loggedInUser?.username,
+    username,
+    navigate,
+    getLocalStorage,
+    getFromProfilesCache,
+    addEntryToUserCache,
+  ]);
 
   return (
     <div className="profile-page">
