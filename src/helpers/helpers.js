@@ -50,7 +50,7 @@ export const markdownParser = (string) => {
             /~!(.*?)!~/gs,
             "<p class='spoiler-tag'><span class='show-spoiler'>*Show Spoiler</span><span class='spoiler-content'>$1</span><span class='hide-spoiler'>*Hide Spoiler</span></p>",
           ],
-          [/anilist.co/g, "animexpoclient.onrender.com"],
+          [/anilist.co/g, "animexpo.onrender.com"],
           [/\[([^\]]+)\]\(([^)]+)\)/g, "<a href='$2' target='_blank'>$1</a>"],
         ]
       : [
