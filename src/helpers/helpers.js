@@ -34,7 +34,6 @@ export const renderArrayOfStringWithCommas = (genres) => {
 
 export const markdownParser = (string) => {
   let parsedString = string;
-  console.log(process.env.NODE_ENV);
   const rules =
     process.env.NODE_ENV === "production"
       ? [
