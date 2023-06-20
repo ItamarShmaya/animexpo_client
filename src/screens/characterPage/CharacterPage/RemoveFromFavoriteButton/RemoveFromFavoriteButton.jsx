@@ -11,7 +11,7 @@ const RemoveFromFavoriteButton = ({
   localStorageKey,
 }) => {
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
@@ -24,14 +24,13 @@ const RemoveFromFavoriteButton = ({
         id
       );
       if (updatedList) {
-        setLocalStorage(localStorageKey, updatedList);
+        saveToLoggedUser(localStorageKey, updatedList);
         setInFavorites(false);
       }
       setIsLoading(false);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-
     }
   };
   return (

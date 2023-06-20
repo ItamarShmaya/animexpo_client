@@ -38,7 +38,7 @@ const MangaListItem = ({
   const [scoreInput, setScoreInput] = useState(score);
   const { loggedInUser } = useLoggedInUser();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const progressRef = useRef();
   const commentRef = useRef();
   const statusRef = useRef();
@@ -73,7 +73,7 @@ const MangaListItem = ({
 
       const mangaList = getLocalStorage("loggedInUserAnimeList");
       mangaList.list = [...updatedFullUserList];
-      setLocalStorage("loggedInUserMangaList", mangaList);
+      saveToLoggedUser("mangaList", mangaList);
     } catch (e) {
       console.log(e);
     }
@@ -298,7 +298,7 @@ const MangaListItem = ({
       );
       dispatch({ type: "remove_entry", id });
       setUserList(updatedMangaList.list);
-      setLocalStorage("loggedInUserMangaList", updatedMangaList);
+      saveToLoggedUser("mangaList", updatedMangaList);
     } catch (e) {
       console.log(e);
     }

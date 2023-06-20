@@ -14,11 +14,12 @@ const FavoriteList = ({ favList, type, profileCarouselResponsive }) => {
           type={type}
           key={item.id}
           id={item.id}
-          title={item.name}
+          title={item.name || item.title}
           image={item.image}
           showRank={false}
           cardHeight={90}
           cardWidth={70}
+          titleFontSize={10}
         />
       );
     });

@@ -103,6 +103,70 @@ export const updateFieldInMangaListEntry = async (username, token, body) => {
   }
 };
 
+export const addToFavAnimeList = async (username, token, animeEntry) => {
+  try {
+    const { data: updatedFavAnimeList } = await animexpo.patch(
+      `/user/${username}/addToFavAnimeList`,
+      animeEntry,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedFavAnimeList;
+  } catch (e) {
+    throw e;
+  }
+};
+export const removeFromFavAnimeList = async (username, token, id) => {
+  try {
+    const { data: updatedFavAnimeList } = await animexpo.patch(
+      `/user/${username}/removeFromFavAnimeList`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedFavAnimeList;
+  } catch (e) {
+    throw e;
+  }
+};
+export const addToFavMangaList = async (username, token, mangaEntry) => {
+  try {
+    const { data: updatedFavMangaList } = await animexpo.patch(
+      `/user/${username}/addToFavMangaList`,
+      mangaEntry,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedFavMangaList;
+  } catch (e) {
+    throw e;
+  }
+};
+export const removeFromFavMangaList = async (username, token, id) => {
+  try {
+    const { data: updatedFavMangaList } = await animexpo.patch(
+      `/user/${username}/removeFromFavMangaList`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return updatedFavMangaList;
+  } catch (e) {
+    throw e;
+  }
+};
 export const addToFavCharList = async (username, token, charEntry) => {
   try {
     const { data: updatedCharacterList } = await animexpo.patch(

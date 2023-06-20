@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./ScrollUp.css";
 
 const ScrollUp = () => {
-  const windowHeight = window.visualViewport.height;
+  const windowHeight = document.documentElement.clientHeight;
   const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const ScrollUp = () => {
       clearTimeout(timeOutId);
       setOpacity(1);
       timeOutId = setTimeout(() => {
-        setOpacity(0)
+        setOpacity(0);
       }, 500);
     };
     window.addEventListener("scroll", changeOpacity);

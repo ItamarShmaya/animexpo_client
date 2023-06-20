@@ -1,0 +1,11 @@
+.fav-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

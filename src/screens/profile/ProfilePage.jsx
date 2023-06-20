@@ -39,14 +39,19 @@ const ProfilePage = () => {
   useEffect(() => {
     const getUserProfile = async () => {
       if (username === loggedInUser?.username) {
-        const profileData = getLocalStorage("loggedInUserProfileData");
-        const FavCharList = getLocalStorage("loggedInUserFavCharsList");
-        const FavStaffList = getLocalStorage("loggedInUserFavStaffList");
-        const friendsList = getLocalStorage("loggedInUserFriendsList");
-        const animeList = getLocalStorage("loggedInUserAnimeList");
-        const mangaList = getLocalStorage("loggedInUserMangaList");
-        profileData.favoriteCharacters = FavCharList;
-        profileData.favoriteStaff = FavStaffList;
+        const loggedUser = getLocalStorage("loggedUser");
+        const profileData = loggedUser.profileData;
+        const favoriteAnime = loggedUser.favoriteAnime;
+        const favoriteManga = loggedUser.favoriteManga;
+        const favoriteCharacters = loggedUser.favoriteCharacters;
+        const favoriteStaff = loggedUser.favoriteStaff;
+        const friendsList = loggedUser.friendsList;
+        const animeList = loggedUser.animeList;
+        const mangaList = loggedUser.mangaList;
+        profileData.favoriteAnime = favoriteAnime;
+        profileData.favoriteManga = favoriteManga;
+        profileData.favoriteCharacters = favoriteCharacters;
+        profileData.favoriteStaff = favoriteStaff;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
         setViewedUserAnimeList(animeList);
@@ -75,13 +80,18 @@ const ProfilePage = () => {
         }
       }
     };
-    const profileData = getFromProfilesCache(username);
-    if (profileData) {
-      setViewedProfile(profileData);
-      setViewedUserAnimeList(profileData.animeList);
-      setViewedUserMangaList(profileData.mangaList);
-      setIsLoading(false);
-    } else getUserProfile();
+
+    if (!loggedInUser) {
+      const profileData = getFromProfilesCache(username);
+      if (profileData) {
+        setViewedProfile(profileData);
+        setViewedUserAnimeList(profileData.animeList);
+        setViewedUserMangaList(profileData.mangaList);
+        setIsLoading(false);
+        return;
+      }
+    }
+    getUserProfile();
   }, [
     loggedInUser?.username,
     username,
@@ -89,6 +99,7 @@ const ProfilePage = () => {
     getLocalStorage,
     getFromProfilesCache,
     addEntryToUserCache,
+    loggedInUser,
   ]);
 
   return (

@@ -19,16 +19,20 @@ import Characters from "./CharachtersAndActors/Characters";
 import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import fugaku from "../../../components/Spinner/spinnerImages/fugaku.png";
+import {
+  addToFavAnimeList,
+  removeFromFavAnimeList,
+} from "../../../apis/animexpo/animexpo_updates";
 
 const AnimePage = () => {
   const [anime, setAnime] = useState(null);
   const [inList, setInList] = useState(false);
+  const [inFavList, setInFavList] = useState(false);
   const [vaLang, setVaLang] = useState("Japanese");
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromUserCache, addEntryToUserCache } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
   const location = useLocation();
@@ -39,11 +43,17 @@ const AnimePage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const animeList = getLocalStorage("loggedInUserAnimeList");
+      const animeList = getLocalStorage("loggedUser").animeList;
+      const favoriteAnimeList = getLocalStorage("loggedUser").favoriteAnime;
       if (animeList.list.find((myAnime) => myAnime.id === +id)) {
         setInList(true);
       } else {
         setInList(false);
+      }
+      if (favoriteAnimeList.list.find((myAnime) => myAnime.id === +id)) {
+        setInFavList(true);
+      } else {
+        setInFavList(false);
       }
     }
   }, [id, loggedInUser, getLocalStorage]);
@@ -79,13 +89,7 @@ const AnimePage = () => {
     return () => {
       controller.abort();
     };
-  }, [
-    navigate,
-    id,
-    addEntryToUserCache,
-    getEntryFromUserCache,
-    location,
-  ]);
+  }, [navigate, id, addEntryToUserCache, getEntryFromUserCache, location]);
 
   return (
     <div className="entry-page">
@@ -96,7 +100,12 @@ const AnimePage = () => {
             entry={anime}
             inList={inList}
             setInList={setInList}
+            inFavList={inFavList}
+            setInFavList={setInFavList}
             AddButton={AddToAnimeListButton}
+            addToFavorite={addToFavAnimeList}
+            removeFromFavorite={removeFromFavAnimeList}
+            favoriteListName={"favoriteAnime"}
           />
           <div className="info-and-chars">
             <div className="info">

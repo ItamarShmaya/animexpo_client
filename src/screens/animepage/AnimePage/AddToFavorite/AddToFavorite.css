@@ -1,0 +1,58 @@
+.add-to-favorite,
+.remove-from-fav-list {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.add-to-favorite {
+  background-color: rgba(249, 122, 164);
+}
+
+.remove-from-fav-list {
+  background-color: rgb(255, 73, 133);
+}
+
+.add-to-favorite .fa-heart {
+  color: #fff;
+}
+
+.remove-from-fav-list .fa-heart {
+  color: #ce1212;
+}
+
+.add-to-favorite:hover {
+  cursor: pointer;
+  background-color: rgb(255, 73, 133);
+}
+
+.add-to-favorite:hover .fa-heart {
+  color: #ce1212;
+}
+
+.remove-from-fav-list:hover {
+  cursor: pointer;
+  background-color: rgba(249, 122, 164);
+}
+
+.in-favorite:hover {
+  color: #fff;
+}
+
+.add-to-favorite:hover::after,
+.remove-from-fav-list:hover::after {
+  font-size: 1rem;
+  position: absolute;
+  content: attr(data-type);
+  padding: 5px;
+  white-space: nowrap;
+  background-color: #fff;
+  color: black;
+  top: 100%;
+  pointer-events: none;
+}

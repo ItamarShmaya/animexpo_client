@@ -13,45 +13,44 @@ export const useLocalStorage = () => {
     return "";
   }, []);
 
-  const saveUserToLocalStorage = (user) => {
-    setLocalStorage("loggedInUser", {
-      _id: user.user._id,
-      username: user.user.username,
-      email: user.user.email,
-      token: user.token,
-    });
-    setLocalStorage("loggedInUserAnimeList", user.user.animeList);
-    setLocalStorage("loggedInUserMangaList", user.user.mangaList);
-    setLocalStorage("loggedInUserProfileData", user.user.profileData);
-    setLocalStorage(
-      "loggedInUserFavCharsList",
-      user.user.profileData.favoriteCharacters
-    );
-    setLocalStorage(
-      "loggedInUserFavStaffList",
-      user.user.profileData.favoriteStaff
-    );
-    setLocalStorage(
-      "loggedInUserFriendsList",
-      user.user.profileData.friendsList
-    );
-  };
+  const saveUserToLocalStorage = useCallback(
+    (user) => {
+      const loggedUser = {};
+      loggedUser.user = {
+        _id: user.user._id,
+        username: user.user.username,
+        email: user.user.email,
+        token: user.token,
+      };
+      loggedUser.animeList = user.user.animeList;
+      loggedUser.mangaList = user.user.mangaList;
+      loggedUser.profileData = user.user.profileData;
+      loggedUser.friendsList = user.user.profileData.friendsList;
+      loggedUser.favoriteCharacters = user.user.profileData.favoriteCharacters;
+      loggedUser.favoriteStaff = user.user.profileData.favoriteStaff;
+      loggedUser.favoriteAnime = user.user.profileData.favoriteAnime;
+      loggedUser.favoriteManga = user.user.profileData.favoriteManga;
 
-  const removeUserFromLocalStorage = () => {
-    localStorage.removeItem("loggedInUser");
-    localStorage.removeItem("loggedInUserAnimeList");
-    localStorage.removeItem("loggedInUserFavCharsList");
-    localStorage.removeItem("loggedInUserFavStaffList");
-    localStorage.removeItem("loggedInUserMangaList");
-    localStorage.removeItem("loggedInUserProfileData");
-    localStorage.removeItem("loggedInUserFriendsList");
-    localStorage.removeItem("sessionID");
-  };
+      setLocalStorage("loggedUser", loggedUser);
+    },
+    [setLocalStorage]
+  );
+
+  const saveToLoggedUser = useCallback(
+    (key, value) => {
+      const user = getLocalStorage("loggedUser");
+      if (user) {
+        user[key] = value;
+        setLocalStorage("loggedUser", user);
+      }
+    },
+    [getLocalStorage, setLocalStorage]
+  );
 
   return {
     getLocalStorage,
     setLocalStorage,
     saveUserToLocalStorage,
-    removeUserFromLocalStorage,
+    saveToLoggedUser,
   };
 };

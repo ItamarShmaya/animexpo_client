@@ -20,11 +20,11 @@ const AddToAnimeListButton = ({
   setInList,
 }) => {
   const { loggedInUser } = useLoggedInUser();
-  const { setLocalStorage } = useLocalStorage();
+  const { saveToLoggedUser } = useLocalStorage();
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onClick = async () => {
+  const onAddToListClick = async () => {
     if (isLoading) return;
     setIsLoading(true);
     if (!loggedInUser) {
@@ -51,7 +51,7 @@ const AddToAnimeListButton = ({
         );
 
         if (updatedAnimeList) {
-          setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+          saveToLoggedUser("animeList", updatedAnimeList);
           setInList(true);
         }
         setIsLoading(false);
@@ -72,7 +72,7 @@ const AddToAnimeListButton = ({
         id
       );
       if (updatedAnimeList) {
-        setLocalStorage("loggedInUserAnimeList", updatedAnimeList);
+        saveToLoggedUser("animeList", updatedAnimeList);
         setInList(false);
       }
       setIsLoading(false);
@@ -97,7 +97,7 @@ const AddToAnimeListButton = ({
       }
     }
     return (
-      <button onClick={onClick} className="add-to-list-button">
+      <button onClick={onAddToListClick} className="add-to-list-button">
         {isLoading ? (
           <InlineSpinner image={itachi} width={20} height={20} />
         ) : (

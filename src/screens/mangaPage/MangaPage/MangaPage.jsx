@@ -18,15 +18,19 @@ import {
 import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import naori from "../../../components/Spinner/spinnerImages/naori.png";
+import {
+  addToFavMangaList,
+  removeFromFavMangaList,
+} from "../../../apis/animexpo/animexpo_updates";
 
 const MangaPage = () => {
   const [manga, setManga] = useState(null);
   const [inList, setInList] = useState(false);
+  const [inFavList, setInFavList] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
-  const { getEntryFromUserCache, addEntryToUserCache } =
-    useSessionStorage();
+  const { getEntryFromUserCache, addEntryToUserCache } = useSessionStorage();
   const { loggedInUser } = useLoggedInUser();
 
   useEffect(() => {
@@ -35,11 +39,17 @@ const MangaPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const mangaList = getLocalStorage("loggedInUserMangaList");
+      const mangaList = getLocalStorage("loggedUser").mangaList;
       if (mangaList.list.find((myManga) => myManga.id === +id)) {
         setInList(true);
       } else {
         setInList(false);
+      }
+      const favoriteManga = getLocalStorage("loggedUser").favoriteManga;
+      if (favoriteManga.list.find((myManga) => myManga.id === +id)) {
+        setInFavList(true);
+      } else {
+        setInFavList(false);
       }
     }
   }, [id, loggedInUser, getLocalStorage]);
@@ -89,6 +99,11 @@ const MangaPage = () => {
             inList={inList}
             setInList={setInList}
             AddButton={AddToMangaListButton}
+            inFavList={inFavList}
+            setInFavList={setInFavList}
+            addToFavorite={addToFavMangaList}
+            removeFromFavorite={removeFromFavMangaList}
+            favoriteListName={"favoriteManga"}
           />
           <div className="info-and-chars">
             <div className="info">
@@ -98,11 +113,13 @@ const MangaPage = () => {
               <Characters characters={manga.characters} />
             </div>
           </div>
-          {manga.recommendations.edges.length > 0 && <EntryRecommendations
-            recommendations={manga.recommendations.edges}
-            type={"manga"}
-            sliderSettings={entryPageRecommendationsSliderSettings}
-          />}
+          {manga.recommendations.edges.length > 0 && (
+            <EntryRecommendations
+              recommendations={manga.recommendations.edges}
+              type={"manga"}
+              sliderSettings={entryPageRecommendationsSliderSettings}
+            />
+          )}
           <ReviewsSection
             id={manga.id}
             title={manga.title.english}

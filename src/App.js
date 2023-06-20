@@ -19,7 +19,7 @@ import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserRevie
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
-import Footer from "./components/Footer/Footer";
+// import Footer from "./components/Footer/Footer";
 
 function App() {
   const userCache = JSON.parse(sessionStorage.getItem("userCache"));
@@ -90,7 +90,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </>
   );

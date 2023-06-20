@@ -30,7 +30,7 @@ const VARoles = ({
 
     try {
       const { data } = await aniListRequests(staffCharactersByPage, variables);
-
+      
       if (data) {
         setPageInfo(data.Staff.characterMedia.pageInfo);
         dispatch({
@@ -58,15 +58,15 @@ const VARoles = ({
     return roles.map((role) => {
       return (
         <VARoleCard
-          key={role.node.id + "" + role.characters[0].id}
+          key={role.node.id + "" + role.characters[0]?.id}
           role={role.characterRole}
           animeId={role.node.id}
           animeImage={role.node.coverImage.large || role.node.coverImage.medium}
           animeTitle={role.node.title.userPreferred || role.node.title.english}
-          characterId={role.characters[0].id}
-          characterName={role.characters[0].name.userPreferred}
+          characterId={role.characters[0]?.id}
+          characterName={role.characters[0]?.name.userPreferred}
           characterImage={
-            role.characters[0].image.large || role.characters[0].image.medium
+            role.characters[0]?.image.large || role.characters[0]?.image.medium
           }
           sortBy={sortBy}
           animePopularity={role.node.popularity}

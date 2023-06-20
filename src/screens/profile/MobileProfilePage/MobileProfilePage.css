@@ -4,7 +4,6 @@
   background-color: #eeebdd;
   margin: auto;
   padding: 10px;
-  /* display: flex; */
 }
 
 .avatar-user-function {
@@ -17,10 +16,4 @@
 .mobile-profile-page hr {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-@media all and (max-width: 1000px) {
-  .fav-lists {
-    gap: 0;
-  }
 }
