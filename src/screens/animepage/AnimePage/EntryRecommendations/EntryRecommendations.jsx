@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 
 const EntryRecommendations = ({ recommendations, type, sliderSettings }) => {
   const [recoList, setRecoList] = useState(null);
-
+  console.log(recommendations);
   useEffect(() => {
     const reco = recommendations.map((reco) => {
       return {
-        id: reco.node.mediaRecommendation.id,
-        title: reco.node.mediaRecommendation.title,
-        coverImage: reco.node.mediaRecommendation.coverImage,
+        id: reco?.node?.mediaRecommendation?.id,
+        title: reco?.node?.mediaRecommendation?.title,
+        coverImage: reco?.node?.mediaRecommendation?.coverImage,
       };
     });
     setRecoList(reco);
