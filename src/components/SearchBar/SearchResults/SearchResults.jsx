@@ -11,7 +11,7 @@ const SearchResults = ({ results, searchType }) => {
   const navbar = document.querySelector(".navbar");
   const hero = document.querySelector(".hero");
   const searchResultsHeight =
-    window.visualViewport.height -
+    document.documentElement.clientHeight -
     (searchbar.clientHeight + navbar.clientHeight + hero.clientHeight / 2);
 
   const renderedSearchResults = (searchType) => {
