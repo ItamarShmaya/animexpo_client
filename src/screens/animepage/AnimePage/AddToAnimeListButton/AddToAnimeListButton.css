@@ -1,11 +1,17 @@
-.add-to-list-button {
+.add-to-list-button,
+.remove-from-list {
   background-color: rgb(231 69 56);
   color: #eeebdd;
   font-size: 1.5rem;
   border: none;
-  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  border-radius: 5px;
 }
-.add-to-list-button:hover {
+.add-to-list-button:hover,
+.remove-from-list:hover {
   cursor: pointer;
 }

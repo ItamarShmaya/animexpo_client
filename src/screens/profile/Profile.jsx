@@ -3,14 +3,14 @@ import SideMenu from "./SideMenu/SideMenu";
 import UserInfo from "./UserInfo/UserInfo";
 import { useParams } from "react-router-dom";
 import Statistics from "./Statistics/Statistics";
-import FavoriteList from "./FavoriteList/FavoriteList";
+import Favorites from "./Favorites/Favorites";
 
 const Profile = ({
   viewedProfile,
   setViewedProfile,
   viewedUserAnimeList,
   viewedUserMangaList,
-  profileCarouselResponsive
+  profileCarouselResponsive,
 }) => {
   const { username } = useParams();
   return (
@@ -39,34 +39,10 @@ const Profile = ({
               />
               <div className="manga-stats"></div>
             </div>
-            <div className="fav-lists">
-              {viewedProfile.favoriteCharacters.list.length > 0 && (
-                <div className="fav-list">
-                  <h2>
-                    Favorite Characters (
-                    {viewedProfile.favoriteCharacters.list.length})
-                  </h2>
-                  <FavoriteList
-                    favList={viewedProfile.favoriteCharacters.list}
-                    type={"character"}
-                    profileCarouselResponsive={profileCarouselResponsive}
-                  />
-                  <hr />
-                </div>
-              )}
-              {viewedProfile.favoriteStaff.list.length > 0 && (
-                <div className="fav-list">
-                  <h2>
-                    Favorite Staff ({viewedProfile.favoriteStaff.list.length})
-                  </h2>
-                  <FavoriteList
-                    favList={viewedProfile.favoriteStaff.list}
-                    type={"staff"}
-                    profileCarouselResponsive={profileCarouselResponsive}
-                  />
-                </div>
-              )}
-            </div>
+            <Favorites
+              viewedProfile={viewedProfile}
+              profileCarouselResponsive={profileCarouselResponsive}
+            />
           </div>
         </div>
       </main>

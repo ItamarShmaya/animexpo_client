@@ -38,8 +38,8 @@ const CharacterPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const favCharsList = getLocalStorage("loggedUser").favCharacters;
-      if (favCharsList.list.find((char) => char.id === +id)) {
+      const favoriteCharsList = getLocalStorage("loggedUser").favoriteCharacters;
+      if (favoriteCharsList.list.find((char) => char.id === +id)) {
         setInFavorites(true);
       } else {
         setInFavorites(false);
@@ -112,7 +112,7 @@ const CharacterPage = () => {
               setInFavorites={setInFavorites}
               addToList={addToFavCharList}
               removeFromList={removeFromFavCharList}
-              localStorageKey={"favCharacters"}
+              localStorageKey={"favoriteCharacters"}
             />
             {appearancesList.length > 0 && (
               <Appearances

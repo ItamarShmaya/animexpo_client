@@ -24,7 +24,7 @@ const AddToAnimeListButton = ({
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onClick = async () => {
+  const onAddToListClick = async () => {
     if (isLoading) return;
     setIsLoading(true);
     if (!loggedInUser) {
@@ -97,7 +97,7 @@ const AddToAnimeListButton = ({
       }
     }
     return (
-      <button onClick={onClick} className="add-to-list-button">
+      <button onClick={onAddToListClick} className="add-to-list-button">
         {isLoading ? (
           <InlineSpinner image={itachi} width={20} height={20} />
         ) : (

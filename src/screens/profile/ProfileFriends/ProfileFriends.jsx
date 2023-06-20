@@ -17,7 +17,7 @@ const ProfileFriends = ({ friendsList }) => {
   };
   return (
     <div className="friends">
-      <h2>Friends</h2>
+      <h3>Friends</h3>
       <div>{renderFriends(friendsList)}</div>
     </div>
   );

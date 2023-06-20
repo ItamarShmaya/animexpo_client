@@ -37,8 +37,8 @@ const StaffPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      const favStaffList = getLocalStorage("loggedUser").favStaff;
-      if (favStaffList.list.find((char) => char.id === +id)) {
+      const favoriteStaffList = getLocalStorage("loggedUser").favoriteStaff;
+      if (favoriteStaffList.list.find((char) => char.id === +id)) {
         setInFavorites(true);
       } else {
         setInFavorites(false);
@@ -105,7 +105,7 @@ const StaffPage = () => {
               addToList={addToFavStaffList}
               setInFavorites={setInFavorites}
               removeFromList={removeFromFavStaffList}
-              localStorageKey={"favStaff"}
+              localStorageKey={"favoriteStaff"}
             />
             <VARoles
               id={id}

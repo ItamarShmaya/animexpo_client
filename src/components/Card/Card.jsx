@@ -10,6 +10,7 @@ const Card = ({
   showRank,
   cardHeight = 225,
   cardWidth = 150,
+  titleFontSize = 12,
 }) => {
   return (
     <NavLink className="card-wrapper" to={`/${type}/${id}`}>
@@ -30,7 +31,7 @@ const Card = ({
             {showRank && <div className="card-rank">#{index + 1}</div>}
           </div>
           <div className="card-bottom">
-            <h3>{title}</h3>
+            <h3 style={{ fontSize: `${titleFontSize}px` }}>{title}</h3>
           </div>
         </div>
       </div>

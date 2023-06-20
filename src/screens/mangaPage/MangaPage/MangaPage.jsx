@@ -18,10 +18,15 @@ import {
 import { entryPageRecommendationsSliderSettings } from "../../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import naori from "../../../components/Spinner/spinnerImages/naori.png";
+import {
+  addToFavMangaList,
+  removeFromFavMangaList,
+} from "../../../apis/animexpo/animexpo_updates";
 
 const MangaPage = () => {
   const [manga, setManga] = useState(null);
   const [inList, setInList] = useState(false);
+  const [inFavList, setInFavList] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const { getLocalStorage } = useLocalStorage();
@@ -39,6 +44,12 @@ const MangaPage = () => {
         setInList(true);
       } else {
         setInList(false);
+      }
+      const favoriteManga = getLocalStorage("loggedUser").favoriteManga;
+      if (favoriteManga.list.find((myManga) => myManga.id === +id)) {
+        setInFavList(true);
+      } else {
+        setInFavList(false);
       }
     }
   }, [id, loggedInUser, getLocalStorage]);
@@ -88,6 +99,11 @@ const MangaPage = () => {
             inList={inList}
             setInList={setInList}
             AddButton={AddToMangaListButton}
+            inFavList={inFavList}
+            setInFavList={setInFavList}
+            addToFavorite={addToFavMangaList}
+            removeFromFavorite={removeFromFavMangaList}
+            favoriteListName={"favoriteManga"}
           />
           <div className="info-and-chars">
             <div className="info">

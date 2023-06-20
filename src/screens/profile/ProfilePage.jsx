@@ -41,13 +41,17 @@ const ProfilePage = () => {
       if (username === loggedInUser?.username) {
         const loggedUser = getLocalStorage("loggedUser");
         const profileData = loggedUser.profileData;
-        const favCharacters = loggedUser.favCharacters;
-        const favStaff = loggedUser.favStaff;
+        const favoriteAnime = loggedUser.favoriteAnime;
+        const favoriteManga = loggedUser.favoriteManga;
+        const favoriteCharacters = loggedUser.favoriteCharacters;
+        const favoriteStaff = loggedUser.favoriteStaff;
         const friendsList = loggedUser.friendsList;
         const animeList = loggedUser.animeList;
         const mangaList = loggedUser.mangaList;
-        profileData.favoriteCharacters = favCharacters;
-        profileData.favoriteStaff = favStaff;
+        profileData.favoriteAnime = favoriteAnime;
+        profileData.favoriteManga = favoriteManga;
+        profileData.favoriteCharacters = favoriteCharacters;
+        profileData.favoriteStaff = favoriteStaff;
         profileData.friendsList = friendsList;
         setViewedProfile(profileData);
         setViewedUserAnimeList(animeList);
@@ -95,6 +99,7 @@ const ProfilePage = () => {
     getLocalStorage,
     getFromProfilesCache,
     addEntryToUserCache,
+    loggedInUser,
   ]);
 
   return (

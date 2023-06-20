@@ -25,29 +25,32 @@ export const useLocalStorage = () => {
       loggedUser.animeList = user.user.animeList;
       loggedUser.mangaList = user.user.mangaList;
       loggedUser.profileData = user.user.profileData;
-      loggedUser.friendsList = user.user.profileData.friendsList
-      loggedUser.favCharacters = user.user.profileData.favoriteCharacters
-      loggedUser.favStaff = user.user.profileData.favoriteStaff
-      loggedUser.favAnime = user.user.profileData.favoriteAnime
-      loggedUser.favManga = user.user.profileData.favoriteManga
+      loggedUser.friendsList = user.user.profileData.friendsList;
+      loggedUser.favoriteCharacters = user.user.profileData.favoriteCharacters;
+      loggedUser.favoriteStaff = user.user.profileData.favoriteStaff;
+      loggedUser.favoriteAnime = user.user.profileData.favoriteAnime;
+      loggedUser.favoriteManga = user.user.profileData.favoriteManga;
 
       setLocalStorage("loggedUser", loggedUser);
     },
     [setLocalStorage]
   );
 
-  const saveToLoggedUser = useCallback((key, value) => {
-    const user = getLocalStorage("loggedUser");
-    if(user) {
-      user[key] = value;
-      setLocalStorage("loggedUser", user)
-    }
-  }, [])
+  const saveToLoggedUser = useCallback(
+    (key, value) => {
+      const user = getLocalStorage("loggedUser");
+      if (user) {
+        user[key] = value;
+        setLocalStorage("loggedUser", user);
+      }
+    },
+    [getLocalStorage, setLocalStorage]
+  );
 
   return {
     getLocalStorage,
     setLocalStorage,
     saveUserToLocalStorage,
-    saveToLoggedUser
+    saveToLoggedUser,
   };
 };

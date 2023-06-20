@@ -1,8 +1,19 @@
 import "./EntryPageHero.css";
 import { useEffect, useRef, useState } from "react";
 import DOMPurify from "dompurify";
+import AddToFavorite from "../AddToFavorite/AddToFavorite";
 
-const EntryPageHero = ({ entry, inList, setInList, AddButton }) => {
+const EntryPageHero = ({
+  entry,
+  inList,
+  setInList,
+  inFavList,
+  setInFavList,
+  AddButton,
+  addToFavorite,
+  removeFromFavorite,
+  favoriteListName,
+}) => {
   const {
     title,
     description,
@@ -69,6 +80,16 @@ const EntryPageHero = ({ entry, inList, setInList, AddButton }) => {
             volumes={volumes}
             inList={inList}
             setInList={setInList}
+          />
+          <AddToFavorite
+            id={id}
+            title={title.userPreferred || title.english}
+            image={coverImage.extraLarge || coverImage.large}
+            addToFavorite={addToFavorite}
+            removeFromFavorite={removeFromFavorite}
+            inFavList={inFavList}
+            setInFavList={setInFavList}
+            favoriteListName={favoriteListName}
           />
         </div>
       </div>
