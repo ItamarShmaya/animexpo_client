@@ -36,8 +36,24 @@ export const markdownParser = (string) => {
   let parsedString = string;
   console.log(process.env.NODE_ENV);
   const rules =
-    process.env.NODE_ENV === "development"
+    process.env.NODE_ENV === "production"
       ? [
+          [/#{6}\s?([^\n]+)/g, "<h6>$1</h6>"],
+          [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
+          [/#{4}\s?([^\n]+)/g, "<h4>$1</h4>"],
+          [/#{3}\s?([^\n]+)/g, "<h3>$1</h3>"],
+          [/#{2}\s?([^\n]+)/g, "<h2>$1</h2>"],
+          [/#{1}\s?([^\n]+)/g, "<h1>$1</h1>"],
+          [/__(.*)__/g, "<strong>$1</strong>"],
+          [/_(.*)_/g, "<em>$1</em>"],
+          [
+            /~!(.*?)!~/gs,
+            "<p class='spoiler-tag'><span class='show-spoiler'>*Show Spoiler</span><span class='spoiler-content'>$1</span><span class='hide-spoiler'>*Hide Spoiler</span></p>",
+          ],
+          [/anilist.co/g, "animexpoclient.onrender.com"],
+          [/\[([^\]]+)\]\(([^)]+)\)/g, "<a href='$2' target='_blank'>$1</a>"],
+        ]
+      : [
           [/&#039;/g, "'"],
           [(/#{6}\s?([^\n]+)/g, "<h6>$1</h6>")],
           [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
@@ -52,22 +68,6 @@ export const markdownParser = (string) => {
             "<p class='spoiler-tag'><span class='show-spoiler'>*Show Spoiler</span><span class='spoiler-content'>$1</span><span class='hide-spoiler'>*Hide Spoiler</span></p>",
           ],
           [/https:\/\/anilist.co/g, "http://localhost:3000"],
-          [/\[([^\]]+)\]\(([^)]+)\)/g, "<a href='$2' target='_blank'>$1</a>"],
-        ]
-      : [
-          [/#{6}\s?([^\n]+)/g, "<h6>$1</h6>"],
-          [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
-          [/#{4}\s?([^\n]+)/g, "<h4>$1</h4>"],
-          [/#{3}\s?([^\n]+)/g, "<h3>$1</h3>"],
-          [/#{2}\s?([^\n]+)/g, "<h2>$1</h2>"],
-          [/#{1}\s?([^\n]+)/g, "<h1>$1</h1>"],
-          [/__(.*)__/g, "<strong>$1</strong>"],
-          [/_(.*)_/g, "<em>$1</em>"],
-          [
-            /~!(.*?)!~/gs,
-            "<p class='spoiler-tag'><span class='show-spoiler'>*Show Spoiler</span><span class='spoiler-content'>$1</span><span class='hide-spoiler'>*Hide Spoiler</span></p>",
-          ],
-          [/anilist.co/g, "animexpoclient.onrender.com"],
           [/\[([^\]]+)\]\(([^)]+)\)/g, "<a href='$2' target='_blank'>$1</a>"],
         ];
 
