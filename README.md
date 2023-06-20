@@ -1,4 +1,4 @@
-https://animexpoclient.onrender.com/
+https://animexpo.onrender.com/
 
 # Getting Started with Create React App
 
