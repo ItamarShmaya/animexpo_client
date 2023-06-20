@@ -37,6 +37,7 @@ export const markdownParser = (string) => {
   const rules =
     process.env.NODE_ENV === "production"
       ? [
+          [/&#039;/g, "'"],
           [/#{6}\s?([^\n]+)/g, "<h6>$1</h6>"],
           [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
           [/#{4}\s?([^\n]+)/g, "<h4>$1</h4>"],
