@@ -8,9 +8,9 @@ const EntryRecommendations = ({ recommendations, type, sliderSettings }) => {
   useEffect(() => {
     const reco = recommendations.map((reco) => {
       return {
-        id: reco.node.mediaRecommendation.id,
-        title: reco.node.mediaRecommendation.title,
-        coverImage: reco.node.mediaRecommendation.coverImage,
+        id: reco?.node?.mediaRecommendation?.id,
+        title: reco?.node?.mediaRecommendation?.title,
+        coverImage: reco?.node?.mediaRecommendation?.coverImage,
       };
     });
     setRecoList(reco);

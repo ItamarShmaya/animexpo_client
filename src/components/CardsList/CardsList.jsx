@@ -9,6 +9,7 @@ const CardsList = ({
   sliderSettings,
   cardHeight,
   cardWidth,
+  titleFontSize,
 }) => {
   const renderCards = () => {
     return list.map((listItem, i) => {
@@ -33,6 +34,7 @@ const CardsList = ({
           index={i}
           cardHeight={cardHeight}
           cardWidth={cardWidth}
+          titleFontSize={titleFontSize}
         />
       );
     });

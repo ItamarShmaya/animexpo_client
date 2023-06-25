@@ -1,153 +1,126 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import CardsList from "../../components/CardsList/CardsList";
-import Spinner from "../../components/Spinner/Spinner";
 import { landingPageSliderSettings } from "../../components/ImageSlide/sliderSettings";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 import "./LandingPage.css";
-import axios from "axios";
 import {
-  url,
-  headers,
-  top25AnimeQuery,
-  top25MangaQuery,
-  top25CharactersQuery,
+  aniListRequests,
+  landingPageQuery,
 } from "../../apis/aniList/aniList.queries";
 import baru from "../../components/Spinner/spinnerImages/baru.png";
+import Spinner from "../../components/Spinner/Spinner";
+import { getCurrentSeason, getNextSeason } from "../../helpers/helpers";
+import { MediaSeason } from "../../apis/aniList/types";
+import Section from "./Section/Section";
 
 const LandingPage = () => {
-  const [topAnime, setTopAnime] = useState([]);
-  const [topManga, setTopManga] = useState([]);
-  const [topCharacters, setTopCharacters] = useState([]);
-  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const [landingPageData, setLandingPageData] = useState(null);
+  const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const getTopAnime = async () => {
+    const getLadingPageData = async () => {
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      let currentSeasonYear = currentDate.getFullYear();
+      const currentSeason = getCurrentSeason(currentMonth);
+      const nextSeason = getNextSeason(currentMonth);
+      const nextSeasonYear =
+        nextSeason === MediaSeason.fall
+          ? currentSeasonYear + 1
+          : currentSeasonYear;
+      const variables = {
+        season: currentSeason,
+        seasonYear: currentSeasonYear,
+        nextSeason: nextSeason,
+        nextSeasonYear: nextSeasonYear,
+      };
       try {
-        const { data } = await axios({
-          url,
-          method: "POST",
-          headers: headers,
-          data: {
-            query: top25AnimeQuery,
-          },
-          signal: controller.signal,
-        });
+        const { data } = await aniListRequests(
+          landingPageQuery,
+          variables,
+          controller.signal
+        );
 
-        if (data.data.Page.media) {
-          setLocalStorage("topAnime", data.data.Page.media);
-          setTopAnime(data.data.Page.media);
-        }
+        data && setUserSessionStorage("landingPageData", data);
+        data && setLandingPageData(data);
       } catch (e) {
         console.log(e);
       }
     };
-    const topAnime = getLocalStorage("topAnime");
-    !topAnime ? getTopAnime() : setTopAnime(topAnime);
+
+    const landingPageData = getUserSessionStorage().landingPageData;
+    landingPageData ? setLandingPageData(landingPageData) : getLadingPageData();
 
     return () => {
       controller.abort();
     };
-  }, [getLocalStorage, setLocalStorage]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const getTopManga = async () => {
-      try {
-        const { data } = await axios({
-          url,
-          method: "POST",
-          headers: headers,
-          data: {
-            query: top25MangaQuery,
-          },
-          signal: controller.signal,
-        });
-
-        if (data.data.Page.media) {
-          setLocalStorage("topManga", data.data.Page.media);
-          setTopManga(data.data.Page.media);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    const topManga = getLocalStorage("topManga");
-    !topManga ? getTopManga() : setTopManga(topManga);
-
-    return () => {
-      controller.abort();
-    };
-  }, [getLocalStorage, setLocalStorage]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const getTopCharacters = async () => {
-      try {
-        const { data } = await axios({
-          url,
-          method: "POST",
-          headers: headers,
-          data: {
-            query: top25CharactersQuery,
-          },
-          signal: controller.signal,
-        });
-
-        if (data.data.Page.characters) {
-          setLocalStorage("topCharacters", data.data.Page.characters);
-          setTopCharacters(data.data.Page.characters);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    const topCharacters = getLocalStorage("topCharacters");
-    !topCharacters ? getTopCharacters() : setTopCharacters(topCharacters);
-
-    return () => {
-      controller.abort();
-    };
-  }, [getLocalStorage, setLocalStorage]);
+  }, [getUserSessionStorage, setUserSessionStorage]);
 
   return (
     <>
       <div className="hero">
         <SearchBar />
       </div>
-      {topAnime.length && topManga.length && topCharacters.length ? (
+      {landingPageData ? (
         <div className="lists-container">
-          <section className="landing-page-section">
-            <h1>Top Anime</h1>
-            <CardsList
-              list={topAnime}
-              type="anime"
-              showRank={true}
-              sliderSettings={landingPageSliderSettings}
-            />
-          </section>
-          <section className="landing-page-section">
-            <h1>Top Manga</h1>
-            <CardsList
-              list={topManga}
-              type="manga"
-              showRank={true}
-              sliderSettings={landingPageSliderSettings}
-            />
-          </section>
-          <section className="landing-page-section">
-            <h1>Favorite Characters</h1>
-            <CardsList
-              list={topCharacters}
-              type="character"
-              showRank={true}
-              sliderSettings={landingPageSliderSettings}
-            />
-          </section>
+          <Section
+            list={landingPageData?.trending?.media}
+            heading={"Trending Now"}
+            type={"anime"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.thisSeason?.media}
+            heading={"Popular This Season"}
+            type={"anime"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.nextSeason?.media}
+            heading={"Upcoming Next Season"}
+            type={"anime"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.top?.media}
+            heading={"Top Anime"}
+            type={"anime"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.popular?.media}
+            heading={"All Time Popular"}
+            type={"anime"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.topManga?.media}
+            heading={"Top Manga"}
+            type={"manga"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
+          <Section
+            list={landingPageData?.topCharacters?.characters}
+            heading={"Favorite Characters"}
+            type={"character"}
+            showRank={true}
+            sliderSettings={landingPageSliderSettings}
+            titleFontSize={14}
+          />
         </div>
       ) : (
         <Spinner image={baru} />

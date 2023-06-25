@@ -9,12 +9,14 @@ import {
   getStaffBySearchQuery,
 } from "../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [searchResults, setSearchResults] = useState([]);
   const [selectValue, setSelectValue] = useState("anime");
+  const navigate = useNavigate();
   const { addToSearchResultsChache, getFromSearchResultsChache } =
     useSessionStorage();
   const searchbarRef = useRef();
@@ -198,6 +200,23 @@ const SearchBar = () => {
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
+    switch (selectValue) {
+      case "anime": {
+        return navigate("/search/anime");
+      }
+      case "manga": {
+        return navigate("/search/manga");
+      }
+      case "character": {
+        return navigate("/search/character");
+      }
+      case "staff": {
+        return navigate("/search/staff");
+      }
+      default: {
+        return navigate("/search/anime");
+      }
+    }
   };
 
   return (

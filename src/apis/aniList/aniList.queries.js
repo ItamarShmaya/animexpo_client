@@ -26,55 +26,243 @@ export const aniListRequests = async (query, variables, signal) => {
   }
 };
 
-export const top25AnimeQuery = `
-    query {
-      Page(page: 1, perPage: 25) {
-        media(type: ANIME, sort: SCORE_DESC) {
+export const landingPageQuery = `
+query ($season: MediaSeason, $seasonYear: Int, $nextSeason: MediaSeason, $nextSeasonYear: Int) {
+  trending: Page(page: 1, perPage: 25) {
+    media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+      ...media
+    }
+  }
+  thisSeason: Page(page: 1, perPage: 25) {
+    media(type: ANIME, sort: POPULARITY_DESC, season: $season, seasonYear: $seasonYear, isAdult: false) {
+      ...media
+    }
+  }
+  nextSeason: Page(page: 1, perPage: 25) {
+    media(type: ANIME, sort: POPULARITY_DESC, season: $nextSeason, seasonYear: $nextSeasonYear, isAdult: false) {
+      ...media
+    }
+  }
+  popular: Page(page: 1, perPage: 25) {
+    media(type: ANIME, sort: POPULARITY_DESC) {
+      ...media
+    }
+  }
+  top: Page(page: 1, perPage: 25) {
+    media(type: ANIME, sort: SCORE_DESC) {
+      ...media
+    }
+  }
+  topManga: Page(page: 1, perPage: 25) {
+    media(type: MANGA, sort: SCORE_DESC) {
+      ...media
+    }
+  }
+
+  topCharacters: Page(page: 1, perPage: 25) {
+    characters(sort: FAVOURITES_DESC) {
+      id
+      image {
+        large
+        medium
+      }
+      name {
+        userPreferred
+      }
+    }
+  }
+}
+
+fragment media on Media {
+  id 
+  title {
+    english
+    userPreferred
+  }
+  coverImage {
+    large 
+    medium
+  }
+  startDate {
+    year 
+    month 
+    day
+  }
+  endDate {
+    year 
+    month 
+    day
+  }
+  bannerImage 
+  season 
+  seasonYear 
+  description 
+  type 
+  format 
+  status(version: 2) 
+  episodes 
+  volumes
+  chapters
+  duration 
+  chapters 
+  volumes 
+  genres 
+  isAdult 
+  averageScore 
+  popularity 
+  nextAiringEpisode {
+    airingAt 
+    timeUntilAiring 
+    episode
+  }
+  studios(isMain: true) {
+    edges {
+      isMain 
+      node {
+        id 
+        name
+      }
+    }  
+  }
+}
+`;
+
+export const top25TrendingAnimeQuery = `
+    query ($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: TRENDING_DESC) {
           id
           coverImage {
-            extraLarge
             large
             medium
-            color
           }
           title {
             english
             userPreferred
           }
         }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
       }
-    }`;
+    }
+    `;
+
+export const top25PopularBySeasonAnimeQuery = `
+    query($page: Int, $perPage: Int, $season: MediaSeason, $seasonYear: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: POPULARITY_DESC, season: $season, seasonYear: $seasonYear) {
+          id
+          coverImage {
+            large
+            medium
+          }
+          title {
+            english
+            userPreferred
+          }
+        }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
+      }
+    }
+    `;
+
+export const top25AnimeQuery = `
+    query ($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: SCORE_DESC) {
+          id
+          coverImage {
+            large
+            medium
+          }
+          title {
+            english
+            userPreferred
+          }
+        }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
+      }
+    }
+    `;
+
+export const top25PopularAllTimeAnimeQuery = `
+    query ($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: POPULARITY_DESC) {
+          id
+          coverImage {
+            large
+            medium
+          }
+          title {
+            english
+            userPreferred
+          }
+        }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
+      }
+    }
+    `;
 
 export const top25MangaQuery = `
-    query {
-      Page(page: 1, perPage: 25) {
+    query ($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
         media(type: MANGA, sort: SCORE_DESC) {
           id
           coverImage {
             large
+            medium
           }
           title {
             english
             userPreferred
           }
         }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
       }
-    }`;
+    }
+    `;
 
 export const top25CharactersQuery = `
-    query {
-      Page(page: 1, perPage: 25) {
+    query ($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
         characters(sort: FAVOURITES_DESC) {
           id
           image {
             large
+            medium
           }
           name {
             userPreferred
           }
         }
+        pageInfo {
+          currentPage
+          lastPage
+          hasNextPage
+        }
       }
-    }`;
+    }
+    `;
 
 export const animeByIdQuery = `
     query ($id: Int, $type: MediaType) {
@@ -141,7 +329,7 @@ export const animeByIdQuery = `
             }
           }
         }
-        characters(sort:ROLE perPage: 10) {
+        characters(sort:[ROLE, RELEVANCE] perPage: 10) {
           edges {
             id
             role
@@ -589,6 +777,111 @@ query($search: String $perPage: Int) {
       }
       age
       primaryOccupations
+    }
+  }
+}
+`;
+
+export const top25PopularByDateAnimeQuery = `
+    query($start: FuzzyDateInt, $end: FuzzyDateInt) {
+      Page(page: 1, perPage: 25) {
+        media(type: ANIME, sort: POPULARITY_DESC startDate_greater:$start, startDate_lesser:$end) {
+          id
+          coverImage {
+            large
+            medium
+          }
+          title {
+            english
+            userPreferred
+          }
+        }
+      }
+    }
+    `;
+
+export const getByTypeAndCatagoryQuery = `
+query($type: MediaType, $catagory: String, $page: Int, $perPage: Int) {
+  Page(page: $page, perPage: $perPage) {
+    media(type: $type, sort: $catagory) {
+      id
+      
+    }
+  }
+}
+`;
+
+export const getGenresAndTagsQuery = `
+query{
+  genres:GenreCollection 
+  tags:MediaTagCollection {
+    name 
+    description 
+    category 
+    isAdult
+  }
+}
+`;
+
+export const advancedSearchQuery = `
+query($page: Int = 1 $id: Int $type: MediaType $isAdult: Boolean = false $search: String $format: [MediaFormat] $status: MediaStatus $countryOfOrigin: CountryCode $source: MediaSource $season: MediaSeason $seasonYear: Int $year: String $onList: Boolean $yearLesser: FuzzyDateInt $yearGreater: FuzzyDateInt $episodeLesser: Int $episodeGreater: Int $durationLesser: Int $durationGreater: Int $chapterLesser: Int $chapterGreater: Int $volumeLesser: Int $volumeGreater: Int $licensedBy: [Int] $isLicensed: Boolean $genres: [String] $excludedGenres: [String] $tags: [String] $excludedTags: [String] $minimumTagRank: Int $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
+  Page(page: $page, perPage: 25) {
+    pageInfo {
+      total 
+      perPage 
+      currentPage 
+      lastPage 
+      hasNextPage
+    }
+    media(id: $id type: $type season: $season format_in: $format status: $status countryOfOrigin: $countryOfOrigin source: $source search: $search onList: $onList seasonYear: $seasonYear startDate_like: $year startDate_lesser: $yearLesser startDate_greater: $yearGreater episodes_lesser: $episodeLesser episodes_greater: $episodeGreater duration_lesser: $durationLesser duration_greater: $durationGreater chapters_lesser: $chapterLesser chapters_greater: $chapterGreater volumes_lesser: $volumeLesser volumes_greater: $volumeGreater licensedById_in: $licensedBy isLicensed: $isLicensed genre_in: $genres genre_not_in: $excludedGenres tag_in: $tags tag_not_in: $excludedTags minimumTagRank: $minimumTagRank sort: $sort isAdult: $isAdult) {
+      id 
+      title {
+        english
+        userPreferred
+      }
+      coverImage {
+        extraLarge 
+        large 
+      }
+      startDate {
+        year 
+        month 
+        day
+      }
+      endDate {
+        year 
+        month 
+        day        
+      }
+      bannerImage 
+      season 
+      seasonYear 
+      description         
+      type 
+      format 
+      status(version: 2) 
+      episodes 
+      duration 
+      chapters 
+      volumes 
+      genres 
+      isAdult 
+      averageScore 
+      popularity 
+      nextAiringEpisode {
+        airingAt 
+        timeUntilAiring 
+        episode
+      }
+      studios(isMain: true) {
+        edges {
+          isMain 
+          node {
+            id 
+            name
+          }
+        }
+      }
     }
   }
 }
