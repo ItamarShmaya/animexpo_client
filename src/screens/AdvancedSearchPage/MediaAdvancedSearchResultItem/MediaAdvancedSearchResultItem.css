@@ -1,10 +1,17 @@
 .advanced-search-result {
   display: grid;
-  grid-template-columns: auto 4.5fr 1.5fr 1.5fr 1.5fr;
   background-color: #222;
   width: 90%;
   margin: auto;
   align-items: center;
+}
+
+.search-res-rank {
+  color: #eeebdd;
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+
 }
 
 .cover-image {

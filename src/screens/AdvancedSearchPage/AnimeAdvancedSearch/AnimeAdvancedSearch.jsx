@@ -68,6 +68,7 @@ const AnimeAdvancedSearch = () => {
           nextAiringEpisode={item.nextAiringEpisode}
           season={item.season}
           seasonYear={item.seasonYear}
+          showRank={false}
         />
       );
     });

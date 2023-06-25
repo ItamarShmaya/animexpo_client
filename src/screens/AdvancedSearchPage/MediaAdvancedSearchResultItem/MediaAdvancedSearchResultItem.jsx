@@ -17,7 +17,10 @@ const MediaAdvancedSearchResultItem = ({
   nextAiringEpisode,
   season,
   seasonYear,
+  showRank,
+  rank
 }) => {
+  const gridTemplateColumns = showRank ? "0.5fr auto 4.5fr 1fr 1fr 1fr" : "auto 4.5fr 1fr 1fr 1fr"
   const navigate = useNavigate();
   const renderGenres = () => {
     return genres.map((genre) => {
@@ -38,7 +41,12 @@ const MediaAdvancedSearchResultItem = ({
     });
   };
   return (
-    <div className="advanced-search-result" key={id}>
+    <div
+      className="advanced-search-result"
+      key={id}
+      style={{ gridTemplateColumns }}
+    >
+      {showRank && <div className="search-res-rank">{rank}</div>}
       <NavLink to={`/${type}/${id}`} className="cover-image">
         <img src={image} alt={title} />
       </NavLink>
@@ -54,9 +62,7 @@ const MediaAdvancedSearchResultItem = ({
       </div>
 
       <div className="format-episodes adv-search-res-item">
-        <div className="res-item-heading">
-          {formatsStringRender(format)}
-        </div>
+        <div className="res-item-heading">{formatsStringRender(format)}</div>
         {format.toLowerCase() === "movie" ? (
           <div className="res-item-details">
             {Math.ceil(duration / 60)}h
