@@ -1,21 +1,40 @@
 .slick-arrow {
   width: 50px;
-  height: 50%;
-  top: calc(50% - 25px);
-  transform: translate(0, 0);
+  height: 80%;
   opacity: 0;
   transition: opacity 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
+.slick-next {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.slick-prev {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.slick-next .fa-caret-right,
+.slick-prev .fa-caret-left {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 60px;
+}
 .slick-next:before {
-  font-size: 50px;
-  height: 100%;
+  content: "";
 }
 .slick-prev:before {
-  font-size: 50px;
-  height: 100%;
+  content: "";
 }
 
 .slick-slider:hover .slick-arrow {
   opacity: 1;
+}
+
+.slick-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }

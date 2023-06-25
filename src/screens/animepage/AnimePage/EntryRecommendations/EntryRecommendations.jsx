@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const EntryRecommendations = ({ recommendations, type, sliderSettings }) => {
   const [recoList, setRecoList] = useState(null);
-  console.log(recommendations);
+
   useEffect(() => {
     const reco = recommendations.map((reco) => {
       return {

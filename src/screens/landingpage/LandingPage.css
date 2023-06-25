@@ -6,16 +6,8 @@
 .lists-container {
   display: flex;
   flex-direction: column;
+  width: 90%;
+  margin: 30px auto 0;
+  gap: 50px;
 }
 
-.landing-page-section {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.landing-page-section h1 {
-  color: #eeebdd;
-  font-size: 2.5rem;
-}
