@@ -142,7 +142,7 @@ const MediaSearchMenu = ({
       }
     };
 
-    // getSearchedList(variables);
+    getSearchedList(variables);
 
     return () => {
       controller.abort();
