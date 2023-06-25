@@ -3,19 +3,12 @@ import PrevArrow from "../CarouselArrows/PrevArrow";
 
 export const landingPageSliderSettings = {
   infinite: true,
-  slidesToShow: 9,
-  slidesToScroll: 9,
+  slidesToShow: 8,
+  slidesToScroll: 8,
   lazyLoad: true,
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
   responsive: [
-    {
-      breakpoint: 1500,
-      settings: {
-        slidesToShow: 8,
-        slidesToScroll: 8,
-      },
-    },
     {
       breakpoint: 1400,
       settings: {
@@ -31,35 +24,35 @@ export const landingPageSliderSettings = {
       },
     },
     {
-      breakpoint: 1000,
+      breakpoint: 1100,
       settings: {
         slidesToShow: 5,
         slidesToScroll: 5,
       },
     },
     {
-      breakpoint: 800,
+      breakpoint: 900,
       settings: {
         slidesToShow: 4,
         slidesToScroll: 4,
       },
     },
     {
-      breakpoint: 650,
+      breakpoint: 750,
       settings: {
         slidesToShow: 3,
         slidesToScroll: 3,
       },
     },
     {
-      breakpoint: 500,
+      breakpoint: 550,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
       },
     },
     {
-      breakpoint: 350,
+      breakpoint: 400,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,

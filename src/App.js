@@ -19,6 +19,7 @@ import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserRevie
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
+import AdvancedSearchPage from "./screens/AdvancedSearchPage/AdvancedSearchPage";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -33,6 +34,77 @@ function App() {
           <Routes>
             <Route path="/" exact element={<LandingPage />} />
             <Route path="/signup/*" exact element={<SignupPage />} />
+            <Route
+              path="/search"
+              exact
+              element={<Navigate to="/search/anime/*" />}
+              replace
+            />
+            <Route
+              path="/search/anime/*"
+              exact
+              element={<AdvancedSearchPage type={"anime"} />}
+            />
+            <Route
+              path="/search/manga/*"
+              exact
+              element={<AdvancedSearchPage type={"manga"} />}
+            />
+            <Route
+              path="/search/character/*"
+              exact
+              element={<AdvancedSearchPage type={"character"} />}
+            />
+            <Route
+              path="/search/staff/*"
+              exact
+              element={<AdvancedSearchPage type={"staff"} />}
+            />
+            {/* <Route
+              path="/search/anime/trending"
+              exact
+              element={
+                <AdvancedSearchPage type={"anime"} catagory={"trending"} />
+              }
+            />
+            <Route
+              path="/search/anime/popular"
+              exact
+              element={
+                <AdvancedSearchPage type={"anime"} catagory={"popular"} />
+              }
+            />
+            <Route
+              path="/search/anime/this-season"
+              exact
+              element={
+                <AdvancedSearchPage type={"anime"} catagory={"this-season"} />
+              }
+            />
+            <Route
+              path="/search/anime/next-season"
+              exact
+              element={
+                <AdvancedSearchPage type={"anime"} catagory={"next-season"} />
+              }
+            />
+            <Route
+              path="/search/anime/top"
+              exact
+              element={<AdvancedSearchPage type={"anime"} catagory={"top"} />}
+            />
+            <Route
+              path="/search/manga/top"
+              exact
+              element={<AdvancedSearchPage type={"manga"} catagory={"top"} />}
+            />
+            <Route
+              path="/search/character/favorite"
+              exact
+              element={
+                <AdvancedSearchPage type={"character"} catagory={"favorite"} />
+              }
+            /> */}
             <Route
               path="/profile/:username/*"
               exact
@@ -87,7 +159,7 @@ function App() {
             />
             <Route path="/notfound/*" exact element={<NotFound />} />
             <Route path="/error/*" exact element={<Error />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/notfound" replace />} />
           </Routes>
         </ErrorBoundary>
         {/* <Footer /> */}

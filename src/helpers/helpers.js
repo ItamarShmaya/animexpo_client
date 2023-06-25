@@ -1,3 +1,5 @@
+import { MediaFormat, MediaSeason } from "../apis/aniList/types";
+
 export const MONTHS = {
   1: "Jan",
   2: "Feb",
@@ -11,6 +13,33 @@ export const MONTHS = {
   10: "Oct",
   11: "Nov",
   12: "Dec",
+};
+
+export const getCurrentSeason = (month) => {
+  month = month + 1;
+  if (month >= 1 && month <= 3) return MediaSeason.winter;
+  if (month >= 4 && month <= 6) return MediaSeason.spring;
+  if (month >= 7 && month <= 9) return MediaSeason.summer;
+  if (month >= 10 && month <= 12) return MediaSeason.fall;
+};
+
+export const getNextSeason = (month) => {
+  month = month + 1;
+  if (month >= 1 && month <= 3) return MediaSeason.spring;
+  if (month >= 4 && month <= 6) return MediaSeason.summer;
+  if (month >= 7 && month <= 9) return MediaSeason.fall;
+  if (month >= 10 && month <= 12) return MediaSeason.winter;
+};
+
+export const getFuzzyDateForSeason = (season, year) => {
+  if (season === MediaSeason.winter)
+    return { start: `${year}0100`, end: `${year}0300` };
+  if (season === MediaSeason.spring)
+    return { start: `${year}0400`, end: `${year}0600` };
+  if (season === MediaSeason.summer)
+    return { start: `${year}0700`, end: `${year}0900` };
+  if (season === MediaSeason.fall)
+    return { start: `${year}1000`, end: `${year}1200` };
 };
 
 export const parseDateFromAniListApi = ({ year, month, day }) => {
@@ -76,4 +105,62 @@ export const markdownParser = (string) => {
   });
 
   return parsedString;
+};
+
+export const getYearsFrom = (from, desc) => {
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  if (desc.toLowerCase() === "desc") {
+    for (let i = 0; i <= currentYear + 1 - from; i++) {
+      years.push(currentYear + 1 - i);
+    }
+  } else {
+    for (let i = 0; i <= currentYear + 1 - from; i++) {
+      years.push(1940 + i);
+    }
+  }
+  return years;
+};
+
+export const seasons = ["Winter", "Spring", "Summer", "Fall"];
+
+export const animeFormats = [
+  "TV",
+  "TV Short",
+  "Movie",
+  "Special",
+  "OVA",
+  "ONA",
+  "Music",
+];
+
+export const mangaFormats = ["Manga", "Novel", "One Shot"];
+
+export const convertToArrayOfMediaFormats = (formatsArray) => {
+  return formatsArray.map((format) => {
+    const lowerCaseFormat = format.toLowerCase();
+    return MediaFormat[lowerCaseFormat === "tv show" ? "tv" : lowerCaseFormat];
+  });
+};
+
+export const capitalizeWord = (string) => {
+  const lowerCaseStr = string.toLowerCase();
+  return lowerCaseStr[0].toUpperCase() + lowerCaseStr.slice(1);
+};
+
+export const capitalizeSentence = (string) => {
+  const stringArr = string.split(" ");
+  const capitalizedStr = "";
+  for (let i = 0; i < stringArr.length; i++) {
+    capitalizedStr += stringArr[i][0].toUpperCase() + stringArr.slice(1) + " ";
+  }
+  return capitalizedStr.trim();
+};
+
+export const formatsStringRender = (format) => {
+  const lowerCaseFormat = format.toLowerCase();
+  if (lowerCaseFormat === "tv") return "TV Show";
+  if (lowerCaseFormat === "ova") return format;
+  if (lowerCaseFormat === "ona") return format;
+  return capitalizeWord(format);
 };

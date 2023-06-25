@@ -44,7 +44,7 @@ const VALanguageDropDown = ({ characters, vaLang, setVaLang }) => {
   useEffect(() => {
     const char = characters.find((char) => char.role === "MAIN");
     const langs = {};
-    char.voiceActors.forEach((va) => (langs[va.languageV2] = va.languageV2));
+    char?.voiceActors?.forEach((va) => (langs[va.languageV2] = va.languageV2));
     const sorted = Object.keys(langs).sort();
     setLangs(sorted);
   }, [characters]);

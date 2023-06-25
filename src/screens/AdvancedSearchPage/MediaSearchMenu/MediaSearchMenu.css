@@ -1,0 +1,165 @@
+.search-menu {
+  display: flex;
+  font-size: 15px;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.menu-item-name {
+  color: #eeebdd;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.search-bar {
+  position: relative;
+}
+.search-bar .placeholder {
+  position: absolute;
+  color: #1b1717;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
+  top: calc(50% - 7.5px);
+  left: 10px;
+}
+
+.search-bar input {
+  padding-left: 10px;
+}
+
+.filter {
+  height: 35px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  width: 170px;
+  background-color: #eeebdd;
+  font-size: 1.5rem;
+  position: relative;
+  color: #1b1717;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover {
+  cursor: pointer;
+}
+
+.filter .selected-value {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-left: 10px;
+  font-weight: bold;
+  color: rgb(0, 128, 255);
+}
+
+.filter .placeholder {
+  color: #1b1717;
+  font-weight: 100;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  width: 100%;
+  background-color: #eeebdd;
+  border-radius: 5px;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.dropdown-options::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dropdown-options::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.dropdown-options::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.dropdown-options::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.dropdown-option {
+  padding: 10px;
+  width: 100%;
+}
+
+.dropdown-option:hover {
+  background-color: #ccc;
+}
+
+.multiple-select-label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 5px;
+}
+
+.multiple-select-span {
+  border: 1px solid #ccc;
+  background-color: #ccc;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.multiple-select-option {
+  display: flex;
+  justify-content: space-between;
+}
+
+.multiple-select-option span {
+  margin-right: 5px;
+}
+
+.not-selected {
+  display: none;
+}
+
+.selected {
+  display: unset;
+}
+
+.fa-circle-check {
+  color: #ce1212;
+}
+
+.inline-icon {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: calc(50% - 7.5px);
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inline-icon:hover {
+  cursor: pointer;
+}
+
+.clear-all:hover i {
+  color: red;
+}
