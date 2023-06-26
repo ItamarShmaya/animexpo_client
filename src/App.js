@@ -20,7 +20,7 @@ import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryR
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
 import AdvancedSearchPage from "./screens/AdvancedSearchPage/AdvancedSearchPage";
-import RankedListPage from "./screens/RankedListPage/AnimeRankedList/RankedListPage";
+import RankedListPage from "./screens/RankedListPage/RankedListPage";
 import { MediaSort, MediaType } from "./apis/aniList/types";
 import {
   currentSeason,

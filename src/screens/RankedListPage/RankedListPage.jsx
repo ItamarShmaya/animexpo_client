@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import AnimeRankedListsNav from "./AnimeRankedListsNav";
+import AnimeRankedListsNav from "./RankedListsNav";
 import {
   aniListRequests,
   advancedSearchQuery,
-} from "../../../apis/aniList/aniList.queries";
-import Spinner from "../../../components/Spinner/Spinner";
-import obito from "../../../components/Spinner/spinnerImages/obito.png";
-import MediaAdvancedSearchResultItem from "../../AdvancedSearchPage/MediaAdvancedSearchResultItem/MediaAdvancedSearchResultItem";
+} from "../../apis/aniList/aniList.queries";
+import Spinner from "../../components/Spinner/Spinner";
+import obito from "../../components/Spinner/spinnerImages/obito.png";
+import MediaAdvancedSearchResultItem from "../AdvancedSearchPage/MediaAdvancedSearchResultItem/MediaAdvancedSearchResultItem";
 import "./RankedListPage.css";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 

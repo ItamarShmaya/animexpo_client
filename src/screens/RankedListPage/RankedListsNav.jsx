@@ -1,8 +1,8 @@
 import { NavLink, useSearchParams } from "react-router-dom";
-import "./AnimeRankedListsNav.css";
-import { capitalizeWord } from "../../../helpers/helpers";
+import "./RankedListsNav.css";
+import { capitalizeWord } from "../../helpers/helpers";
 
-const AnimeRankedListsNav = ({ type }) => {
+const RankedListsNav = ({ type }) => {
   const searchParams = useSearchParams();
   return (
     <div className="ranked-lists-nav">
@@ -59,4 +59,4 @@ const AnimeRankedListsNav = ({ type }) => {
   );
 };
 
-export default AnimeRankedListsNav;
+export default RankedListsNav;
