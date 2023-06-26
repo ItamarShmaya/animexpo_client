@@ -54,16 +54,24 @@ const MediaSearchMenu = ({
 
   useEffect(() => {
     if (searchParams.size > 0) {
-      setIsLoading(true);
       const searchParamsObj = {};
       for (let [key, value] of searchParams) {
-        if (searchParamsObj[key]) {
-          searchParamsObj[key].push(value);
-        } else {
-          if (key === "genres" || key === "tags" || key === "format") {
-            searchParamsObj[key] = [value];
+        if (
+          key === "search" ||
+          key === "genres" ||
+          key === "tags" ||
+          key === "seasonYear" ||
+          key === "season" ||
+          key === "format"
+        ) {
+          if (searchParamsObj[key]) {
+            searchParamsObj[key].push(value);
           } else {
-            searchParamsObj[key] = value;
+            if (key === "genres" || key === "tags" || key === "format") {
+              searchParamsObj[key] = [value];
+            } else {
+              searchParamsObj[key] = value;
+            }
           }
         }
       }

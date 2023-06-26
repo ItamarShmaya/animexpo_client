@@ -138,29 +138,78 @@ export const mangaFormats = ["Manga", "Novel", "One Shot"];
 
 export const convertToArrayOfMediaFormats = (formatsArray) => {
   return formatsArray.map((format) => {
-    const lowerCaseFormat = format.toLowerCase();
+    const lowerCaseFormat = format?.toLowerCase();
     return MediaFormat[lowerCaseFormat === "tv show" ? "tv" : lowerCaseFormat];
   });
 };
 
 export const capitalizeWord = (string) => {
-  const lowerCaseStr = string.toLowerCase();
-  return lowerCaseStr[0].toUpperCase() + lowerCaseStr.slice(1);
+  const lowerCaseStr = string?.toLowerCase();
+  return lowerCaseStr
+    ? lowerCaseStr[0]?.toUpperCase() + lowerCaseStr.slice(1)
+    : string;
 };
 
 export const capitalizeSentence = (string) => {
   const stringArr = string.split(" ");
-  const capitalizedStr = "";
+  let capitalizedStr = "";
   for (let i = 0; i < stringArr.length; i++) {
-    capitalizedStr += stringArr[i][0].toUpperCase() + stringArr.slice(1) + " ";
+    capitalizedStr +=
+      stringArr[i][0]?.toUpperCase() + stringArr.slice(1)?.toLowerCase() + " ";
   }
-  return capitalizedStr.trim();
+  return capitalizedStr?.trim();
+};
+
+export const capitalizeSnakeCase = (string) => {
+  const stringArr = string.split("_");
+  let capitalizedStr = "";
+  for (let i = 0; i < stringArr.length; i++) {
+    capitalizedStr +=
+      stringArr[i][0]?.toUpperCase() +
+      stringArr[i].slice(1)?.toLowerCase() +
+      " ";
+  }
+  return capitalizedStr?.trim();
 };
 
 export const formatsStringRender = (format) => {
-  const lowerCaseFormat = format.toLowerCase();
+  const lowerCaseFormat = format?.toLowerCase();
   if (lowerCaseFormat === "tv") return "TV Show";
   if (lowerCaseFormat === "ova") return format;
   if (lowerCaseFormat === "ona") return format;
+  if (lowerCaseFormat === "novel") return "Light Novel";
   return capitalizeWord(format);
+};
+
+const currentDate = new Date();
+const currentMonth = currentDate.getMonth();
+export const currentSeasonYear = currentDate.getFullYear();
+export const currentSeason = getCurrentSeason(currentMonth);
+export const nextSeason = getNextSeason(currentMonth);
+export const nextSeasonYear =
+  nextSeason === MediaSeason.fall ? currentSeasonYear + 1 : currentSeasonYear;
+
+export const numberWithCommas = (number) => {
+  const stringNumber = number.toString();
+  if (stringNumber.length <= 3) return number;
+
+  let firstComma;
+  if (stringNumber.length % 3 === 0) firstComma = 2;
+  if (stringNumber.length % 3 === 1) firstComma = 0;
+  if (stringNumber.length % 3 === 2) firstComma = 1;
+
+  let numberWithCommas = "";
+
+  for (let i = 0; i < stringNumber.length; i++) {
+    if (i === stringNumber.length - 1) numberWithCommas += stringNumber[i];
+    else {
+      if (i < firstComma) numberWithCommas += stringNumber[i];
+      else if (i === firstComma) numberWithCommas += stringNumber[i] + ",";
+      else {
+        if (i % 3 === firstComma) numberWithCommas += stringNumber[i] + ",";
+        else numberWithCommas += stringNumber[i];
+      }
+    }
+  }
+  return numberWithCommas;
 };

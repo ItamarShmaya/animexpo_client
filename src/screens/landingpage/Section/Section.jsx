@@ -9,13 +9,14 @@ const Section = ({
   showRank,
   sliderSettings,
   titleFontSize,
+  category,
 }) => {
   return (
     <section className="landing-page-section">
       <div className="heading">
         <h1>{heading}</h1>
       </div>
-      <NavLink to={`/search/${type}/trending`} className="view-all">
+      <NavLink to={`/search/${type}/${category}`} className="view-all">
         View All
       </NavLink>
       <CardsList

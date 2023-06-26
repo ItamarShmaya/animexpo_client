@@ -11,7 +11,6 @@
   font-size: 35px;
   font-weight: bold;
   text-align: center;
-
 }
 
 .cover-image {
@@ -36,6 +35,7 @@
   color: #eeebdd;
   font-size: 15px;
   font-weight: bold;
+  width: fit-content;
 }
 
 .res-item-details {
@@ -46,6 +46,7 @@
 .advanced-search-result .title-genres .genres {
   display: flex;
   gap: 5px;
+  flex-wrap: wrap;
 }
 
 .genre {
@@ -62,4 +63,9 @@
 .genre:hover {
   cursor: pointer;
   color: blue;
+}
+
+.title-link:hover {
+  text-shadow: -0.5px -0.5px 0 #ce1212, 0.5px -0.5px 0 #ce1212,
+    -0.5px 0.5px 0 #ce1212, 0.5px 0.5px 0 #ce1212;
 }

@@ -20,6 +20,14 @@ import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryR
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
 import AdvancedSearchPage from "./screens/AdvancedSearchPage/AdvancedSearchPage";
+import RankedListPage from "./screens/RankedListPage/AnimeRankedList/RankedListPage";
+import { MediaSort, MediaType } from "./apis/aniList/types";
+import {
+  currentSeason,
+  currentSeasonYear,
+  nextSeason,
+  nextSeasonYear,
+} from "./helpers/helpers";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -60,49 +68,112 @@ function App() {
               exact
               element={<AdvancedSearchPage type={"staff"} />}
             />
-            {/* <Route
-              path="/search/anime/trending"
+            <Route
+              path="search/anime/trending/*"
               exact
               element={
-                <AdvancedSearchPage type={"anime"} catagory={"trending"} />
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.trendingDesc}
+                  category={"trending"}
+                  heading={"Trending Now"}
+                />
               }
             />
             <Route
-              path="/search/anime/popular"
+              path="search/anime/popular/*"
               exact
               element={
-                <AdvancedSearchPage type={"anime"} catagory={"popular"} />
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.popularityDesc}
+                  category={"popular"}
+                  heading={"All Time Popular"}
+                />
               }
             />
             <Route
-              path="/search/anime/this-season"
+              path="search/anime/this-season/*"
               exact
               element={
-                <AdvancedSearchPage type={"anime"} catagory={"this-season"} />
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.popularityDesc}
+                  category={"this-season"}
+                  season={currentSeason}
+                  seasonYear={currentSeasonYear}
+                  heading={"Popular This Season"}
+                />
               }
             />
             <Route
-              path="/search/anime/next-season"
+              path="search/anime/next-season/*"
               exact
               element={
-                <AdvancedSearchPage type={"anime"} catagory={"next-season"} />
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.popularityDesc}
+                  category={"next-season"}
+                  season={nextSeason}
+                  seasonYear={nextSeasonYear}
+                  heading={"Upcoming Next Season"}
+                />
               }
             />
             <Route
-              path="/search/anime/top"
+              path="/search/anime/top/*"
               exact
-              element={<AdvancedSearchPage type={"anime"} catagory={"top"} />}
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top"}
+                  heading={"Top Anime"}
+                />
+              }
             />
             <Route
               path="/search/manga/top"
               exact
-              element={<AdvancedSearchPage type={"manga"} catagory={"top"} />}
+              element={
+                <RankedListPage
+                  type={MediaType.manga}
+                  sort={MediaSort.scoreDesc}
+                  category={"top"}
+                  heading={"Top Manga"}
+                />
+              }
             />
+            <Route
+              path="search/manga/trending/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.manga}
+                  sort={MediaSort.trendingDesc}
+                  category={"trending"}
+                  heading={"Trending Now"}
+                />
+              }
+            />
+            <Route
+              path="search/manga/popular/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.manga}
+                  sort={MediaSort.popularityDesc}
+                  category={"popular"}
+                  heading={"All Time Popular"}
+                />
+              }
+            />
+            {/* 
             <Route
               path="/search/character/favorite"
               exact
               element={
-                <AdvancedSearchPage type={"character"} catagory={"favorite"} />
+                <AdvancedSearchPage type={"character"}  />
               }
             /> */}
             <Route

@@ -127,24 +127,64 @@ fragment media on Media {
 }
 `;
 
-export const top25TrendingAnimeQuery = `
+export const topTrendingAnimeQuery = `
     query ($page: Int, $perPage: Int) {
       Page(page: $page, perPage: $perPage) {
         media(type: ANIME, sort: TRENDING_DESC) {
-          id
-          coverImage {
-            large
-            medium
-          }
+          id 
           title {
             english
             userPreferred
+          }
+          coverImage {
+            extraLarge 
+            large 
+          }
+          startDate {
+            year 
+            month 
+            day
+          }
+          endDate {
+            year 
+            month 
+            day        
+          }
+          bannerImage 
+          season 
+          seasonYear 
+          description         
+          type 
+          format 
+          status(version: 2) 
+          episodes 
+          duration 
+          chapters 
+          volumes 
+          genres 
+          isAdult 
+          averageScore 
+          popularity 
+          nextAiringEpisode {
+            airingAt 
+            timeUntilAiring 
+            episode
+          }
+          studios(isMain: true) {
+            edges {
+              isMain 
+              node {
+                id 
+                name
+              }
+            }
           }
         }
         pageInfo {
           currentPage
           lastPage
           hasNextPage
+          perPage
         }
       }
     }
@@ -824,8 +864,8 @@ query{
 `;
 
 export const advancedSearchQuery = `
-query($page: Int = 1 $id: Int $type: MediaType $isAdult: Boolean = false $search: String $format: [MediaFormat] $status: MediaStatus $countryOfOrigin: CountryCode $source: MediaSource $season: MediaSeason $seasonYear: Int $year: String $onList: Boolean $yearLesser: FuzzyDateInt $yearGreater: FuzzyDateInt $episodeLesser: Int $episodeGreater: Int $durationLesser: Int $durationGreater: Int $chapterLesser: Int $chapterGreater: Int $volumeLesser: Int $volumeGreater: Int $licensedBy: [Int] $isLicensed: Boolean $genres: [String] $excludedGenres: [String] $tags: [String] $excludedTags: [String] $minimumTagRank: Int $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
-  Page(page: $page, perPage: 25) {
+query($page: Int = 1 $perPage: Int = 25 $id: Int $type: MediaType $isAdult: Boolean = false $search: String $format: [MediaFormat] $status: MediaStatus $countryOfOrigin: CountryCode $source: MediaSource $season: MediaSeason $seasonYear: Int $year: String $onList: Boolean $yearLesser: FuzzyDateInt $yearGreater: FuzzyDateInt $episodeLesser: Int $episodeGreater: Int $durationLesser: Int $durationGreater: Int $chapterLesser: Int $chapterGreater: Int $volumeLesser: Int $volumeGreater: Int $licensedBy: [Int] $isLicensed: Boolean $genres: [String] $excludedGenres: [String] $tags: [String] $excludedTags: [String] $minimumTagRank: Int $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
+  Page(page: $page, perPage: $perPage) {
     pageInfo {
       total 
       perPage 
