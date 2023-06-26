@@ -248,7 +248,7 @@ const SearchBar = () => {
             value={searchInput}
             onChange={({ target }) => setSearchInput(target.value)}
           />
-          <button className="searchbar-btn">
+          <button className="searchbar-btn" data-type={"Advanced Search"}>
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
           {searchResults.length > 0 && (
