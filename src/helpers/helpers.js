@@ -44,9 +44,10 @@ export const getFuzzyDateForSeason = (season, year) => {
 
 export const parseDateFromAniListApi = ({ year, month, day }) => {
   let date = "";
-  if (month) date += MONTHS[month] + " ";
-  if (day) date += day;
-  if (year) date += ", " + year;
+  if (month && day && year) date += MONTHS[month] + " " + day + ", " + year;
+  else if (month && day && !year) date += MONTHS[month] + " " + day;
+  else if (!month && !day && year) date += year;
+  else if (year) date += year;
   return date || "";
 };
 

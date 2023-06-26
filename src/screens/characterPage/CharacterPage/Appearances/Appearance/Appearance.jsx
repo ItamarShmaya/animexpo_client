@@ -1,6 +1,10 @@
 import "./Appearance.css";
 import Card from "../../../../../components/Card/Card";
-import { parseDateFromAniListApi } from "../../../../../helpers/helpers";
+import {
+  formatsStringRender,
+  numberWithCommas,
+  parseDateFromAniListApi,
+} from "../../../../../helpers/helpers";
 import SimplyCarousel from "../../../../../components/SimplyCarousel/SimplyCarousel";
 import {
   characterPageCarouselResponsive,
@@ -28,7 +32,7 @@ const Appearance = ({ appearance, sortBy }) => {
         favourites={appearance.node.favourites}
         averageScore={appearance.node.averageScore}
         startDate={parseDateFromAniListApi(appearance.node.startDate)}
-        format={appearance.node.format}
+        format={formatsStringRender(appearance.node.format)}
       />
       <hr />
       <AppearanceVA voiceActors={appearance.voiceActors} />
@@ -67,7 +71,7 @@ export const AppearanceEntry = ({
       <div className="appearance-entry-info">
         <div className={sortBy === "Popularity" ? "sort-active" : ""}>
           <span>Popularity:</span>
-          <span>{popularity}</span>
+          <span>{numberWithCommas(popularity)}</span>
         </div>
         <div className={sortBy === "Score" ? "sort-active" : ""}>
           <span>Score:</span>
@@ -75,7 +79,7 @@ export const AppearanceEntry = ({
         </div>
         <div className={sortBy === "Favourites" ? "sort-active" : ""}>
           <span>Favourites:</span>
-          <span>{favourites}</span>
+          <span>{numberWithCommas(favourites)}</span>
         </div>
         <div
           className={
