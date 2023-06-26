@@ -8,7 +8,8 @@ import MediaSearchMenu from "../MediaSearchMenu/MediaSearchMenu";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import Spinner from "../../../components/Spinner/Spinner";
 import rai from "../../../components/Spinner/spinnerImages/rai.png";
-import MediaAdvancedSearchResultItem from "../MediaAdvancedSearchResultItem/MediaAdvancedSearchResultItem";
+import TableLikeCard from "../TableLikeCard/TableLikeCard";
+import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 
 const AnimeAdvancedSearch = () => {
   const [list, setList] = useState([]);
@@ -17,6 +18,14 @@ const AnimeAdvancedSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
   const [isFirstSearch, setIsFirstSearch] = useState(true);
+  const [isMobileWidth, setIsMobileWidth] = useState(
+    window.innerWidth <= 1000 ? true : false
+  );
+  const query = matchMedia("(max-width: 1000px)");
+  query.addEventListener("change", () => {
+    query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
+  });
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -52,7 +61,32 @@ const AnimeAdvancedSearch = () => {
   const renderSearchResults = () => {
     return list.map((item) => {
       return (
-        <MediaAdvancedSearchResultItem
+        <TableLikeCard
+          key={item.id}
+          type={item.type}
+          id={item.id}
+          title={item.title.userPreferred || item.title.english}
+          image={item.coverImage.large || item.coverImage.medium}
+          genres={item.genres}
+          averageScore={item.averageScore}
+          popularity={item.popularity}
+          format={item.format}
+          episodes={item.episodes}
+          duration={item.duration}
+          status={item.status}
+          nextAiringEpisode={item.nextAiringEpisode}
+          season={item.season}
+          seasonYear={item.seasonYear}
+          showRank={false}
+        />
+      );
+    });
+  };
+
+  const renderMobileSearchResults = () => {
+    return list.map((item) => {
+      return (
+        <TableLikeCardMobile
           key={item.id}
           type={item.type}
           id={item.id}
@@ -91,7 +125,7 @@ const AnimeAdvancedSearch = () => {
         </div>
       ) : list.length > 0 ? (
         <div className="advanced-search-results-container">
-          {renderSearchResults()}
+          {isMobileWidth ? renderMobileSearchResults() : renderSearchResults()}
         </div>
       ) : (
         <div className="search-message">

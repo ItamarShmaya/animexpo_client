@@ -22,7 +22,7 @@ const RankedListsNav = ({ type }) => {
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={() => searchParams.delete("page")}
           >
-            Popular this season
+            This season
           </NavLink>
         </div>
       )}
@@ -33,19 +33,10 @@ const RankedListsNav = ({ type }) => {
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={() => searchParams.delete("page")}
           >
-            Upcoming next season
+            Next season
           </NavLink>
         </div>
       )}
-      <div className="rank-list-nav-item">
-        <NavLink
-          to={`/search/${type.toLowerCase()}/top`}
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={() => searchParams.delete("page")}
-        >
-          Top {capitalizeWord(type)}
-        </NavLink>
-      </div>
       <div className="rank-list-nav-item">
         <NavLink
           to={`/search/${type.toLowerCase()}/popular`}
@@ -55,6 +46,70 @@ const RankedListsNav = ({ type }) => {
           All Time Popular
         </NavLink>
       </div>
+      <div className="rank-list-nav-item">
+        <NavLink
+          to={`/search/${type.toLowerCase()}/top`}
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={() => searchParams.delete("page")}
+        >
+          Top {capitalizeWord(type)}
+        </NavLink>
+      </div>
+      {type.toLowerCase() === "anime" && (
+        <div className="rank-list-nav-item">
+          <NavLink
+            to={`/search/${type.toLowerCase()}/top-tv`}
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={() => searchParams.delete("page")}
+          >
+            Top TV Shows
+          </NavLink>
+        </div>
+      )}
+      {type.toLowerCase() === "anime" && (
+        <div className="rank-list-nav-item">
+          <NavLink
+            to={`/search/${type.toLowerCase()}/top-movies`}
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={() => searchParams.delete("page")}
+          >
+            Top Movies
+          </NavLink>
+        </div>
+      )}
+      {type.toLowerCase() === "anime" && (
+        <div className="rank-list-nav-item">
+          <NavLink
+            to={`/search/${type.toLowerCase()}/top-ovas`}
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={() => searchParams.delete("page")}
+          >
+            Top OVAs
+          </NavLink>
+        </div>
+      )}
+      {type.toLowerCase() === "anime" && (
+        <div className="rank-list-nav-item">
+          <NavLink
+            to={`/search/${type.toLowerCase()}/top-onas`}
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={() => searchParams.delete("page")}
+          >
+            Top ONAs
+          </NavLink>
+        </div>
+      )}
+      {type.toLowerCase() === "anime" && (
+        <div className="rank-list-nav-item">
+          <NavLink
+            to={`/search/${type.toLowerCase()}/top-specials`}
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={() => searchParams.delete("page")}
+          >
+            Top Specials
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 };

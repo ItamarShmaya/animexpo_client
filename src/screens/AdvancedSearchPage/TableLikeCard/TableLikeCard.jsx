@@ -1,5 +1,5 @@
 import { NavLink, createSearchParams, useNavigate } from "react-router-dom";
-import "./MediaAdvancedSearchResultItem.css";
+import "./TableLikeCard.css";
 import {
   capitalizeWord,
   formatsStringRender,
@@ -7,7 +7,7 @@ import {
   numberWithCommas,
 } from "../../../helpers/helpers";
 
-const MediaAdvancedSearchResultItem = ({
+const TableLikeCard = ({
   type,
   id,
   title,
@@ -27,11 +27,8 @@ const MediaAdvancedSearchResultItem = ({
   startYear,
   endYear,
   chapters,
-  volumes,
 }) => {
-  const gridTemplateColumns = showRank
-    ? "0.3fr auto 2fr 0.5fr 0.5fr 0.8fr"
-    : "auto 4.5fr 1fr 1fr 1fr";
+  const gridClassName = showRank ? "grid-with-rank" : "grid-without-rank";
   const navigate = useNavigate();
   const renderGenres = () => {
     return genres.map((genre) => {
@@ -52,11 +49,7 @@ const MediaAdvancedSearchResultItem = ({
     });
   };
   return (
-    <div
-      className="advanced-search-result"
-      key={id}
-      style={{ gridTemplateColumns }}
-    >
+    <div className={`advanced-search-result ${gridClassName}`} key={id}>
       {showRank && <div className="search-res-rank">{rank}</div>}
       <NavLink to={`/${type}/${id}`} className="cover-image">
         <img src={image} alt={title} />
@@ -143,4 +136,4 @@ const MediaAdvancedSearchResultItem = ({
   );
 };
 
-export default MediaAdvancedSearchResultItem;
+export default TableLikeCard;

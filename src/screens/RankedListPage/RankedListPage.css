@@ -2,19 +2,19 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 90%;
+  margin: auto;
 }
 
 .ranked-list {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
 }
 
 .ranked-list-page h1 {
   color: #eeebdd;
   font-size: 35px;
-  width: 90%;
-  margin: auto;
 }
 
 .page-nav {
@@ -22,8 +22,6 @@
   justify-content: flex-end;
   align-items: center;
   font-size: 14px;
-  width: 90%;
-  margin: auto;
   gap: 10px;
 }
 
