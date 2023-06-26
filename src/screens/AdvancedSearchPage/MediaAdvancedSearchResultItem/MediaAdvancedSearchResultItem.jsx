@@ -111,10 +111,10 @@ const MediaAdvancedSearchResultItem = ({
           <div className="res-item-heading">Airing</div>
         ) : (
           <div className="res-item-heading">
-            {season
+            {season && seasonYear
+              ? capitalizeWord(season) + " " + seasonYear
+              : season
               ? capitalizeWord(season)
-              : seasonYear
-              ? seasonYear
               : startYear && endYear
               ? startYear + " - " + endYear
               : startYear
