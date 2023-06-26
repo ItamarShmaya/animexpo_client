@@ -72,6 +72,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"trending"}
           />
           <Section
             list={landingPageData?.thisSeason?.media}
@@ -80,6 +81,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"this-season"}
           />
           <Section
             list={landingPageData?.nextSeason?.media}
@@ -88,6 +90,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"next-season"}
           />
           <Section
             list={landingPageData?.top?.media}
@@ -96,6 +99,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"top"}
           />
           <Section
             list={landingPageData?.popular?.media}
@@ -104,6 +108,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"popular"}
           />
           <Section
             list={landingPageData?.topManga?.media}
@@ -112,6 +117,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"top"}
           />
           <Section
             list={landingPageData?.topCharacters?.characters}
@@ -120,6 +126,7 @@ const LandingPage = () => {
             showRank={true}
             sliderSettings={landingPageSliderSettings}
             titleFontSize={14}
+            category={"favorite"}
           />
         </div>
       ) : (

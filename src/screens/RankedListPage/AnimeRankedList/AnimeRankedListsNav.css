@@ -1,0 +1,23 @@
+.ranked-lists-nav {
+  display: flex;
+  gap: 5px;
+  margin: 20px auto;
+  width: 90%;
+}
+
+.rank-list-nav-item a {
+  color: #eeebdd;
+  font-size: 15px;
+  padding: 5px;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.rank-list-nav-item a:hover {
+  background-color: #ce1212;
+  cursor: pointer;
+}
+
+.ranked-lists-nav .active {
+  background-color: #ce1212;
+}

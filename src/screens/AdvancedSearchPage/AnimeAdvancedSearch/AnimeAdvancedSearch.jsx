@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./AnimeAdvancedSearch.css";
 import {
   aniListRequests,
@@ -68,6 +68,7 @@ const AnimeAdvancedSearch = () => {
           nextAiringEpisode={item.nextAiringEpisode}
           season={item.season}
           seasonYear={item.seasonYear}
+          showRank={false}
         />
       );
     });

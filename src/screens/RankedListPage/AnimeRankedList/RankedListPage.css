@@ -1,0 +1,47 @@
+.ranked-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ranked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ranked-list-page h1 {
+  color: #eeebdd;
+  font-size: 35px;
+  width: 90%;
+  margin: auto;
+}
+
+.page-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  width: 90%;
+  margin: auto;
+  gap: 10px;
+}
+
+.page-nav span {
+  background-color: #ce1212;
+  color: #eeebdd;
+  padding: 5px;
+}
+
+.page-nav i {
+  font-size: 11px;
+}
+
+.page-nav span:hover {
+  cursor: pointer;
+}
+
+.page-nav-bot {
+  margin-bottom: 10px;
+  justify-content: center;
+}

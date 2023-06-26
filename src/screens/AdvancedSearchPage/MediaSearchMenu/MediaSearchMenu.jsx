@@ -5,10 +5,7 @@ import {
 } from "react-router-dom";
 import "./MediaSearchMenu.css";
 import { useEffect, useRef, useState } from "react";
-import {
-  MediaSeason,
-  MediaType,
-} from "../../../apis/aniList/types";
+import { MediaSeason, MediaType } from "../../../apis/aniList/types";
 import {
   advancedSearchQuery,
   aniListRequests,
@@ -59,13 +56,22 @@ const MediaSearchMenu = ({
     if (searchParams.size > 0) {
       const searchParamsObj = {};
       for (let [key, value] of searchParams) {
-        if (searchParamsObj[key]) {
-          searchParamsObj[key].push(value);
-        } else {
-          if (key === "genres" || key === "tags" || key === "format") {
-            searchParamsObj[key] = [value];
+        if (
+          key === "search" ||
+          key === "genres" ||
+          key === "tags" ||
+          key === "seasonYear" ||
+          key === "season" ||
+          key === "format"
+        ) {
+          if (searchParamsObj[key]) {
+            searchParamsObj[key].push(value);
           } else {
-            searchParamsObj[key] = value;
+            if (key === "genres" || key === "tags" || key === "format") {
+              searchParamsObj[key] = [value];
+            } else {
+              searchParamsObj[key] = value;
+            }
           }
         }
       }
@@ -90,6 +96,7 @@ const MediaSearchMenu = ({
       isFirstRender.current = false;
       return;
     }
+    setIsLoading(true);
     const controller = new AbortController();
     const variables = {
       page: 1,
@@ -110,7 +117,6 @@ const MediaSearchMenu = ({
     };
 
     const getSearchedList = async (variables) => {
-      setIsLoading(true);
       setIsFirstSearch(false);
       try {
         const { data } = await aniListRequests(
@@ -250,7 +256,7 @@ const MediaSearchMenu = ({
           />
           {searchInputs.search && (
             <span
-              className="clear-all"
+              className="inline-icon clear-all"
               onClick={(e) => {
                 e.stopPropagation();
                 setSearchInputs((prev) => {
