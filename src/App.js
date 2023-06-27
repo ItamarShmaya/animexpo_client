@@ -28,6 +28,7 @@ import {
   nextSeason,
   nextSeasonYear,
 } from "./helpers/helpers";
+import FavoriteCharactersPage from "./screens/FavoriteCharactersPage/FavoriteCharactersPage";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
             <Route
               path="/search/character/*"
               exact
-              element={<AdvancedSearchPage type={"character"} />}
+              element={<FavoriteCharactersPage />}
             />
             <Route
               path="/search/staff/*"
@@ -233,14 +234,12 @@ function App() {
                 />
               }
             />
-            {/* 
+
             <Route
-              path="/search/character/favorite"
+              path="/search/character/favorite/*"
               exact
-              element={
-                <AdvancedSearchPage type={"character"}  />
-              }
-            /> */}
+              element={<FavoriteCharactersPage/>}
+            />
             <Route
               path="/profile/:username/*"
               exact

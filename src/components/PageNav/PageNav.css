@@ -1,0 +1,31 @@
+.page-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  gap: 10px;
+}
+
+.page-nav span {
+  background-color: #ce1212;
+  color: #eeebdd;
+  padding: 5px;
+}
+
+.page-nav i {
+  font-size: 11px;
+}
+
+.page-nav span:hover {
+  cursor: pointer;
+}
+
+.page-nav-mid {
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.page-nav-left {
+  margin-bottom: 10px;
+  justify-content: flex-start;
+}

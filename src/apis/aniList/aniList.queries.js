@@ -127,183 +127,6 @@ fragment media on Media {
 }
 `;
 
-export const topTrendingAnimeQuery = `
-    query ($page: Int, $perPage: Int) {
-      Page(page: $page, perPage: $perPage) {
-        media(type: ANIME, sort: TRENDING_DESC) {
-          id 
-          title {
-            english
-            userPreferred
-          }
-          coverImage {
-            extraLarge 
-            large 
-          }
-          startDate {
-            year 
-            month 
-            day
-          }
-          endDate {
-            year 
-            month 
-            day        
-          }
-          bannerImage 
-          season 
-          seasonYear 
-          description         
-          type 
-          format 
-          status(version: 2) 
-          episodes 
-          duration 
-          chapters 
-          volumes 
-          genres 
-          isAdult 
-          averageScore 
-          popularity 
-          nextAiringEpisode {
-            airingAt 
-            timeUntilAiring 
-            episode
-          }
-          studios(isMain: true) {
-            edges {
-              isMain 
-              node {
-                id 
-                name
-              }
-            }
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-          perPage
-        }
-      }
-    }
-    `;
-
-export const top25PopularBySeasonAnimeQuery = `
-    query($page: Int, $perPage: Int, $season: MediaSeason, $seasonYear: Int) {
-      Page(page: $page, perPage: $perPage) {
-        media(type: ANIME, sort: POPULARITY_DESC, season: $season, seasonYear: $seasonYear) {
-          id
-          coverImage {
-            large
-            medium
-          }
-          title {
-            english
-            userPreferred
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-        }
-      }
-    }
-    `;
-
-export const top25AnimeQuery = `
-    query ($page: Int, $perPage: Int) {
-      Page(page: $page, perPage: $perPage) {
-        media(type: ANIME, sort: SCORE_DESC) {
-          id
-          coverImage {
-            large
-            medium
-          }
-          title {
-            english
-            userPreferred
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-        }
-      }
-    }
-    `;
-
-export const top25PopularAllTimeAnimeQuery = `
-    query ($page: Int, $perPage: Int) {
-      Page(page: $page, perPage: $perPage) {
-        media(type: ANIME, sort: POPULARITY_DESC) {
-          id
-          coverImage {
-            large
-            medium
-          }
-          title {
-            english
-            userPreferred
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-        }
-      }
-    }
-    `;
-
-export const top25MangaQuery = `
-    query ($page: Int, $perPage: Int) {
-      Page(page: $page, perPage: $perPage) {
-        media(type: MANGA, sort: SCORE_DESC) {
-          id
-          coverImage {
-            large
-            medium
-          }
-          title {
-            english
-            userPreferred
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-        }
-      }
-    }
-    `;
-
-export const top25CharactersQuery = `
-    query ($page: Int, $perPage: Int) {
-      Page(page: $page, perPage: $perPage) {
-        characters(sort: FAVOURITES_DESC) {
-          id
-          image {
-            large
-            medium
-          }
-          name {
-            userPreferred
-          }
-        }
-        pageInfo {
-          currentPage
-          lastPage
-          hasNextPage
-        }
-      }
-    }
-    `;
-
 export const animeByIdQuery = `
     query ($id: Int, $type: MediaType) {
       Media(id: $id, type: $type) {
@@ -822,35 +645,6 @@ query($search: String $perPage: Int) {
 }
 `;
 
-export const top25PopularByDateAnimeQuery = `
-    query($start: FuzzyDateInt, $end: FuzzyDateInt) {
-      Page(page: 1, perPage: 25) {
-        media(type: ANIME, sort: POPULARITY_DESC startDate_greater:$start, startDate_lesser:$end) {
-          id
-          coverImage {
-            large
-            medium
-          }
-          title {
-            english
-            userPreferred
-          }
-        }
-      }
-    }
-    `;
-
-export const getByTypeAndCatagoryQuery = `
-query($type: MediaType, $catagory: String, $page: Int, $perPage: Int) {
-  Page(page: $page, perPage: $perPage) {
-    media(type: $type, sort: $catagory) {
-      id
-      
-    }
-  }
-}
-`;
-
 export const getGenresAndTagsQuery = `
 query{
   genres:GenreCollection 
@@ -921,6 +715,30 @@ query($page: Int = 1 $perPage: Int = 25 $id: Int $type: MediaType $isAdult: Bool
             name
           }
         }
+      }
+    }
+  }
+}
+`;
+
+export const getFavoriteCharactersQuery = `
+query($page: Int = 1, $perPage: Int = 25, $search: String, $sort: [CharacterSort] = [FAVOURITES_DESC]) {
+  Page(page: $page, perPage: $perPage) {
+    pageInfo {
+      total 
+      perPage 
+      currentPage 
+      lastPage 
+      hasNextPage
+    }
+    characters(search: $search, sort: $sort) {
+      id
+      image {
+        large
+        medium
+      }
+      name {
+        userPreferred
       }
     }
   }

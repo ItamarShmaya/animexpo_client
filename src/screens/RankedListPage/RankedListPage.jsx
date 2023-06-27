@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AnimeRankedListsNav from "./RankedListsNav";
 import {
   aniListRequests,
@@ -8,8 +8,11 @@ import Spinner from "../../components/Spinner/Spinner";
 import obito from "../../components/Spinner/spinnerImages/obito.png";
 import TableLikeCard from "../AdvancedSearchPage/TableLikeCard/TableLikeCard";
 import "./RankedListPage.css";
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import {
+  useSearchParams,
+} from "react-router-dom";
 import TableLikeCardMobile from "../AdvancedSearchPage/TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
+import PageNav from "../../components/PageNav/PageNav";
 
 const AnimeTrendingList = ({
   type,
@@ -23,9 +26,7 @@ const AnimeTrendingList = ({
   const [list, setList] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [searchParams] = useSearchParams();
-  const [pageNumber, setPageNumber] = useState(0);
-  const isFirstRender = useRef(true);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isMobileWidth, setIsMobileWidth] = useState(
     window.innerWidth <= 1000 ? true : false
   );
@@ -35,19 +36,9 @@ const AnimeTrendingList = ({
   });
 
   useEffect(() => {
-    if (searchParams.size > 0) {
-      if (searchParams.get("page")) setPageNumber(+searchParams.get("page"));
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (isFirstRender.current && searchParams.size > 0) {
-      isFirstRender.current = false;
-      return;
-    }
     const controller = new AbortController();
     const variables = {
-      page: pageNumber === 0 ? 1 : pageNumber,
+      page: searchParams.get("page") ? +searchParams.get("page") : 1,
       perPage: 50,
       type,
       sort: [sort],
@@ -67,15 +58,6 @@ const AnimeTrendingList = ({
           setList(data.Page.media);
           setPageInfo(data.Page.pageInfo);
           setIsLoading(false);
-          window.history.pushState(
-            {},
-            "",
-            `${
-              window.location.origin
-            }/search/${type.toLowerCase()}/${category}?${createSearchParams({
-              page: variables.page,
-            }).toString()}`
-          );
         }
       } catch (e) {
         console.log(e);
@@ -90,8 +72,7 @@ const AnimeTrendingList = ({
       controller.abort();
     };
   }, [
-    pageNumber,
-    searchParams.size,
+    searchParams,
     setIsLoading,
     type,
     sort,
@@ -160,6 +141,24 @@ const AnimeTrendingList = ({
     });
   };
 
+  const onPrevClick = () => {
+    const queryParams = {
+      page: pageInfo?.currentPage - 1,
+    };
+    if (searchParams.get("search"))
+      queryParams.search = searchParams.get("search");
+    setSearchParams(queryParams);
+  };
+
+  const onNextClick = () => {
+    const queryParams = {
+      page: pageInfo?.currentPage + 1,
+    };
+    if (searchParams.get("search"))
+      queryParams.search = searchParams.get("search");
+    setSearchParams(queryParams);
+  };
+
   return (
     <div className="ranked-list-page">
       <AnimeRankedListsNav type={type} />
@@ -169,37 +168,24 @@ const AnimeTrendingList = ({
       ) : (
         <>
           {list.length > 0 && (
-            <div className="page-nav">
-              {pageNumber > 1 && (
-                <span onClick={() => setPageNumber((prev) => prev - 1)}>
-                  <i className="fa-solid fa-chevron-left"></i> Prev
-                </span>
-              )}
-              <span
-                onClick={() =>
-                  setPageNumber((prev) => (prev === 0 ? prev + 2 : prev + 1))
-                }
-              >
-                Next <i className="fa-solid fa-chevron-right"></i>
-              </span>
-            </div>
+            <PageNav
+              pageNumber={pageInfo?.currentPage}
+              onPrevClick={onPrevClick}
+              onNextClick={onNextClick}
+              hasNextPage={pageInfo?.hasNextPage}
+            />
           )}
-          <div className="ranked-list">{!isMobileWidth ? renderList(list) : renderMobileList(list)}</div>
+          <div className="ranked-list">
+            {!isMobileWidth ? renderList(list) : renderMobileList(list)}
+          </div>
           {list.length > 0 && (
-            <div className="page-nav page-nav-bot">
-              {pageNumber > 1 && (
-                <span onClick={() => setPageNumber((prev) => prev - 1)}>
-                  <i className="fa-solid fa-chevron-left"></i> Prev
-                </span>
-              )}
-              <span
-                onClick={() =>
-                  setPageNumber((prev) => (prev === 0 ? prev + 2 : prev + 1))
-                }
-              >
-                Next <i className="fa-solid fa-chevron-right"></i>
-              </span>
-            </div>
+            <PageNav
+              pageNumber={pageInfo?.currentPage}
+              onPrevClick={onPrevClick}
+              onNextClick={onNextClick}
+              hasNextPage={pageInfo?.hasNextPage}
+              mid={true}
+            />
           )}
         </>
       )}

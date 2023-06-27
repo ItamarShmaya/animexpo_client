@@ -6,7 +6,7 @@ const Card = ({
   id,
   title,
   image,
-  index,
+  rank,
   showRank,
   cardHeight = 225,
   cardWidth = 150,
@@ -28,7 +28,7 @@ const Card = ({
       >
         <div className="card-content-wrapper">
           <div className="card-top">
-            {showRank && <div className="card-rank">#{index + 1}</div>}
+            {showRank && <div className="card-rank">#{rank}</div>}
           </div>
           <div className="card-bottom">
             <h3 style={{ fontSize: `${titleFontSize}px` }}>{title}</h3>
