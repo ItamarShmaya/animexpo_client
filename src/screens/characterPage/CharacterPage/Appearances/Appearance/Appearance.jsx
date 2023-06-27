@@ -75,7 +75,7 @@ export const AppearanceEntry = ({
         </div>
         <div className={sortBy === "Score" ? "sort-active" : ""}>
           <span>Score:</span>
-          <span>{(averageScore / 10).toFixed(2)}</span>
+          <span>{(averageScore / 10).toFixed(1)}</span>
         </div>
         <div className={sortBy === "Favourites" ? "sort-active" : ""}>
           <span>Favourites:</span>

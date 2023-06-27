@@ -67,7 +67,7 @@ const TableLikeCardMobile = ({
             <>
               <span>
                 <i className="fa-solid fa-star"></i>{" "}
-                {(averageScore / 10).toFixed(2)}
+                {(averageScore / 10).toFixed(1)}
               </span>
               <span>{numberWithCommas(popularity)} Users</span>
             </>

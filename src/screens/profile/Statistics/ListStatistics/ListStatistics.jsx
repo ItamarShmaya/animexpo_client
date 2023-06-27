@@ -54,7 +54,7 @@ const ListStatistics = ({ listType, viewedUserList }) => {
     setOnHold(onHoldCounter);
     setPlanTo(planToCounter);
     if (viewedUserList.list.length < 1) return setMeanScore(0);
-    setMeanScore((totalScore / viewedUserList.list.length).toFixed(2));
+    setMeanScore((totalScore / viewedUserList.list.length).toFixed(1));
   }, [
     viewedUserList,
     currentlyEngaging,

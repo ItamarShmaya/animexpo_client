@@ -65,7 +65,7 @@ const TableLikeCard = ({
           {averageScore ? (
             <>
               <i className="fa-solid fa-star"></i>{" "}
-              {(averageScore / 10).toFixed(2)}
+              {(averageScore / 10).toFixed(1)}
             </>
           ) : (
             "N/A"
