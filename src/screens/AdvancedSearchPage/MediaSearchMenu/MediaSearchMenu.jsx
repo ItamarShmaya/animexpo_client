@@ -246,7 +246,6 @@ const MediaSearchMenu = ({
             className="filter"
             type="text"
             name="search-bar"
-            placeholder=""
             onChange={({ target }) =>
               setSearchInputs((prev) => {
                 return { ...prev, search: target.value };
