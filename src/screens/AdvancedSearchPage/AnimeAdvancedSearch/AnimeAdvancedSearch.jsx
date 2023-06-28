@@ -15,9 +15,8 @@ const AnimeAdvancedSearch = () => {
   const [list, setList] = useState([]);
   const [genres, setGenres] = useState([]);
   const [tags, setTags] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
-  const [isFirstSearch, setIsFirstSearch] = useState(true);
   const [isMobileWidth, setIsMobileWidth] = useState(
     window.innerWidth <= 1000 ? true : false
   );
@@ -115,24 +114,28 @@ const AnimeAdvancedSearch = () => {
         genres={genres}
         tags={tags}
         setIsLoading={setIsLoading}
-        setIsFirstSearch={setIsFirstSearch}
       />
-      {isLoading ? (
-        <Spinner image={rai} />
-      ) : isFirstSearch ? (
-        <div className="search-message">
-          Enter search parameters to start the search
-        </div>
-      ) : list.length > 0 ? (
-        <div className="advanced-search-results-container">
-          {isMobileWidth ? renderMobileSearchResults() : renderSearchResults()}
-        </div>
-      ) : (
-        <div className="search-message">
-          no results found <i className="fa-solid fa-face-frown-open"></i> Try
-          again with different parameters
-        </div>
-      )}
+      <div className="advanced-search-results-container">
+        {isLoading ? (
+          <Spinner
+            image={rai}
+            parentElementRect={document
+              .querySelector(".advanced-search-results-container")
+              ?.getBoundingClientRect()}
+          />
+        ) : list.length > 0 ? (
+          isMobileWidth ? (
+            renderMobileSearchResults()
+          ) : (
+            renderSearchResults()
+          )
+        ) : (
+          <div className="search-message">
+            no results found <i className="fa-solid fa-face-frown-open"></i> Try
+            again with different parameters
+          </div>
+        )}
+      </div>
     </div>
   );
 };

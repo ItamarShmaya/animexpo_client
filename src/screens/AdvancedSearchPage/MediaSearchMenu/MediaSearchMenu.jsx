@@ -15,13 +15,7 @@ import {
   seasons,
 } from "../../../helpers/helpers";
 
-const MediaSearchMenu = ({
-  setList,
-  genres,
-  tags,
-  setIsLoading,
-  setIsFirstSearch,
-}) => {
+const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchInputs, setSearchInputs] = useState({
     search: searchParams.get("search") || "",
@@ -58,7 +52,6 @@ const MediaSearchMenu = ({
   }, [searchInputs.search, setSearchParams, searchParams]);
 
   useEffect(() => {
-    setIsLoading(true);
     const controller = new AbortController();
     const variables = {
       page: 1,
@@ -96,8 +89,7 @@ const MediaSearchMenu = ({
     });
 
     const getSearchedList = async () => {
-      console.log("api call");
-      setIsFirstSearch(false);
+      setIsLoading(true);
       try {
         const { data } = await aniListRequests(
           advancedSearchQuery,
@@ -120,7 +112,7 @@ const MediaSearchMenu = ({
     return () => {
       controller.abort();
     };
-  }, [searchParams, setList, isFirstRender, setIsLoading, setIsFirstSearch]);
+  }, [searchParams, setList, isFirstRender, setIsLoading]);
 
   const renderSignleSelectOptions = (optionsValues, key) => {
     return optionsValues.map((option) => {
@@ -153,7 +145,6 @@ const MediaSearchMenu = ({
                 key={genre}
                 isSelected={searchInputs.genres.includes(genre)}
                 optionName={genre}
-                setSearchInputs={setSearchInputs}
                 listName={"genres"}
                 searchParams={searchParams}
                 setSearchParams={setSearchParams}
@@ -169,7 +160,6 @@ const MediaSearchMenu = ({
                 key={tag.name}
                 isSelected={searchInputs.tags.includes(tag.name)}
                 optionName={tag.name}
-                setSearchInputs={setSearchInputs}
                 listName={"tags"}
                 searchParams={searchParams}
                 setSearchParams={setSearchParams}
@@ -365,7 +355,6 @@ const MediaSearchMenu = ({
                   optionName={
                     format.toLowerCase() === "tv" ? "TV Show" : format
                   }
-                  setSearchInputs={setSearchInputs}
                   listName={"format"}
                   searchParams={searchParams}
                   setSearchParams={setSearchParams}
@@ -383,7 +372,6 @@ export default MediaSearchMenu;
 
 const MultipleSelectOption = ({
   listName,
-  setSearchInputs,
   isSelected,
   optionName,
   searchParams,
