@@ -23,7 +23,7 @@ const Appearances = ({
     const variables = {
       id,
       page: pageInfo.currentPage + 1,
-      perPage: 25
+      perPage: 25,
     };
 
     try {
@@ -74,6 +74,7 @@ const Appearances = ({
         sortBy={sortBy}
         setSortBy={setSortBy}
         sortByNameAsc={false}
+        sortByTrendingDesc={false}
       />
       <div className="appearances-list">
         <InfiniteScroll

@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import "./MediaSearchMenu.css";
 import { useEffect, useRef, useState } from "react";
-import { MediaSeason, MediaType } from "../../../apis/aniList/types";
+import { MediaSeason, MediaSort, MediaType } from "../../../apis/aniList/types";
 import {
   advancedSearchQuery,
   aniListRequests,
@@ -15,7 +15,7 @@ import {
   seasons,
 } from "../../../helpers/helpers";
 
-const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
+const MediaSearchMenu = ({ setList, genres, tags, setIsLoading, type }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchInputs, setSearchInputs] = useState({
     search: searchParams.get("search") || "",
@@ -27,7 +27,6 @@ const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
   });
   const [yearsList] = useState(getYearsFrom(1940, "desc"));
   const [isAdult, setIsAdult] = useState(false);
-  const [sortBy, setSortBy] = useState("");
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -55,7 +54,7 @@ const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
     const controller = new AbortController();
     const variables = {
       page: 1,
-      type: MediaType.anime,
+      type: MediaType[type.toLowerCase()],
       search: searchParams.get("search") || undefined,
       genres:
         searchParams.getAll("genres").length > 0
@@ -73,6 +72,9 @@ const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
         searchParams.getAll("format").length > 0
           ? convertToArrayOfMediaFormats(searchParams.getAll("format"))
           : undefined,
+      sort: searchParams.get("sort")
+        ? MediaSort[searchParams.get("sort")]
+        : undefined,
     };
     setSearchInputs(() => {
       return {
@@ -112,7 +114,7 @@ const MediaSearchMenu = ({ setList, genres, tags, setIsLoading }) => {
     return () => {
       controller.abort();
     };
-  }, [searchParams, setList, isFirstRender, setIsLoading]);
+  }, [searchParams, setList, isFirstRender, setIsLoading, type]);
 
   const renderSignleSelectOptions = (optionsValues, key) => {
     return optionsValues.map((option) => {
