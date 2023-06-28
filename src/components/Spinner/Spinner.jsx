@@ -1,11 +1,18 @@
 import "./Spinner.css";
 
-const Spinner = ({ image, spinnerHeight = 50, spinnerWidth = 50 }) => {
+const Spinner = ({
+  image,
+  spinnerHeight = 50,
+  spinnerWidth = 50,
+  parentElementRect,
+}) => {
   return (
     <div
       className="spinner-wrapper"
       style={{
-        height: window.visualViewport.height,
+        height: parentElementRect?.top
+          ? window.visualViewport.height - parentElementRect?.top
+          : window.visualViewport.height,
       }}
     >
       <div
