@@ -61,19 +61,6 @@
   text-align: left;
 }
 
-.searchbar-btn:hover::after {
-  font-size: 1rem;
-  position: absolute;
-  content: attr(data-type);
-  padding: 5px;
-  white-space: nowrap;
-  background-color: #fff;
-  color: black;
-  bottom: 100%;
-  left: calc(100% - 50px);
-  pointer-events: none;
-}
-
 @media all and (max-width: 1050px) {
   .searchbar {
     width: auto;
