@@ -146,7 +146,9 @@ const FavoriteCharactersPage = () => {
           {searchInput !== "" && (
             <span
               className="inline-icon clear-all"
-              onClick={() => setSearchInput("")}
+              onClick={() => {
+                setSearchParams({});
+              }}
             >
               <i className="fa-solid fa-xmark"></i>
             </span>
