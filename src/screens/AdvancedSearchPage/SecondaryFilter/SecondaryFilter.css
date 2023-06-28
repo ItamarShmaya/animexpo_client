@@ -1,0 +1,11 @@
+.secondary-filter {
+  width: 90%;
+  margin: 40px auto 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.secondary-filter .sort-by {
+  position: relative;
+}
+

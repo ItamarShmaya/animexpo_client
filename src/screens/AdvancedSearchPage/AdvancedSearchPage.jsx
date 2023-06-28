@@ -1,12 +1,11 @@
 import "./AdvancedSearchPage.css";
 import AnimeAdvancedSearch from "./AnimeAdvancedSearch/AnimeAdvancedSearch";
 
-const AdvancedSearchPage = ({ type, catagory }) => {
+const AdvancedSearchPage = ({ type }) => {
   return (
     <div className="search-page">
-      {type === "anime" && <AnimeAdvancedSearch catagory={catagory} />}
+      {type === "anime" && <AnimeAdvancedSearch type={type} />}
       {type === "manga" && <div>Manga Search</div>}
-      {type === "characters" && <div>Characters Search</div>}
       {type === "staff" && <div>Staff Search</div>}
     </div>
   );

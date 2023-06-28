@@ -10,8 +10,9 @@ import Spinner from "../../../components/Spinner/Spinner";
 import rai from "../../../components/Spinner/spinnerImages/rai.png";
 import TableLikeCard from "../TableLikeCard/TableLikeCard";
 import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
+import SecondaryFilter from "../SecondaryFilter/SecondaryFilter";
 
-const AnimeAdvancedSearch = () => {
+const AnimeAdvancedSearch = ({ type }) => {
   const [list, setList] = useState([]);
   const [genres, setGenres] = useState([]);
   const [tags, setTags] = useState([]);
@@ -108,13 +109,15 @@ const AnimeAdvancedSearch = () => {
   };
 
   return (
-    <div>
+    <>
       <MediaSearchMenu
         setList={setList}
         genres={genres}
         tags={tags}
         setIsLoading={setIsLoading}
+        type={type}
       />
+      <SecondaryFilter />
       <div className="advanced-search-results-container">
         {isLoading ? (
           <Spinner
@@ -136,7 +139,7 @@ const AnimeAdvancedSearch = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

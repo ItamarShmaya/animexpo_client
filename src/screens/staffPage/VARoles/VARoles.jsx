@@ -30,7 +30,7 @@ const VARoles = ({
 
     try {
       const { data } = await aniListRequests(staffCharactersByPage, variables);
-      
+
       if (data) {
         setPageInfo(data.Staff.characterMedia.pageInfo);
         dispatch({
@@ -88,6 +88,7 @@ const VARoles = ({
           dispatch={dispatch}
           sortBy={sortBy}
           setSortBy={setSortBy}
+          sortByTrendingDesc={false}
         />
         <InfiniteScroll
           dataLength={rolesList.length}

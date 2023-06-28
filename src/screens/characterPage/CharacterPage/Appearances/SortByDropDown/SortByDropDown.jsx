@@ -12,6 +12,7 @@ const SortByDropDown = ({
   sortByDateAsc = true,
   sortByTitleAsc = true,
   sortByNameAsc = true,
+  sortByTrendingDesc = true,
 }) => {
   const [display, setDisplay] = useState("none");
 
@@ -20,7 +21,12 @@ const SortByDropDown = ({
       className="sort-by"
       onClick={() => setDisplay((prev) => (prev === "none" ? "flex" : "none"))}
     >
-      <span>{sortBy}</span>
+      <span className="sort-label">
+        {sortBy}
+        <span className="icon-wrapper">
+          <i className="fa-solid fa-sort"></i>
+        </span>
+      </span>
       <div className="sort-dropdown-options" style={{ display }}>
         {sortByPopularityDesc && (
           <div
@@ -97,6 +103,17 @@ const SortByDropDown = ({
             }}
           >
             Name
+          </div>
+        )}
+        {sortByTrendingDesc && (
+          <div
+            className="sort-option"
+            onClick={() => {
+              setSortBy("Trending");
+              dispatch({ type: "sort_trending_desc" });
+            }}
+          >
+            Trending
           </div>
         )}
       </div>

@@ -702,6 +702,7 @@ query($page: Int = 1 $perPage: Int = 25 $id: Int $type: MediaType $isAdult: Bool
       isAdult 
       averageScore 
       popularity 
+      trending
       nextAiringEpisode {
         airingAt 
         timeUntilAiring 
