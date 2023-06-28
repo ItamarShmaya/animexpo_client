@@ -7,11 +7,11 @@
 }
 
 .grid-without-rank {
-  grid-template-columns: min-content 4.5fr 1fr 1fr 1fr;
+  grid-template-columns: min-content 3fr 0.8fr 0.8fr 1fr;
 }
 
 .grid-with-rank {
-  grid-template-columns: 0.2fr min-content 2fr 0.5fr 0.5fr 0.6fr;
+  grid-template-columns: 0.2fr min-content 2fr 0.5fr 0.5fr 0.7fr;
 }
 
 .search-res-rank {
@@ -37,13 +37,13 @@
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+  min-width: 0;
 }
 
 .advanced-search-result .res-item-heading {
   color: #eeebdd;
   font-size: 15px;
   font-weight: bold;
-  width: fit-content;
 }
 
 .advanced-search-result .res-item-details {
@@ -55,6 +55,8 @@
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
+  overflow: hidden;
+  height: 20px;
 }
 
 .genre {
@@ -71,6 +73,10 @@
 .genre:hover {
   cursor: pointer;
   color: blue;
+}
+
+.title-link {
+  width: 100%;
 }
 
 .title-link:hover {

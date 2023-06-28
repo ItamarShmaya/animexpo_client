@@ -55,7 +55,11 @@ const TableLikeCard = ({
         <img src={image} alt={title} />
       </NavLink>
       <div className="title-genres adv-search-res-item">
-        <NavLink to={`/anime/${id}`} className="res-item-heading title-link">
+        <NavLink
+          to={`/anime/${id}`}
+          className="res-item-heading title-link ellipsis"
+          data-type={title}
+        >
           {title}
         </NavLink>
         <div className="genres res-item-details">{renderGenres()}</div>

@@ -65,12 +65,6 @@
     -0.5px 0.5px 0 #ce1212, 0.5px 0.5px 0 #ce1212;
 }
 
-.ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .mobile-advanced-search-result .genre {
   font-size: 10px;
   padding: 2px 5px;
