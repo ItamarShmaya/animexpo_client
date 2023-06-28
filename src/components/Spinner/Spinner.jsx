@@ -5,7 +5,6 @@ const Spinner = ({ image, spinnerHeight = 50, spinnerWidth = 50 }) => {
     <div
       className="spinner-wrapper"
       style={{
-        width: window.visualViewport.width,
         height: window.visualViewport.height,
       }}
     >

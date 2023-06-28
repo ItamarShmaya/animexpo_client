@@ -59,80 +59,82 @@ const LandingPage = () => {
   }, [getUserSessionStorage, setUserSessionStorage]);
 
   return (
-    <>
+    <div className="lading-page">
       <div className="hero">
         <SearchBar />
       </div>
-      {landingPageData ? (
-        <div className="lists-container">
-          <Section
-            list={landingPageData?.trending?.media}
-            heading={"Trending Now"}
-            type={"anime"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"trending"}
-          />
-          <Section
-            list={landingPageData?.thisSeason?.media}
-            heading={"Popular This Season"}
-            type={"anime"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"this-season"}
-          />
-          <Section
-            list={landingPageData?.nextSeason?.media}
-            heading={"Upcoming Next Season"}
-            type={"anime"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"next-season"}
-          />
-          <Section
-            list={landingPageData?.top?.media}
-            heading={"Top Anime"}
-            type={"anime"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"top"}
-          />
-          <Section
-            list={landingPageData?.popular?.media}
-            heading={"All Time Popular"}
-            type={"anime"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"popular"}
-          />
-          <Section
-            list={landingPageData?.topManga?.media}
-            heading={"Top Manga"}
-            type={"manga"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"top"}
-          />
-          <Section
-            list={landingPageData?.topCharacters?.characters}
-            heading={"Favorite Characters"}
-            type={"character"}
-            showRank={true}
-            sliderSettings={landingPageSliderSettings}
-            titleFontSize={14}
-            category={"favorite"}
-          />
-        </div>
-      ) : (
-        <Spinner image={baru} />
-      )}
-    </>
+      <div className="lists-container">
+        {landingPageData ? (
+          <>
+            <Section
+              list={landingPageData?.trending?.media}
+              heading={"Trending Now"}
+              type={"anime"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"trending"}
+            />
+            <Section
+              list={landingPageData?.thisSeason?.media}
+              heading={"Popular This Season"}
+              type={"anime"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"this-season"}
+            />
+            <Section
+              list={landingPageData?.nextSeason?.media}
+              heading={"Upcoming Next Season"}
+              type={"anime"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"next-season"}
+            />
+            <Section
+              list={landingPageData?.top?.media}
+              heading={"Top Anime"}
+              type={"anime"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"top"}
+            />
+            <Section
+              list={landingPageData?.popular?.media}
+              heading={"All Time Popular"}
+              type={"anime"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"popular"}
+            />
+            <Section
+              list={landingPageData?.topManga?.media}
+              heading={"Top Manga"}
+              type={"manga"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"top"}
+            />
+            <Section
+              list={landingPageData?.topCharacters?.characters}
+              heading={"Favorite Characters"}
+              type={"character"}
+              showRank={true}
+              sliderSettings={landingPageSliderSettings}
+              titleFontSize={14}
+              category={"favorite"}
+            />
+          </>
+        ) : (
+          <Spinner image={baru} />
+        )}
+      </div>
+    </div>
   );
 };
 

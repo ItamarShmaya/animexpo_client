@@ -8,9 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import obito from "../../components/Spinner/spinnerImages/obito.png";
 import TableLikeCard from "../AdvancedSearchPage/TableLikeCard/TableLikeCard";
 import "./RankedListPage.css";
-import {
-  useSearchParams,
-} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TableLikeCardMobile from "../AdvancedSearchPage/TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 import PageNav from "../../components/PageNav/PageNav";
 
@@ -163,32 +161,34 @@ const AnimeTrendingList = ({
     <div className="ranked-list-page">
       <AnimeRankedListsNav type={type} />
       <h1>{heading}</h1>
-      {isLoading ? (
-        <Spinner image={obito} />
-      ) : (
-        <>
-          {list.length > 0 && (
-            <PageNav
-              pageNumber={pageInfo?.currentPage}
-              onPrevClick={onPrevClick}
-              onNextClick={onNextClick}
-              hasNextPage={pageInfo?.hasNextPage}
-            />
-          )}
-          <div className="ranked-list">
-            {!isMobileWidth ? renderList(list) : renderMobileList(list)}
-          </div>
-          {list.length > 0 && (
-            <PageNav
-              pageNumber={pageInfo?.currentPage}
-              onPrevClick={onPrevClick}
-              onNextClick={onNextClick}
-              hasNextPage={pageInfo?.hasNextPage}
-              mid={true}
-            />
-          )}
-        </>
-      )}
+      <div className="ranked-list-container">
+        {isLoading ? (
+          <Spinner image={obito} />
+        ) : (
+          <>
+            {list.length > 0 && (
+              <PageNav
+                pageNumber={pageInfo?.currentPage}
+                onPrevClick={onPrevClick}
+                onNextClick={onNextClick}
+                hasNextPage={pageInfo?.hasNextPage}
+              />
+            )}
+            <div className="ranked-list">
+              {!isMobileWidth ? renderList(list) : renderMobileList(list)}
+            </div>
+            {list.length > 0 && (
+              <PageNav
+                pageNumber={pageInfo?.currentPage}
+                onPrevClick={onPrevClick}
+                onNextClick={onNextClick}
+                hasNextPage={pageInfo?.hasNextPage}
+                mid={true}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
