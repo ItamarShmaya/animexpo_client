@@ -215,9 +215,6 @@ const MediaSearchMenu = ({
                 const paramsObj = searchParamsToObject(searchParams);
                 delete paramsObj.search;
                 setSearchParams(paramsObj);
-                setSearchInputs((prev) => {
-                  return { ...prev, search: "" };
-                });
               }}
             >
               <i className="fa-solid fa-xmark"></i>
@@ -250,9 +247,6 @@ const MediaSearchMenu = ({
                   delete paramsObj.genres;
                   delete paramsObj.tags;
                   setSearchParams(paramsObj);
-                  setSearchInputs((prev) => {
-                    return { ...prev, genres: [], tags: [] };
-                  });
                 }}
               >
                 <i className="fa-solid fa-xmark"></i>
@@ -287,9 +281,6 @@ const MediaSearchMenu = ({
                 const paramsObj = searchParamsToObject(searchParams);
                 delete paramsObj.seasonYear;
                 setSearchParams(paramsObj);
-                setSearchInputs((prev) => {
-                  return { ...prev, seasonYear: "" };
-                });
               }}
             >
               <i className="fa-solid fa-xmark"></i>
@@ -320,9 +311,6 @@ const MediaSearchMenu = ({
                 const paramsObj = searchParamsToObject(searchParams);
                 delete paramsObj.season;
                 setSearchParams(paramsObj);
-                setSearchInputs((prev) => {
-                  return { ...prev, season: "" };
-                });
               }}
             >
               <i className="fa-solid fa-xmark"></i>
@@ -358,9 +346,6 @@ const MediaSearchMenu = ({
                   const paramsObj = searchParamsToObject(searchParams);
                   delete paramsObj.format;
                   setSearchParams(paramsObj);
-                  setSearchInputs((prev) => {
-                    return { ...prev, format: [] };
-                  });
                 }}
               >
                 <i className="fa-solid fa-xmark"></i>
