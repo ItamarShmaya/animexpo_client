@@ -48,6 +48,14 @@ const TableLikeCard = ({
       );
     });
   };
+
+  const onMouseEnter = (e) => {
+    const isOverFlow = e.target.clientWidth < e.target.scrollWidth;
+    if (isOverFlow) {
+      e.target.setAttribute("title", title);
+    }
+  };
+
   return (
     <div className={`advanced-search-result ${gridClassName}`} key={id}>
       {showRank && <div className="search-res-rank">{rank}</div>}
@@ -57,8 +65,8 @@ const TableLikeCard = ({
       <div className="title-genres adv-search-res-item">
         <NavLink
           to={`/anime/${id}`}
-          className="res-item-heading title-link ellipsis"
-          data-type={title}
+          className={`res-item-heading title-link ellipsis overflow`}
+          onMouseEnter={onMouseEnter}
         >
           {title}
         </NavLink>
@@ -76,7 +84,7 @@ const TableLikeCard = ({
           )}
         </div>
         <div className="res-item-details">
-          {numberWithCommas(popularity)} Users
+          {numberWithCommas(popularity) || 0} Users
         </div>
       </div>
 
