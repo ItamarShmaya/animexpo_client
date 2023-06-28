@@ -30,14 +30,16 @@ const FavoriteCharactersPage = () => {
       const queryParams = {
         page: 1,
       };
-      if (searchInput !== "") queryParams.search = searchInput;
-      setSearchParams(queryParams);
+      if (searchInput !== "" && searchInput !== searchParams.get("search")) {
+        queryParams.search = searchInput;
+        setSearchParams(queryParams);
+      }
     }, 500);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [searchInput, setSearchParams]);
+  }, [searchInput, setSearchParams, searchParams]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,8 +54,12 @@ const FavoriteCharactersPage = () => {
         ? CharacterSort.searchMatch
         : CharacterSort.favouritesDesc,
     };
+
+    searchParams.get("search")
+      ? setSearchInput(searchParams.get("search"))
+      : setSearchInput("");
+
     const getFavoriteCharacter = async () => {
-      console.log("api call");
       setIsLoading(true);
       try {
         const { data } = await aniListRequests(
