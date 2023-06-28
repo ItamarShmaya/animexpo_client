@@ -11,6 +11,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 90%;
+  margin: auto;
 }
 
 .ranked-list {
@@ -22,4 +24,6 @@
 .ranked-list-page h1 {
   color: #eeebdd;
   font-size: 35px;
+  width: 90%;
+  margin: auto;
 }
