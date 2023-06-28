@@ -1,8 +1,4 @@
-import {
-  createSearchParams,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import "./MediaSearchMenu.css";
 import { useEffect, useRef, useState } from "react";
 import { MediaSeason, MediaType } from "../../../apis/aniList/types";
@@ -12,8 +8,10 @@ import {
 } from "../../../apis/aniList/aniList.queries";
 import {
   animeFormats,
+  capitalizeWord,
   convertToArrayOfMediaFormats,
   getYearsFrom,
+  searchParamsToObject,
   seasons,
 } from "../../../helpers/helpers";
 
@@ -24,99 +22,81 @@ const MediaSearchMenu = ({
   setIsLoading,
   setIsFirstSearch,
 }) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchInputs, setSearchInputs] = useState({
-    search: "",
-    genres: [],
-    tags: [],
-    seasonYear: "",
-    season: "",
-    format: [],
+    search: searchParams.get("search") || "",
+    genres: searchParams.getAll("genres") || [],
+    tags: searchParams.getAll("tags") || [],
+    seasonYear: searchParams.get("seasonYear") || "",
+    season: searchParams.get("season") || "",
+    format: searchParams.getAll("format") || [],
   });
-  const [debouncedSearchInput, setDebouncedSearchInput] = useState(
-    searchInputs.search
-  );
   const [yearsList] = useState(getYearsFrom(1940, "desc"));
   const [isAdult, setIsAdult] = useState(false);
   const [sortBy, setSortBy] = useState("");
   const isFirstRender = useRef(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const timeoutId = setTimeout(() => {
-      setDebouncedSearchInput(searchInputs.search);
+      const queryParamsObj = searchParamsToObject(searchParams);
+      if (
+        searchInputs.search !== "" &&
+        searchInputs.search !== searchParams.get("search")
+      ) {
+        queryParamsObj.search = searchInputs.search;
+        setSearchParams(queryParamsObj);
+      }
     }, 500);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [searchInputs.search]);
+  }, [searchInputs.search, setSearchParams, searchParams]);
 
   useEffect(() => {
-    if (searchParams.size > 0) {
-      const searchParamsObj = {};
-      for (let [key, value] of searchParams) {
-        if (
-          key === "search" ||
-          key === "genres" ||
-          key === "tags" ||
-          key === "seasonYear" ||
-          key === "season" ||
-          key === "format"
-        ) {
-          if (searchParamsObj[key]) {
-            searchParamsObj[key].push(value);
-          } else {
-            if (key === "genres" || key === "tags" || key === "format") {
-              searchParamsObj[key] = [value];
-            } else {
-              searchParamsObj[key] = value;
-            }
-          }
-        }
-      }
-      setSearchInputs((prev) => {
-        const temp = {};
-        for (let key in prev) {
-          if (searchParamsObj[key]) {
-            temp[key] = searchParamsObj[key];
-          } else {
-            if (key === "genres" || key === "tags" || key === "format")
-              temp[key] = [];
-            else temp[key] = "";
-          }
-        }
-        return { ...temp };
-      });
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (isFirstRender.current === true) {
-      isFirstRender.current = false;
-      return;
-    }
     setIsLoading(true);
     const controller = new AbortController();
     const variables = {
       page: 1,
       type: MediaType.anime,
-      search: debouncedSearchInput === "" ? undefined : debouncedSearchInput,
-      genres: searchInputs.genres.length < 1 ? undefined : searchInputs.genres,
-      tags: searchInputs.tags.length < 1 ? undefined : searchInputs.tags,
-      seasonYear:
-        searchInputs.seasonYear === "" ? undefined : +searchInputs.seasonYear,
-      season:
-        searchInputs.season === ""
-          ? undefined
-          : MediaSeason[searchInputs.season?.toLowerCase()],
+      search: searchParams.get("search") || undefined,
+      genres:
+        searchParams.getAll("genres").length > 0
+          ? searchParams.getAll("genres")
+          : undefined,
+      tags:
+        searchParams.getAll("tags").length > 0
+          ? searchParams.getAll("tags")
+          : undefined,
+      seasonYear: searchParams.get("seasonYear") || undefined,
+      season: searchParams.get("season")
+        ? MediaSeason[searchParams.get("season")?.toLowerCase()]
+        : undefined,
       format:
-        searchInputs.format.length < 1
-          ? undefined
-          : convertToArrayOfMediaFormats(searchInputs.format),
+        searchParams.getAll("format").length > 0
+          ? convertToArrayOfMediaFormats(searchParams.getAll("format"))
+          : undefined,
     };
+    setSearchInputs(() => {
+      return {
+        search: variables.search ? variables.search : "",
+        genres: variables.genres?.length > 0 ? variables.genres : [],
+        tags: variables.tags?.length > 0 ? variables.tags : [],
+        seasonYear: variables.seasonYear ? variables.seasonYear : "",
+        season: variables.season ? capitalizeWord(variables.season) : "",
+        format:
+          searchParams.getAll("format")?.length > 0
+            ? searchParams.getAll("format")
+            : [],
+      };
+    });
 
-    const getSearchedList = async (variables) => {
+    const getSearchedList = async () => {
+      console.log("api call");
       setIsFirstSearch(false);
       try {
         const { data } = await aniListRequests(
@@ -124,22 +104,9 @@ const MediaSearchMenu = ({
           variables,
           controller.signal
         );
-        const queryParams = {};
-        for (let key in variables) {
-          if (key !== "page" && key !== "type") {
-            if (variables[key]) queryParams[key] = variables[key];
-          }
-        }
         if (data) {
           setList(data.Page.media);
           setIsLoading(false);
-          window.history.pushState(
-            {},
-            "",
-            `${window.location.origin}/search/anime?${createSearchParams(
-              queryParams
-            ).toString()}`
-          );
         }
       } catch (e) {
         console.log(e);
@@ -148,24 +115,12 @@ const MediaSearchMenu = ({
       }
     };
 
-    getSearchedList(variables);
+    getSearchedList();
 
     return () => {
       controller.abort();
     };
-  }, [
-    debouncedSearchInput,
-    searchInputs.seasonYear,
-    searchInputs.genres,
-    searchInputs.tags,
-    searchInputs.season,
-    searchInputs.format,
-    setList,
-    isFirstRender,
-    setIsLoading,
-    navigate,
-    setIsFirstSearch,
-  ]);
+  }, [searchParams, setList, isFirstRender, setIsLoading, setIsFirstSearch]);
 
   const renderSignleSelectOptions = (optionsValues, key) => {
     return optionsValues.map((option) => {
@@ -173,15 +128,15 @@ const MediaSearchMenu = ({
         <div
           key={option}
           className="dropdown-option"
-          onClick={() =>
-            setSearchInputs((prev) => {
-              const temp = { ...prev };
-              temp[key] = option;
-              return temp;
-            })
-          }
+          onClick={() => {
+            const paramsObj = searchParamsToObject(searchParams);
+            paramsObj[key] = option;
+            setSearchParams(paramsObj);
+          }}
         >
-          {option.toString().toLowerCase() === "tv" ? "TV Show" : option}
+          {option.toString().toLowerCase() === "tv"
+            ? "TV Show"
+            : capitalizeWord(option)}
         </div>
       );
     });
@@ -200,6 +155,8 @@ const MediaSearchMenu = ({
                 optionName={genre}
                 setSearchInputs={setSearchInputs}
                 listName={"genres"}
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
               />
             );
           })}
@@ -214,6 +171,8 @@ const MediaSearchMenu = ({
                 optionName={tag.name}
                 setSearchInputs={setSearchInputs}
                 listName={"tags"}
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
               />
             );
           })}
@@ -227,21 +186,16 @@ const MediaSearchMenu = ({
       e.currentTarget.children[1].style.display === "none" ? "flex" : "none";
   };
 
-  useEffect(() => {
-    const placeholder = document.querySelector(".placeholder");
-    searchInputs.search
-      ? (placeholder.style.display = "none")
-      : (placeholder.style.display = "unset");
-  }, [searchInputs.search]);
-
   return (
     <div className="search-menu">
       <div className="menu-item">
         <div className="menu-item-name">Search</div>
         <div className="search-bar">
-          <div className="placeholder">
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </div>
+          {searchInputs.search === "" && (
+            <div className="placeholder">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </div>
+          )}
           <input
             className="filter"
             type="text"
@@ -253,11 +207,14 @@ const MediaSearchMenu = ({
             }
             value={searchInputs.search}
           />
-          {searchInputs.search && (
+          {searchInputs.search !== "" && (
             <span
               className="inline-icon clear-all"
               onClick={(e) => {
                 e.stopPropagation();
+                const paramsObj = searchParamsToObject(searchParams);
+                delete paramsObj.search;
+                setSearchParams(paramsObj);
                 setSearchInputs((prev) => {
                   return { ...prev, search: "" };
                 });
@@ -289,6 +246,10 @@ const MediaSearchMenu = ({
                 className="inline-icon clear-all"
                 onClick={(e) => {
                   e.stopPropagation();
+                  const paramsObj = searchParamsToObject(searchParams);
+                  delete paramsObj.genres;
+                  delete paramsObj.tags;
+                  setSearchParams(paramsObj);
                   setSearchInputs((prev) => {
                     return { ...prev, genres: [], tags: [] };
                   });
@@ -323,6 +284,9 @@ const MediaSearchMenu = ({
               className="inline-icon clear-all"
               onClick={(e) => {
                 e.stopPropagation();
+                const paramsObj = searchParamsToObject(searchParams);
+                delete paramsObj.seasonYear;
+                setSearchParams(paramsObj);
                 setSearchInputs((prev) => {
                   return { ...prev, seasonYear: "" };
                 });
@@ -353,6 +317,9 @@ const MediaSearchMenu = ({
               className="inline-icon clear-all"
               onClick={(e) => {
                 e.stopPropagation();
+                const paramsObj = searchParamsToObject(searchParams);
+                delete paramsObj.season;
+                setSearchParams(paramsObj);
                 setSearchInputs((prev) => {
                   return { ...prev, season: "" };
                 });
@@ -388,6 +355,9 @@ const MediaSearchMenu = ({
                 className="inline-icon clear-all"
                 onClick={(e) => {
                   e.stopPropagation();
+                  const paramsObj = searchParamsToObject(searchParams);
+                  delete paramsObj.format;
+                  setSearchParams(paramsObj);
                   setSearchInputs((prev) => {
                     return { ...prev, format: [] };
                   });
@@ -412,6 +382,8 @@ const MediaSearchMenu = ({
                   }
                   setSearchInputs={setSearchInputs}
                   listName={"format"}
+                  searchParams={searchParams}
+                  setSearchParams={setSearchParams}
                 />
               );
             })}
@@ -429,6 +401,8 @@ const MultipleSelectOption = ({
   setSearchInputs,
   isSelected,
   optionName,
+  searchParams,
+  setSearchParams,
 }) => {
   return (
     <div
@@ -445,20 +419,11 @@ const MultipleSelectOption = ({
           e.currentTarget.children[1].classList.add("not-selected");
         }
 
-        setSearchInputs((prev) => {
-          const temp = { ...prev };
-          const index = temp[listName].findIndex((item) => item === optionName);
-          if (index === -1) {
-            const arr = [...temp[listName]];
-            arr.push(optionName);
-            temp[listName] = [...arr];
-          } else {
-            const arr = temp[listName].slice(0, index);
-            const arr1 = temp[listName].slice(index + 1);
-            temp[listName] = arr.concat(arr1);
-          }
-          return { ...prev, ...temp };
-        });
+        const paramsObj = searchParamsToObject(searchParams);
+        paramsObj[listName]
+          ? (paramsObj[listName] = [...paramsObj[listName], optionName])
+          : (paramsObj[listName] = [optionName]);
+        setSearchParams(paramsObj);
       }}
     >
       <div>{optionName}</div>
