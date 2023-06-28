@@ -31,7 +31,7 @@ const CardsList = ({
             listItem.coverImage?.large ||
             listItem.coverImage?.medium
           }
-          index={i}
+          rank={i + 1}
           cardHeight={cardHeight}
           cardWidth={cardWidth}
           titleFontSize={titleFontSize}

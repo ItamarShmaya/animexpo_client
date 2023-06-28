@@ -1,5 +1,5 @@
 import { NavLink, createSearchParams, useNavigate } from "react-router-dom";
-import "./MediaAdvancedSearchResultItem.css";
+import "./TableLikeCard.css";
 import {
   capitalizeWord,
   formatsStringRender,
@@ -7,7 +7,7 @@ import {
   numberWithCommas,
 } from "../../../helpers/helpers";
 
-const MediaAdvancedSearchResultItem = ({
+const TableLikeCard = ({
   type,
   id,
   title,
@@ -27,11 +27,8 @@ const MediaAdvancedSearchResultItem = ({
   startYear,
   endYear,
   chapters,
-  volumes,
 }) => {
-  const gridTemplateColumns = showRank
-    ? "0.3fr auto 2fr 0.5fr 0.5fr 0.8fr"
-    : "auto 4.5fr 1fr 1fr 1fr";
+  const gridClassName = showRank ? "grid-with-rank" : "grid-without-rank";
   const navigate = useNavigate();
   const renderGenres = () => {
     return genres.map((genre) => {
@@ -51,18 +48,26 @@ const MediaAdvancedSearchResultItem = ({
       );
     });
   };
+
+  const onMouseEnter = (e) => {
+    const isOverFlow = e.target.clientWidth < e.target.scrollWidth;
+    if (isOverFlow) {
+      e.target.setAttribute("title", title);
+    }
+  };
+
   return (
-    <div
-      className="advanced-search-result"
-      key={id}
-      style={{ gridTemplateColumns }}
-    >
+    <div className={`advanced-search-result ${gridClassName}`} key={id}>
       {showRank && <div className="search-res-rank">{rank}</div>}
       <NavLink to={`/${type}/${id}`} className="cover-image">
         <img src={image} alt={title} />
       </NavLink>
       <div className="title-genres adv-search-res-item">
-        <NavLink to={`/anime/${id}`} className="res-item-heading title-link">
+        <NavLink
+          to={`/anime/${id}`}
+          className={`res-item-heading title-link ellipsis overflow`}
+          onMouseEnter={onMouseEnter}
+        >
           {title}
         </NavLink>
         <div className="genres res-item-details">{renderGenres()}</div>
@@ -72,14 +77,14 @@ const MediaAdvancedSearchResultItem = ({
           {averageScore ? (
             <>
               <i className="fa-solid fa-star"></i>{" "}
-              {(averageScore / 10).toFixed(2)}
+              {(averageScore / 10).toFixed(1)}
             </>
           ) : (
             "N/A"
           )}
         </div>
         <div className="res-item-details">
-          {numberWithCommas(popularity)} Users
+          {numberWithCommas(popularity) || 0} Users
         </div>
       </div>
 
@@ -111,10 +116,10 @@ const MediaAdvancedSearchResultItem = ({
           <div className="res-item-heading">Airing</div>
         ) : (
           <div className="res-item-heading">
-            {season
+            {season && seasonYear
+              ? capitalizeWord(season) + " " + seasonYear
+              : season
               ? capitalizeWord(season)
-              : seasonYear
-              ? seasonYear
               : startYear && endYear
               ? startYear + " - " + endYear
               : startYear
@@ -143,4 +148,4 @@ const MediaAdvancedSearchResultItem = ({
   );
 };
 
-export default MediaAdvancedSearchResultItem;
+export default TableLikeCard;

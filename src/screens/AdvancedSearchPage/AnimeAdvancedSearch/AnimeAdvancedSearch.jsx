@@ -8,15 +8,23 @@ import MediaSearchMenu from "../MediaSearchMenu/MediaSearchMenu";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import Spinner from "../../../components/Spinner/Spinner";
 import rai from "../../../components/Spinner/spinnerImages/rai.png";
-import MediaAdvancedSearchResultItem from "../MediaAdvancedSearchResultItem/MediaAdvancedSearchResultItem";
+import TableLikeCard from "../TableLikeCard/TableLikeCard";
+import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 
 const AnimeAdvancedSearch = () => {
   const [list, setList] = useState([]);
   const [genres, setGenres] = useState([]);
   const [tags, setTags] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
-  const [isFirstSearch, setIsFirstSearch] = useState(true);
+  const [isMobileWidth, setIsMobileWidth] = useState(
+    window.innerWidth <= 1000 ? true : false
+  );
+  const query = matchMedia("(max-width: 1000px)");
+  query.addEventListener("change", () => {
+    query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
+  });
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -52,7 +60,32 @@ const AnimeAdvancedSearch = () => {
   const renderSearchResults = () => {
     return list.map((item) => {
       return (
-        <MediaAdvancedSearchResultItem
+        <TableLikeCard
+          key={item.id}
+          type={item.type}
+          id={item.id}
+          title={item.title.userPreferred || item.title.english}
+          image={item.coverImage.large || item.coverImage.medium}
+          genres={item.genres}
+          averageScore={item.averageScore}
+          popularity={item.popularity}
+          format={item.format}
+          episodes={item.episodes}
+          duration={item.duration}
+          status={item.status}
+          nextAiringEpisode={item.nextAiringEpisode}
+          season={item.season}
+          seasonYear={item.seasonYear}
+          showRank={false}
+        />
+      );
+    });
+  };
+
+  const renderMobileSearchResults = () => {
+    return list.map((item) => {
+      return (
+        <TableLikeCardMobile
           key={item.id}
           type={item.type}
           id={item.id}
@@ -81,24 +114,28 @@ const AnimeAdvancedSearch = () => {
         genres={genres}
         tags={tags}
         setIsLoading={setIsLoading}
-        setIsFirstSearch={setIsFirstSearch}
       />
-      {isLoading ? (
-        <Spinner image={rai} />
-      ) : isFirstSearch ? (
-        <div className="search-message">
-          Enter search parameters to start the search
-        </div>
-      ) : list.length > 0 ? (
-        <div className="advanced-search-results-container">
-          {renderSearchResults()}
-        </div>
-      ) : (
-        <div className="search-message">
-          no results found <i className="fa-solid fa-face-frown-open"></i> Try
-          again with different parameters
-        </div>
-      )}
+      <div className="advanced-search-results-container">
+        {isLoading ? (
+          <Spinner
+            image={rai}
+            parentElementRect={document
+              .querySelector(".advanced-search-results-container")
+              ?.getBoundingClientRect()}
+          />
+        ) : list.length > 0 ? (
+          isMobileWidth ? (
+            renderMobileSearchResults()
+          ) : (
+            renderSearchResults()
+          )
+        ) : (
+          <div className="search-message">
+            no results found <i className="fa-solid fa-face-frown-open"></i> Try
+            again with different parameters
+          </div>
+        )}
+      </div>
     </div>
   );
 };

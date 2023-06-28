@@ -1,5 +1,10 @@
 import "./EntrySideInformation.css";
-import { MONTHS } from "../../../../helpers/helpers.js";
+import {
+  MONTHS,
+  capitalizeSnakeCase,
+  capitalizeWord,
+  formatsStringRender,
+} from "../../../../helpers/helpers.js";
 
 const EntrySideInformation = ({ entry }) => {
   const {
@@ -36,9 +41,7 @@ const EntrySideInformation = ({ entry }) => {
       {format && (
         <div className="info-item">
           <span className="sub-header">Format:</span>
-          <span className="content">
-            {format[0] + format.substring(1).toLowerCase()}
-          </span>
+          <span className="content">{formatsStringRender(format)}</span>
         </div>
       )}
       {episodes && (
@@ -69,7 +72,9 @@ const EntrySideInformation = ({ entry }) => {
         <div className="info-item">
           <span className="sub-header">Status:</span>
           <span className="content">
-            {status[0] + status.substring(1).toLowerCase()}
+            {status.includes("_")
+              ? capitalizeSnakeCase(status)
+              : capitalizeWord(status)}
           </span>
         </div>
       )}
@@ -111,7 +116,7 @@ const EntrySideInformation = ({ entry }) => {
           </span>
         </div>
       )}
-      {genres && genres.length && (
+      {genres && genres.length > 0 && (
         <div className="info-item">
           <span className="sub-header">Genres:</span>
           <span className="content flex-col">{renderList(genres)}</span>

@@ -1,0 +1,25 @@
+.ranked-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 90%;
+  margin: auto;
+}
+
+.ranked-list-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ranked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ranked-list-page h1 {
+  color: #eeebdd;
+  font-size: 35px;
+}

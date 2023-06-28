@@ -3,6 +3,11 @@
   gap: 5px;
   margin: 20px auto;
   width: 90%;
+  flex-wrap: wrap;
+}
+
+.rank-list-nav-item {
+  margin-bottom: 10px;
 }
 
 .rank-list-nav-item a {

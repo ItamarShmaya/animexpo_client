@@ -1,29 +1,8 @@
-.ranked-list-page {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ranked-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.ranked-list-page h1 {
-  color: #eeebdd;
-  font-size: 35px;
-  width: 90%;
-  margin: auto;
-}
-
 .page-nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   font-size: 14px;
-  width: 90%;
-  margin: auto;
   gap: 10px;
 }
 
@@ -41,7 +20,12 @@
   cursor: pointer;
 }
 
-.page-nav-bot {
+.page-nav-mid {
   margin-bottom: 10px;
   justify-content: center;
+}
+
+.page-nav-left {
+  margin-bottom: 10px;
+  justify-content: flex-start;
 }

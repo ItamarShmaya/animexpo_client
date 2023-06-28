@@ -86,3 +86,9 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

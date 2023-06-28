@@ -98,7 +98,7 @@ const EntryPageHero = ({
           <div className="entry-hero-score">
             Score: <br />
             <i className="fa-solid fa-star"></i>{" "}
-            {!averageScore ? "N/A" : (averageScore / 10).toFixed(2)}
+            {!averageScore ? "N/A" : (averageScore / 10).toFixed(1)}
           </div>
           <div className="entry-hero-rank">
             Rank: <br /> <i className="fa-solid fa-trophy"></i> #

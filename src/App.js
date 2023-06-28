@@ -20,14 +20,15 @@ import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryR
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
 import AdvancedSearchPage from "./screens/AdvancedSearchPage/AdvancedSearchPage";
-import RankedListPage from "./screens/RankedListPage/AnimeRankedList/RankedListPage";
-import { MediaSort, MediaType } from "./apis/aniList/types";
+import RankedListPage from "./screens/RankedListPage/RankedListPage";
+import { MediaFormat, MediaSort, MediaType } from "./apis/aniList/types";
 import {
   currentSeason,
   currentSeasonYear,
   nextSeason,
   nextSeasonYear,
 } from "./helpers/helpers";
+import FavoriteCharactersPage from "./screens/FavoriteCharactersPage/FavoriteCharactersPage";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
             <Route
               path="/search/character/*"
               exact
-              element={<AdvancedSearchPage type={"character"} />}
+              element={<FavoriteCharactersPage />}
             />
             <Route
               path="/search/staff/*"
@@ -133,6 +134,71 @@ function App() {
               }
             />
             <Route
+              path="/search/anime/top-tv/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top-tv"}
+                  heading={"Top TV Shows"}
+                  format={MediaFormat.tv}
+                />
+              }
+            />
+            <Route
+              path="/search/anime/top-movies/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top-movies"}
+                  heading={"Top Movies"}
+                  format={MediaFormat.movie}
+                />
+              }
+            />
+            <Route
+              path="/search/anime/top-ovas/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top-ovas"}
+                  heading={"Top OVAs"}
+                  format={MediaFormat.ova}
+                />
+              }
+            />
+            <Route
+              path="/search/anime/top-onas/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top-onas"}
+                  heading={"Top ONAs"}
+                  format={MediaFormat.ona}
+                />
+              }
+            />
+            <Route
+              path="/search/anime/top-specials/*"
+              exact
+              element={
+                <RankedListPage
+                  type={MediaType.anime}
+                  sort={MediaSort.scoreDesc}
+                  category={"top-specials"}
+                  heading={"Top Specials"}
+                  format={MediaFormat.special}
+                />
+              }
+            />
+            <Route
               path="/search/manga/top"
               exact
               element={
@@ -168,14 +234,12 @@ function App() {
                 />
               }
             />
-            {/* 
+
             <Route
-              path="/search/character/favorite"
+              path="/search/character/favorite/*"
               exact
-              element={
-                <AdvancedSearchPage type={"character"}  />
-              }
-            /> */}
+              element={<FavoriteCharactersPage/>}
+            />
             <Route
               path="/profile/:username/*"
               exact

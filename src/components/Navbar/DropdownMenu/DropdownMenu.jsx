@@ -29,6 +29,14 @@ const DropdownMenu = ({
           <span>Profile</span>
         </div>
       </NavLink>
+      <NavLink to={`/search/anime`} onClick={() => setDropdownOpen(false)}>
+        <div className="dropdown-item">
+          <div className="dropdown-icon-wrapper">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <span>Search</span>
+        </div>
+      </NavLink>
       <NavLink
         to={`/${username}/animelist`}
         onClick={() => setDropdownOpen(false)}

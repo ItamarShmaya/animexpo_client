@@ -143,6 +143,14 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className="navbar-right">
+          <NavLink
+            to={"/search/anime"}
+            className="nav-item"
+            onMouseEnter={() => console.log("object")}
+            onMouseLeave={() => console.log("object")}
+          >
+            Search
+          </NavLink>
           {loggedInUser ? (
             <>
               <div className="notification-bell">
