@@ -21,7 +21,7 @@
   font-size: 1.5rem;
   padding: 1rem;
   color: #eeebdd;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .navbar .nav-item:hover {
