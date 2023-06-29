@@ -1,11 +1,20 @@
+import { animeFormats, mangaFormats } from "../../helpers/helpers";
 import "./AdvancedSearchPage.css";
-import AnimeAdvancedSearch from "./AnimeAdvancedSearch/AnimeAdvancedSearch";
+import MediaAdvancedSearch from "./MediaAdvancedSearch/MediaAdvancedSearch";
 
 const AdvancedSearchPage = ({ type }) => {
   return (
     <div className="search-page">
-      {type === "anime" && <AnimeAdvancedSearch type={type} />}
-      {type === "manga" && <div>Manga Search</div>}
+      {type === "anime" && (
+        <MediaAdvancedSearch type={type} formats={animeFormats} />
+      )}
+      {type === "manga" && (
+        <MediaAdvancedSearch
+          type={type}
+          formats={mangaFormats}
+          showSeasonFilter={false}
+        />
+      )}
       {type === "staff" && <div>Staff Search</div>}
     </div>
   );

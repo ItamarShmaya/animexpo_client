@@ -179,6 +179,7 @@ export const formatsStringRender = (format) => {
   if (lowerCaseFormat === "ova") return format;
   if (lowerCaseFormat === "ona") return format;
   if (lowerCaseFormat === "novel") return "Light Novel";
+  if (lowerCaseFormat === "one_shot") return "One Shot";
   return capitalizeWord(format);
 };
 

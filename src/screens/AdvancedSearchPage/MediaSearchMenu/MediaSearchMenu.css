@@ -55,19 +55,10 @@
   cursor: pointer;
 }
 
-.filter .selected-value {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  margin-left: 10px;
-  font-weight: bold;
-  color: rgb(0, 128, 255);
-}
-
 .filter .placeholder {
   color: #1b1717;
   font-weight: 100;
+  position: absolute;
 }
 
 .dropdown-options {
@@ -80,7 +71,7 @@
   flex-direction: column;
   max-height: 300px;
   overflow-y: scroll;
-  z-index: 2;
+  z-index: 11;
 }
 
 .dropdown-options::-webkit-scrollbar {
@@ -102,7 +93,7 @@
 }
 
 .dropdown-option {
-  padding: 10px;
+  padding: 10px 10px 10px 20px;
   width: 100%;
 }
 
@@ -116,13 +107,6 @@
   align-items: center;
   padding-left: 10px;
   gap: 5px;
-}
-
-.multiple-select-span {
-  border: 1px solid #ccc;
-  background-color: #ccc;
-  padding: 3px;
-  border-radius: 5px;
 }
 
 .multiple-select-option {
@@ -163,6 +147,68 @@
 
 .clear-all:hover i {
   color: red;
+}
+
+.group-title {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.genres-label {
+  height: 100%;
+  position: relative;
+}
+
+.genres-label .placeholder {
+  top: calc(50% - 7.5px);
+  left: 10px;
+}
+
+.selected-label {
+  display: flex;
+  gap: 5px;
+  height: 100%;
+  position: absolute;
+  align-items: center;
+  top: 0;
+  left: 0;
+  padding-left: 10px;
+}
+
+.multiple-select-span {
+  border: 1px solid #ccc;
+  background-color: #ccc;
+  padding: 3px;
+  border-radius: 5px;
+  height: fit-content;
+}
+
+.filter-input {
+  width: 100%;
+  height: 100%;
+  padding: 5px 5px 5px 10px;
+  background-color: #eeebdd;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.menu-item-label {
+  height: 100%;
+  position: relative;
+}
+
+.menu-item-label .selected-value {
+  position: absolute;
+  font-weight: bold;
+  color: rgb(0, 128, 255);
+  top: calc(50% - 7.5px);
+  left: 10px;
+}
+.menu-item-label .placeholder {
+  color: #1b1717;
+  font-weight: 100;
 }
 
 @media all and (max-width: 1000px) {
