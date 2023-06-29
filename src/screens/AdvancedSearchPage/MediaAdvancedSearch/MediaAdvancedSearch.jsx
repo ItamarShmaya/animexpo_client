@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
-import "./AnimeAdvancedSearch.css";
-import {
-  aniListRequests,
-  getGenresAndTagsQuery,
-} from "../../../apis/aniList/aniList.queries";
+import { useState } from "react";
+import "./MediaAdvancedSearch.css";
 import MediaSearchMenu from "../MediaSearchMenu/MediaSearchMenu";
-import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import Spinner from "../../../components/Spinner/Spinner";
 import rai from "../../../components/Spinner/spinnerImages/rai.png";
 import TableLikeCard from "../TableLikeCard/TableLikeCard";
 import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 import SecondaryFilter from "../SecondaryFilter/SecondaryFilter";
 
-const AnimeAdvancedSearch = ({ type }) => {
+const AnimeAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
   const [list, setList] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [tags, setTags] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
   const [isMobileWidth, setIsMobileWidth] = useState(
     window.innerWidth <= 1000 ? true : false
   );
@@ -26,40 +18,10 @@ const AnimeAdvancedSearch = ({ type }) => {
     query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const getGenresAndTags = async () => {
-      try {
-        const { data } = await aniListRequests(
-          getGenresAndTagsQuery,
-          {},
-          controller.signals
-        );
-        if (data) {
-          setGenres(data.genres);
-          setTags(data.tags);
-          setUserSessionStorage("genres", data.genres);
-          setUserSessionStorage("tags", data.tags);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    const userCache = getUserSessionStorage();
-    if (!userCache.genres || !userCache.tags) getGenresAndTags();
-    else {
-      setGenres(userCache.genres);
-      setTags(userCache.tags);
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [getUserSessionStorage, setUserSessionStorage]);
-
   const renderSearchResults = () => {
     return list.map((item) => {
+      console.log(item);
+
       return (
         <TableLikeCard
           key={item.id}
@@ -72,11 +34,13 @@ const AnimeAdvancedSearch = ({ type }) => {
           popularity={item.popularity}
           format={item.format}
           episodes={item.episodes}
+          chapters={item.chapters}
           duration={item.duration}
           status={item.status}
           nextAiringEpisode={item.nextAiringEpisode}
           season={item.season}
           seasonYear={item.seasonYear}
+          startYear={item.startDate?.year}
           showRank={false}
         />
       );
@@ -97,11 +61,14 @@ const AnimeAdvancedSearch = ({ type }) => {
           popularity={item.popularity}
           format={item.format}
           episodes={item.episodes}
+          chapters={item.chapters}
           duration={item.duration}
           status={item.status}
           nextAiringEpisode={item.nextAiringEpisode}
           season={item.season}
           seasonYear={item.seasonYear}
+          startYear={item.startDate?.year}
+          endYear={item.endDate?.year}
           showRank={false}
         />
       );
@@ -112,10 +79,10 @@ const AnimeAdvancedSearch = ({ type }) => {
     <>
       <MediaSearchMenu
         setList={setList}
-        genres={genres}
-        tags={tags}
         setIsLoading={setIsLoading}
         type={type}
+        formats={formats}
+        showSeasonFilter={showSeasonFilter}
       />
       <SecondaryFilter />
       <div className="advanced-search-results-container">
