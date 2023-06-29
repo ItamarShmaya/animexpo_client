@@ -19,16 +19,28 @@ import UserReviewsPage from "./screens/userReviewsPage/UserReviewsPage/UserRevie
 import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryReviewsPage";
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
-import AdvancedSearchPage from "./screens/AdvancedSearchPage/AdvancedSearchPage";
 import RankedListPage from "./screens/RankedListPage/RankedListPage";
-import { MediaFormat, MediaSort, MediaType } from "./apis/aniList/types";
 import {
+  CharacterSort,
+  MediaFormat,
+  MediaSort,
+  MediaType,
+  StaffSort,
+} from "./apis/aniList/types";
+import {
+  animeFormats,
   currentSeason,
   currentSeasonYear,
+  mangaFormats,
   nextSeason,
   nextSeasonYear,
 } from "./helpers/helpers";
-import FavoriteCharactersPage from "./screens/FavoriteCharactersPage/FavoriteCharactersPage";
+import NotMediaAdvancedSearch from "./screens/AdvancedSearchPage/NotMediaAdvancedSearch/NotMediaAdvancedSearch";
+import {
+  getFavoriteCharactersQuery,
+  getFavoriteStaffQuery,
+} from "./apis/aniList/aniList.queries";
+import MediaAdvancedSearch from "./screens/AdvancedSearchPage/MediaAdvancedSearch/MediaAdvancedSearch";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -52,22 +64,44 @@ function App() {
             <Route
               path="/search/anime/*"
               exact
-              element={<AdvancedSearchPage type={"anime"} />}
+              element={
+                <MediaAdvancedSearch type={"anime"} formats={animeFormats} />
+              }
             />
             <Route
               path="/search/manga/*"
               exact
-              element={<AdvancedSearchPage type={"manga"} />}
+              element={
+                <MediaAdvancedSearch
+                  type={"manga"}
+                  format={mangaFormats}
+                  showSeasonFilter={false}
+                />
+              }
             />
             <Route
               path="/search/character/*"
               exact
-              element={<FavoriteCharactersPage />}
+              element={
+                <NotMediaAdvancedSearch
+                  type={"character"}
+                  heading={"Characters"}
+                  query={getFavoriteCharactersQuery}
+                  sort={CharacterSort}
+                />
+              }
             />
             <Route
               path="/search/staff/*"
               exact
-              element={<AdvancedSearchPage type={"staff"} />}
+              element={
+                <NotMediaAdvancedSearch
+                  type={"staff"}
+                  heading={"Staff"}
+                  query={getFavoriteStaffQuery}
+                  sort={StaffSort}
+                />
+              }
             />
             <Route
               path="search/anime/trending/*"
@@ -238,7 +272,14 @@ function App() {
             <Route
               path="/search/character/favorite/*"
               exact
-              element={<FavoriteCharactersPage/>}
+              element={
+                <NotMediaAdvancedSearch
+                  type={"character"}
+                  heading={"Characters"}
+                  query={getFavoriteCharactersQuery}
+                  sort={CharacterSort}
+                />
+              }
             />
             <Route
               path="/profile/:username/*"

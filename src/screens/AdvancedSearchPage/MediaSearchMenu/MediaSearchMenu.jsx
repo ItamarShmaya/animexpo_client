@@ -242,10 +242,10 @@ const MediaSearchMenu = ({
   useEffect(() => {
     const closeDropDown = (e) => {
       if (
-        genresLabelRef.current.contains(e.target) ||
-        yearLabelRef.current.contains(e.target) ||
-        seasonLabelRef.current.contains(e.target) ||
-        formatLabelRef.current.contains(e.target)
+        genresLabelRef.current?.contains(e.target) ||
+        yearLabelRef.current?.contains(e.target) ||
+        seasonLabelRef.current?.contains(e.target) ||
+        formatLabelRef.current?.contains(e.target)
       ) {
         return;
       }
