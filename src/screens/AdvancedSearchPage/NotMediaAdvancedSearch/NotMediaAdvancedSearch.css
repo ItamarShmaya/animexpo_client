@@ -1,0 +1,115 @@
+.search-list-page {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.char-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 30px 10px;
+  justify-content: space-between;
+}
+
+.search-list-page h1 {
+  color: #eeebdd;
+  font-size: 25px;
+  margin-top: 20px;
+}
+
+.search-input {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-input label {
+  color: #eeebdd;
+  font-size: 15px;
+}
+
+.search-input-container {
+  position: relative;
+  font-size: 15px;
+  width: fit-content;
+}
+
+.search-input-container .placeholder {
+  position: absolute;
+  color: #1b1717;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
+  top: calc(50% - 7.5px);
+  left: 10px;
+}
+
+.search-input input {
+  width: 200px;
+  padding-left: 10px;
+  background-color: #eeebdd;
+  color: #1b1717;
+  height: 35px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+@media all and (max-width: 1040px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 100px);
+  }
+}
+@media all and (max-width: 815px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 110px);
+  }
+}
+@media all and (max-width: 740px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 125px);
+  }
+}
+@media all and (max-width: 670px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 150px);
+  }
+}
+@media all and (max-width: 590px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 135px);
+  }
+}
+@media all and (max-width: 535px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 120px);
+  }
+}
+@media all and (max-width: 475px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 100px);
+  }
+}
+
+@media all and (max-width: 400px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 135px);
+  }
+}
+@media all and (max-width: 350px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 120px);
+  }
+}
+@media all and (max-width: 315px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 110px);
+  }
+}
+@media all and (max-width: 300px) {
+  .char-list-container {
+    grid-template-columns: repeat(auto-fill, 90px);
+  }
+}

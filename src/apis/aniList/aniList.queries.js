@@ -745,3 +745,27 @@ query($page: Int = 1, $perPage: Int = 25, $search: String, $sort: [CharacterSort
   }
 }
 `;
+
+export const getFavoriteStaffQuery = `
+query($page: Int = 1, $perPage: Int = 25, $search: String, $sort: [StaffSort] = [FAVOURITES_DESC]) {
+  Page(page: $page, perPage: $perPage) {
+    pageInfo {
+      total 
+      perPage 
+      currentPage 
+      lastPage 
+      hasNextPage
+    }
+    staff(search: $search, sort: $sort) {
+      id
+      image {
+        large
+        medium
+      }
+      name {
+        userPreferred
+      }
+    }
+  }
+}
+`;

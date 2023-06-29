@@ -7,7 +7,7 @@ import TableLikeCard from "../TableLikeCard/TableLikeCard";
 import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 import SecondaryFilter from "../SecondaryFilter/SecondaryFilter";
 
-const AnimeAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
+const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobileWidth, setIsMobileWidth] = useState(
@@ -20,8 +20,6 @@ const AnimeAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
 
   const renderSearchResults = () => {
     return list.map((item) => {
-      console.log(item);
-
       return (
         <TableLikeCard
           key={item.id}
@@ -110,4 +108,4 @@ const AnimeAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
   );
 };
 
-export default AnimeAdvancedSearch;
+export default MediaAdvancedSearch;
