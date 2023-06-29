@@ -47,6 +47,7 @@
 .card-content-wrapper .card-bottom h3 {
   text-align: center;
   padding: 0.5rem;
+  text-decoration: none;
 }
 
 .card-rank {

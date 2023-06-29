@@ -31,7 +31,13 @@ const Card = ({
             {showRank && <div className="card-rank">#{rank}</div>}
           </div>
           <div className="card-bottom">
-            <h3 style={{ fontSize: `${titleFontSize}px` }}>{title}</h3>
+            <h3
+              className="ellipsis"
+              style={{ fontSize: `${titleFontSize}px` }}
+              title={title}
+            >
+              {title}
+            </h3>
           </div>
         </div>
       </div>
