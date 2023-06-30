@@ -2,12 +2,26 @@
   font-size: 1.5rem;
   color: #eeebdd;
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
   align-items: center;
   justify-items: center;
   border-bottom: 2px solid #ce1212;
   padding: 1rem 0;
   text-align: center;
+  position: relative;
+}
+
+.nine-grid {
+  grid-template-columns: 0.5fr 0.5fr 2fr repeat(6, 1fr);
+}
+
+.eight-grid {
+  grid-template-columns: 0.5fr 0.5fr 2fr repeat(5, 1fr);
+}
+
+.mylist-item-title {
+  justify-self: left;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .mylist-item-img-container img {
@@ -40,4 +54,55 @@
 
 .remove-button:hover {
   cursor: pointer;
+}
+
+.mylist-item-comment {
+  position: relative;
+}
+
+.comment-wrapper {
+  position: absolute;
+  right: calc(100% + 5px);
+  top: 0;
+  min-width: 500px;
+  z-index: 1;
+  display: none;
+  justify-content: flex-end;
+}
+
+.comment-container {
+  color: black;
+  background-color: #eeebdd;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  text-align: left;
+  white-space: pre-line;
+  word-break: break-word;
+  overflow: hidden;
+}
+
+.comment-edit-window {
+  position: fixed;
+  padding: 10px;
+  left: calc(50% - 260px);
+  top: calc(50% - 175px);
+  z-index: 2;
+  background-color: #eeebdd;
+  color: #1b1717;
+  border-radius: 5px;
+}
+
+.comment-edit-window h3 {
+  margin-bottom: 10px;
+}
+
+.comment-edit-window textarea {
+  width: 500px;
+  height: 300px;
+  background-color: #eeebdd;
+  border-radius: 5px;
+  padding: 10px;
+  font-family: "Questrial", sans-serif;
+  font-size: 15px;
 }
