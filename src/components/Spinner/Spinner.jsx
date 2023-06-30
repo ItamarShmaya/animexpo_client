@@ -6,7 +6,6 @@ const Spinner = ({
   spinnerWidth = 50,
   topOffset,
 }) => {
-  console.log(topOffset);
   return (
     <div
       className="spinner-wrapper"
