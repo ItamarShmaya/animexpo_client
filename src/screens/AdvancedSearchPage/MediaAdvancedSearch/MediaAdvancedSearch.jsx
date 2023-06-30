@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import "./MediaAdvancedSearch.css";
 import MediaSearchMenu from "../MediaSearchMenu/MediaSearchMenu";
 import Spinner from "../../../components/Spinner/Spinner";
@@ -10,6 +10,8 @@ import SecondaryFilter from "../SecondaryFilter/SecondaryFilter";
 const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const resultsContainerRef = useRef();
+  const [topOffset, setTopOffset] = useState();
   const [isMobileWidth, setIsMobileWidth] = useState(
     window.innerWidth <= 1000 ? true : false
   );
@@ -73,6 +75,10 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
     });
   };
 
+  useLayoutEffect(() => {
+    setTopOffset(resultsContainerRef.current.getBoundingClientRect().top);
+  }, []);
+
   return (
     <>
       <MediaSearchMenu
@@ -83,14 +89,12 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
         showSeasonFilter={showSeasonFilter}
       />
       <SecondaryFilter />
-      <div className="advanced-search-results-container">
+      <div
+        className="advanced-search-results-container"
+        ref={resultsContainerRef}
+      >
         {isLoading ? (
-          <Spinner
-            image={rai}
-            parentElementRect={document
-              .querySelector(".advanced-search-results-container")
-              ?.getBoundingClientRect()}
-          />
+          <Spinner image={rai} topOffset={topOffset} />
         ) : list.length > 0 ? (
           isMobileWidth ? (
             renderMobileSearchResults()
