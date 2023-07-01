@@ -10,6 +10,8 @@ const Section = ({
   sliderSettings,
   titleFontSize,
   category,
+  cardHeight,
+  cardWidth,
 }) => {
   return (
     <section className="landing-page-section">
@@ -25,6 +27,8 @@ const Section = ({
         type={type}
         showRank={showRank}
         sliderSettings={sliderSettings}
+        cardHeight={cardHeight}
+        cardWidth={cardWidth}
       />
     </section>
   );

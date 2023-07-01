@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import { useState } from "react";
 import { viewedListReducer } from "../../../reducers/animeListReducer";
 import "./UserList.css";
+import { useLoggedInUser } from "../../../context/context_custom_hooks";
 
 const UserList = ({
   userList,
@@ -14,6 +15,7 @@ const UserList = ({
   const [, setTitleAsc] = useState(null);
   const [viewedStatus, setViewedStatus] = useState("All");
   const [viewedList, dispatch] = useReducer(viewedListReducer, userList);
+  const { loggedInUser } = useLoggedInUser();
 
   const renderList = (list) => {
     return list.map((item, i) => {
@@ -59,7 +61,12 @@ const UserList = ({
       <div className="list-page">
         <h1 className="viewed-status">{viewedStatus}</h1>
         <div className="mylist-container">
-          <div id="list-header" className="list-item">
+          <div
+            id="list-header"
+            className={`list-item ${
+              loggedInUser?.username === username ? "nine-grid" : "eight-grid"
+            }`}
+          >
             <div className="mylist-item-number">#</div>
             <div className="mylist-item-img-container"></div>
             <div className="mylist-item-title sort" onClick={onTitleClick}>

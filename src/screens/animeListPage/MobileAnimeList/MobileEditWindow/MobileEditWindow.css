@@ -16,6 +16,7 @@
   position: absolute;
   left: 0;
   background-color: #eeebdd;
+  overflow-y: scroll;
 }
 
 .mobile-item-edit-form {
@@ -37,7 +38,6 @@
   width: 100%;
   display: flex;
   align-items: center;
-  height: 30px;
   border-radius: 5px;
   font-size: 1.3rem;
 }
@@ -52,6 +52,11 @@
   height: 100%;
   border-radius: 5px;
   border: 2px solid #f27878;
+  min-height: 30px;
+}
+
+.mobile-item-edit-input-group input {
+  min-height: 30px;
 }
 
 .mobile-item-edit-input-group select:focus {
@@ -71,16 +76,16 @@
 }
 
 .mobile-item-edit-progress-input input,
-.mobile-item-edit-comment-input input {
+.mobile-item-edit-comment-input textarea {
   width: 100%;
   height: 100%;
   border-radius: 5px;
   border: 2px solid #f27878;
-  padding-left: 5px;
+  padding: 5px;
 }
 
 .mobile-item-edit-progress-input input:focus,
-.mobile-item-edit-comment-input input:focus {
+.mobile-item-edit-comment-input textarea:focus {
   outline: none;
 }
 
@@ -94,16 +99,6 @@
   font-weight: 400;
 }
 
-.mobile-item-edit-comment-input:after {
-  position: absolute;
-  content: attr(data-maxlength);
-  padding: 5px;
-  color: black;
-  left: 0;
-  font-size: 9px;
-  top: 100%;
-}
-
 .mobile-item-edit-form-buttons {
   display: flex;
   width: 100%;
@@ -111,6 +106,7 @@
   align-items: center;
   gap: 10px;
   margin-top: 15px;
+  padding-bottom: 10px;
 }
 
 .mobile-item-edit-form-buttons button {

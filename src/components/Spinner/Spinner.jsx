@@ -4,14 +4,14 @@ const Spinner = ({
   image,
   spinnerHeight = 50,
   spinnerWidth = 50,
-  parentElementRect,
+  topOffset,
 }) => {
   return (
     <div
       className="spinner-wrapper"
       style={{
-        height: parentElementRect?.top
-          ? window.visualViewport.height - parentElementRect?.top
+        height: topOffset
+          ? window.visualViewport.height - topOffset
           : window.visualViewport.height,
       }}
     >

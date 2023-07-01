@@ -1,6 +1,7 @@
 .mobile-list-wrapper {
   padding: 5px;
   min-height: 100%;
+  overflow: hidden;
 }
 
 .mobile-list-container {

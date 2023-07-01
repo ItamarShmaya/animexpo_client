@@ -74,7 +74,7 @@ function App() {
               element={
                 <MediaAdvancedSearch
                   type={"manga"}
-                  format={mangaFormats}
+                  formats={mangaFormats}
                   showSeasonFilter={false}
                 />
               }

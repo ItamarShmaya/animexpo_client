@@ -16,6 +16,34 @@ import Section from "./Section/Section";
 const LandingPage = () => {
   const [landingPageData, setLandingPageData] = useState(null);
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
+  const [cardMeasurement, setCardMeasurement] = useState({
+    height: window.innerHeight > 400 ? 225 : 150,
+    width: window.innerWidth > 4 ? 150 : 100,
+  });
+  const query400 = matchMedia("(max-width: 400px)");
+  query400.addEventListener("change", () => {
+    query400.matches
+      ? setCardMeasurement({
+          height: 175,
+          width: 125,
+        })
+      : setCardMeasurement({
+          height: 225,
+          width: 150,
+        });
+  });
+  const query300 = matchMedia("(max-width: 300px)");
+  query300.addEventListener("change", () => {
+    query300.matches
+      ? setCardMeasurement({
+          height: 120,
+          width: 90,
+        })
+      : setCardMeasurement({
+          height: 175,
+          width: 125,
+        });
+  });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -27,7 +55,7 @@ const LandingPage = () => {
       const currentSeason = getCurrentSeason(currentMonth);
       const nextSeason = getNextSeason(currentMonth);
       const nextSeasonYear =
-        nextSeason === MediaSeason.fall
+        nextSeason === MediaSeason.spring
           ? currentSeasonYear + 1
           : currentSeasonYear;
       const variables = {
@@ -74,6 +102,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"trending"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.thisSeason?.media}
@@ -83,6 +113,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"this-season"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.nextSeason?.media}
@@ -92,6 +124,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"next-season"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.top?.media}
@@ -101,6 +135,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"top"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.popular?.media}
@@ -110,6 +146,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"popular"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.topManga?.media}
@@ -119,6 +157,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"top"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
             <Section
               list={landingPageData?.topCharacters?.characters}
@@ -128,6 +168,8 @@ const LandingPage = () => {
               sliderSettings={landingPageSliderSettings}
               titleFontSize={14}
               category={"favorite"}
+              cardHeight={cardMeasurement.height}
+              cardWidth={cardMeasurement.width}
             />
           </>
         ) : (

@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   border: 2px solid #ce1212;
+  width: 80%;
+  margin: auto;
 }
 
 .viewed-status {
@@ -20,13 +22,19 @@
 
 #list-header {
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-decoration: underline;
   text-underline-position: under;
   padding-top: 2rem;
   padding-bottom: 3rem;
   background-color: #222;
+}
+
+#list-header .mylist-item-title {
+  width: 100%;
+  text-align: center;
+  padding: 0
 }
 
 .mobile-list-header {

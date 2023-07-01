@@ -12,7 +12,8 @@ const MobileUserListItem = ({
   updateEntry,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const { image, title, episodes, volumes, progress, score, id } = item;
+  const { image, title, episodes, volumes, progress, score, id, comment } =
+    item;
   const { loggedInUser } = useLoggedInUser();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
 
@@ -39,6 +40,23 @@ const MobileUserListItem = ({
               onClick={() => setIsEdit((prev) => !prev)}
             ></i>
           )}
+        </div>
+        {comment && (
+          <div
+            className="mobile-list-item-comment"
+            onClick={(e) => {
+              e.currentTarget.parentElement.children[2].style.display =
+                e.currentTarget.parentElement.children[2].style.display ===
+                "flex"
+                  ? "none"
+                  : "flex";
+            }}
+          >
+            <i className="fa-solid fa-comment fa-2x"></i>
+          </div>
+        )}
+        <div className="mobile-comment-wrapper">
+          <div className="mobile-comment-container">{comment}</div>
         </div>
         <NavLink
           to={`/anime/${id}`}

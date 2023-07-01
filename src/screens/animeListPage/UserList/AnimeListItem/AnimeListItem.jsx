@@ -206,23 +206,64 @@ const AnimeListItem = ({
 
   const renderCommentCol = () => {
     if (!isloggedInUserList) {
-      return <div>{comment}</div>;
+      return (
+        <>
+          {comment && (
+            <span
+              className="entry-comment"
+              onMouseEnter={(e) => {
+                console.log(e.currentTarget.parentElement.children);
+                e.currentTarget.parentElement.children[1].style.display =
+                  "flex";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.parentElement.children[1].style.display =
+                  "none";
+              }}
+            >
+              <i className="fa-solid fa-comment"></i>
+            </span>
+          )}
+          <div className="comment-wrapper">
+            <div className="comment-container">{comment || "Edit"}</div>
+          </div>
+        </>
+      );
     } else {
       return (
         <>
           {commentEditMode ? (
-            <input
-              ref={commentRef}
-              onChange={({ target }) => setCommentInput(target.value)}
-              value={commentInput}
-              type="text"
-              maxLength={150}
-            />
+            <div className="comment-edit-window">
+              <h3>{title}</h3>
+              <textarea
+                ref={commentRef}
+                onChange={({ target }) => setCommentInput(target.value)}
+                value={commentInput}
+              ></textarea>
+            </div>
           ) : (
-            <span className="editable" onClick={() => setCommentEditMode(true)}>
-              {comment || "Edit"}
+            <span
+              className="entry-comment editable"
+              onClick={(e) => {
+                setCommentEditMode(true);
+                e.currentTarget.parentElement.children[1].style.display =
+                  "none";
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.parentElement.children[1].style.display =
+                  "flex";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.parentElement.children[1].style.display =
+                  "none";
+              }}
+            >
+              <i className="fa-solid fa-comment"></i>
             </span>
           )}
+          <div className="comment-wrapper">
+            <div className="comment-container">{comment || "Edit"}</div>
+          </div>
         </>
       );
     }
@@ -306,7 +347,9 @@ const AnimeListItem = ({
   };
 
   return (
-    <div className="list-item">
+    <div
+      className={`list-item ${isloggedInUserList ? "nine-grid" : "eight-grid"}`}
+    >
       <div className="mylist-item-number">{number}</div>
       <div className="mylist-item-img-container">
         <NavLink to={`/anime/${id}`}>

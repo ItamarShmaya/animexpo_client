@@ -110,3 +110,34 @@
   color: #1b1717;
   cursor: pointer;
 }
+
+.mobile-list-item-comment {
+  margin-top: 5px;
+  margin-right: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.mobile-comment-wrapper {
+  position: absolute;
+  right: 35px;
+  z-index: 1;
+  display: none;
+  height: 100%;
+}
+
+.mobile-comment-container {
+  color: black;
+  background-color: #eeebdd;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  text-align: left;
+  white-space: pre-line;
+  word-break: break-word;
+  overflow-y: scroll;
+  border-radius: 5px;
+  height: fit-content;
+  max-height: 100%;
+}
