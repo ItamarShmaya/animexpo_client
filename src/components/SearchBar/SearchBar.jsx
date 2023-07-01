@@ -10,12 +10,16 @@ import {
 } from "../../apis/aniList/aniList.queries";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
 import { useNavigate } from "react-router-dom";
+import InlineSpinner from "../Spinner/InlineSpinner";
+import itachi from "../Spinner/spinnerImages/itachi.png";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [searchResults, setSearchResults] = useState([]);
   const [selectValue, setSelectValue] = useState("anime");
+  const [isLoading, setIsLoading] = useState(false);
+  const [didSearch, setDidSearch] = useState(false);
   const navigate = useNavigate();
   const { addToSearchResultsChache, getFromSearchResultsChache } =
     useSessionStorage();
@@ -24,7 +28,7 @@ const SearchBar = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedSearchInput(searchInput);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timeoutId);
@@ -34,6 +38,8 @@ const SearchBar = () => {
   useEffect(() => {
     const controller = new AbortController();
     const search = async () => {
+      setIsLoading(true);
+      setDidSearch(true);
       switch (selectValue) {
         case "anime": {
           const variables = {
@@ -49,6 +55,7 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.media);
+              setIsLoading(false);
               addToSearchResultsChache(
                 "anime",
                 debouncedSearchInput,
@@ -76,6 +83,7 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.media);
+              setIsLoading(false);
               addToSearchResultsChache(
                 "manga",
                 debouncedSearchInput,
@@ -102,6 +110,7 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.characters);
+              setIsLoading(false);
               addToSearchResultsChache(
                 "characters",
                 debouncedSearchInput,
@@ -128,6 +137,7 @@ const SearchBar = () => {
             );
             if (data) {
               setSearchResults(data.Page.staff);
+              setIsLoading(false);
               addToSearchResultsChache(
                 "staff",
                 debouncedSearchInput,
@@ -147,11 +157,14 @@ const SearchBar = () => {
             const results = await getUsersBySearch(debouncedSearchInput);
             if (results) {
               setSearchResults(results);
+              setIsLoading(false);
               addToSearchResultsChache("users", debouncedSearchInput, results);
               return;
             } else throw new Error("Unable to fetch search results");
           } catch (e) {
             console.log(e);
+            setSearchResults([]);
+            setIsLoading(false);
             return;
           }
         }
@@ -167,7 +180,11 @@ const SearchBar = () => {
         selectValue,
         debouncedSearchInput
       );
-      searchResults ? setSearchResults(searchResults) : search();
+      if (searchResults) {
+        setSearchResults(searchResults);
+        setIsLoading(false);
+        setDidSearch(true);
+      } else search();
     } else setSearchResults([]);
 
     return () => {
@@ -181,21 +198,20 @@ const SearchBar = () => {
   ]);
 
   useEffect(() => {
-    if (searchResults.length > 0) {
-      const onBodyClick = ({ target }) => {
-        if (searchbarRef.current.contains(target)) return;
+    const onBodyClick = ({ target }) => {
+      if (searchbarRef.current.contains(target)) return;
+      setDidSearch(false);
+      setSearchInput("");
+      if (searchResults.length > 0) {
         setSearchResults([]);
-        setSearchInput("");
-      };
-
-      document.body.addEventListener("click", onBodyClick, { capture: true });
-
-      return () => {
-        document.body.removeEventListener("click", onBodyClick, {
-          capture: true,
-        });
-      };
-    }
+      }
+    };
+    document.body.addEventListener("click", onBodyClick, { capture: true });
+    return () => {
+      document.body.removeEventListener("click", onBodyClick, {
+        capture: true,
+      });
+    };
   }, [searchResults]);
 
   const onSearchSubmit = (e) => {
@@ -232,6 +248,8 @@ const SearchBar = () => {
             value={selectValue}
             onChange={({ target }) => {
               setSearchResults([]);
+              setIsLoading(false);
+              setDidSearch(false);
               setSelectValue(target.value);
             }}
           >
@@ -246,13 +264,44 @@ const SearchBar = () => {
             type="text"
             placeholder="Search"
             value={searchInput}
-            onChange={({ target }) => setSearchInput(target.value)}
+            onChange={({ target }) => {
+              setSearchInput(target.value);
+              if (target.value === "") setDidSearch(false);
+            }}
           />
           <button className="searchbar-btn" title={"Advanced Search"}>
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
-          {searchResults.length > 0 && (
-            <SearchResults results={searchResults} searchType={selectValue} />
+
+          {!isLoading ? (
+            searchResults.length > 0 ? (
+              <SearchResults results={searchResults} searchType={selectValue} />
+            ) : (
+              didSearch && (
+                <div
+                  className="search-results-container"
+                  style={{
+                    top: `${searchbarRef?.current?.clientHeight}px`,
+                    height: `50px`,
+                  }}
+                >
+                  <div className="no-results">No Results</div>
+                </div>
+              )
+            )
+          ) : (
+            <div
+              className="search-results-container"
+              style={{
+                top: `${searchbarRef?.current?.clientHeight}px`,
+                height: `50px`,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <InlineSpinner image={itachi} width={30} height={30} />
+            </div>
           )}
         </form>
       </div>
