@@ -92,23 +92,21 @@ const SearchResults = ({ results, searchType }) => {
   };
 
   return (
-    <>
-      {results.length && (
-        <div
-          className="search-results-container"
-          style={{
-            top: `${searchbar.clientHeight}px`,
-            height: `${searchResultsHeight}px`,
-          }}
-        >
-          {searchType === "anime" && renderedSearchResults(searchType)}
-          {searchType === "manga" && renderedSearchResults(searchType)}
-          {searchType === "character" && renderCharactersResults()}
-          {searchType === "staff" && renderStaffResults()}
-          {searchType === "users" && renderUsersResults()}
-        </div>
-      )}
-    </>
+    results.length > 0 && (
+      <div
+        className="search-results-container"
+        style={{
+          top: `${searchbar.clientHeight}px`,
+          height: `${searchResultsHeight}px`,
+        }}
+      >
+        {searchType === "anime" && renderedSearchResults(searchType)}
+        {searchType === "manga" && renderedSearchResults(searchType)}
+        {searchType === "character" && renderCharactersResults()}
+        {searchType === "staff" && renderStaffResults()}
+        {searchType === "users" && renderUsersResults()}
+      </div>
+    )
   );
 };
 export default SearchResults;
