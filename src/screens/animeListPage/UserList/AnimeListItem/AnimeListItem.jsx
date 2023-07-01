@@ -43,6 +43,7 @@ const AnimeListItem = ({
   const commentRef = useRef();
   const statusRef = useRef();
   const scoreRef = useRef();
+  const [commentTimeoudID, setCommentTimeoutID] = useState();
 
   useEffect(() => {
     setIsLoggedInUserList(false);
@@ -207,64 +208,61 @@ const AnimeListItem = ({
   const renderCommentCol = () => {
     if (!isloggedInUserList) {
       return (
-        <>
-          {comment && (
-            <span
-              className="entry-comment"
-              onMouseEnter={(e) => {
-                console.log(e.currentTarget.parentElement.children);
-                e.currentTarget.parentElement.children[1].style.display =
-                  "flex";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.parentElement.children[1].style.display =
-                  "none";
-              }}
-            >
-              <i className="fa-solid fa-comment"></i>
-            </span>
-          )}
-          <div className="comment-wrapper">
-            <div className="comment-container">{comment || "Edit"}</div>
-          </div>
-        </>
+        comment && (
+          <span
+            className="entry-comment"
+            onMouseEnter={(e) => {
+              e.currentTarget.parentElement.children[1].style.display = "flex";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.parentElement.children[1].style.display = "none";
+            }}
+          >
+            <i className="fa-solid fa-comment"></i>
+          </span>
+        )
       );
     } else {
-      return (
-        <>
-          {commentEditMode ? (
-            <div className="comment-edit-window">
-              <h3>{title}</h3>
-              <textarea
-                ref={commentRef}
-                onChange={({ target }) => setCommentInput(target.value)}
-                value={commentInput}
-              ></textarea>
-            </div>
-          ) : (
-            <span
-              className="entry-comment editable"
-              onClick={(e) => {
-                setCommentEditMode(true);
-                e.currentTarget.parentElement.children[1].style.display =
+      return commentEditMode ? (
+        <div className="comment-edit-window">
+          <h3>{title}</h3>
+          <textarea
+            ref={commentRef}
+            onChange={({ target }) => setCommentInput(target.value)}
+            value={commentInput}
+          ></textarea>
+        </div>
+      ) : (
+        <span
+          className="entry-comment editable"
+          onClick={(e) => {
+            setCommentEditMode(true);
+            e.currentTarget.parentElement.children[1].style.display = "none";
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.parentElement.children[1].style.display = "flex";
+            const commentHeight = +window
+              .getComputedStyle(e.currentTarget.parentElement.children[1])
+              .height.slice(0, -2);
+            const availableSpace =
+              window.innerHeight -
+              e.currentTarget.getBoundingClientRect().bottom;
+            if (availableSpace < commentHeight) {
+              e.currentTarget.parentElement.children[1].style.top = `calc(-${commentHeight}px + 100%)`;
+            }
+          }}
+          onMouseLeave={(e) => {
+            const currentTargetClone = e.currentTarget;
+            setCommentTimeoutID(
+              setTimeout(() => {
+                currentTargetClone.parentElement.children[1].style.display =
                   "none";
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.parentElement.children[1].style.display =
-                  "flex";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.parentElement.children[1].style.display =
-                  "none";
-              }}
-            >
-              <i className="fa-solid fa-comment"></i>
-            </span>
-          )}
-          <div className="comment-wrapper">
-            <div className="comment-container">{comment || "Edit"}</div>
-          </div>
-        </>
+              }, 100)
+            );
+          }}
+        >
+          <i className="fa-solid fa-comment"></i>
+        </span>
       );
     }
   };
@@ -346,6 +344,7 @@ const AnimeListItem = ({
     }
   };
 
+  let timeoutID;
   return (
     <div
       className={`list-item ${isloggedInUserList ? "nine-grid" : "eight-grid"}`}
@@ -361,7 +360,25 @@ const AnimeListItem = ({
       <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-status">{renderStatusCol()}</div>
       <div className="mylist-item-score">{renderScoreCol()}</div>
-      <div className="mylist-item-comment">{renderCommentCol()}</div>
+      <div className="mylist-item-comment">
+        {
+          <>
+            {renderCommentCol(timeoutID)}
+            <div
+              className="comment-wrapper"
+              onMouseEnter={(e) => {
+                clearTimeout(commentTimeoudID);
+                e.currentTarget.style.display = "flex";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            >
+              <div className="comment-container">{comment || "Edit"}</div>
+            </div>
+          </>
+        }
+      </div>
       {isloggedInUserList && (
         <div className="mylist-item-remove">
           <button className="remove-button" onClick={onRemoveClick}>
