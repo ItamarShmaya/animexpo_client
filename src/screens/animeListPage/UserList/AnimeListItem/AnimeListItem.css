@@ -68,6 +68,7 @@
   z-index: 1;
   display: none;
   justify-content: flex-end;
+  max-height: 300px;
 }
 
 .comment-container {
@@ -80,6 +81,25 @@
   white-space: pre-line;
   word-break: break-word;
   overflow: hidden;
+  overflow-y: scroll;
+}
+
+.comment-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.comment-container::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.comment-container::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.comment-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }
 
 .comment-edit-window {
