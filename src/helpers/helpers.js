@@ -189,7 +189,7 @@ export const currentSeasonYear = currentDate.getFullYear();
 export const currentSeason = getCurrentSeason(currentMonth);
 export const nextSeason = getNextSeason(currentMonth);
 export const nextSeasonYear =
-  nextSeason === MediaSeason.fall ? currentSeasonYear + 1 : currentSeasonYear;
+  nextSeason === MediaSeason.spring ? currentSeasonYear + 1 : currentSeasonYear;
 
 export const numberWithCommas = (number) => {
   const stringNumber = number.toString();
