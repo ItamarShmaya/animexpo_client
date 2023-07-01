@@ -137,15 +137,12 @@ const MobileEditWindow = ({
             <label htmlFor="comment">Comment</label>
             <div
               className="mobile-item-edit-comment-input"
-              data-maxlength={"*150 Characters Limit"}
             >
-              <input
+              <textarea
                 id="comment"
-                type="text"
                 value={commentInput}
-                maxLength={150}
                 onChange={({ target }) => setCommentInput(target.value)}
-              />
+              ></textarea>
             </div>
           </div>
           <div className="mobile-item-edit-form-buttons">
