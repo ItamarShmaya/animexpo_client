@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import "./MediaSearchMenu.css";
 import { useEffect, useRef, useState } from "react";
-import { MediaSeason, MediaSort, MediaType } from "../../../apis/aniList/types";
+import { MediaSeason, MediaSort } from "../../../apis/aniList/aniListTypes";
 import {
   advancedSearchQuery,
   aniListRequests,
@@ -15,21 +15,29 @@ import {
   seasons,
 } from "../../../helpers/helpers";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
+import {
+  MediaSearchMenuProps,
+  MultipleSelectOptionProps,
+  SearchInputsType,
+} from "./MediaSearchMenu.types";
+import { ApiMediaTagObjectType } from "../../../apis/aniList/aniListTypes.types";
 
 const MediaSearchMenu = ({
   setList,
   setIsLoading,
-  type,
+  mediaType,
   formats,
   showSeasonFilter = true,
-}) => {
+}: MediaSearchMenuProps): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [genres, setGenres] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [viewedGenres, setViewedGenres] = useState([]);
-  const [viewedTags, setViewedTags] = useState([]);
+  const [genres, setGenres] = useState<string[] | []>([]);
+  const [tags, setTags] = useState<ApiMediaTagObjectType[] | []>([]);
+  const [viewedGenres, setViewedGenres] = useState<string[] | []>([]);
+  const [viewedTags, setViewedTags] = useState<ApiMediaTagObjectType[] | []>(
+    []
+  );
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
-  const [searchInputs, setSearchInputs] = useState({
+  const [searchInputs, setSearchInputs] = useState<SearchInputsType>({
     search: searchParams.get("search") || "",
     genres: searchParams.getAll("genres") || [],
     tags: searchParams.getAll("tags") || [],
@@ -37,18 +45,20 @@ const MediaSearchMenu = ({
     season: searchParams.get("season") || "",
     format: searchParams.getAll("format") || [],
   });
-  const [yearsList] = useState(getYearsFrom(1940, "desc"));
-  const [viewedYearsList, setViewedYearsList] = useState(yearsList);
-  const [isAdult, setIsAdult] = useState(false);
-  const isFirstRender = useRef(true);
-  const [genresTagsFilter, setGenresTagsFilter] = useState("");
-  const [yearsListFilter, setYearsListFilter] = useState("");
-  const genresLabelRef = useRef();
-  const yearLabelRef = useRef();
-  const seasonLabelRef = useRef();
-  const formatLabelRef = useRef();
-  const genresDropDownRef = useRef();
-  const yearsDropDownRef = useRef();
+  const [yearsList] = useState<number[] | []>(getYearsFrom(1940, "desc"));
+  const [viewedYearsList, setViewedYearsList] = useState<number[] | []>(
+    yearsList
+  );
+  const [isAdult, setIsAdult] = useState<boolean>(false);
+  const [genresTagsFilter, setGenresTagsFilter] = useState<string>("");
+  const [yearsListFilter, setYearsListFilter] = useState<string>("");
+  const isFirstRender = useRef<boolean>(true);
+  const genresLabelRef = useRef<HTMLDivElement>(null);
+  const yearLabelRef = useRef<HTMLDivElement>(null);
+  const seasonLabelRef = useRef<HTMLDivElement>(null);
+  const formatLabelRef = useRef<HTMLDivElement>(null);
+  const genresDropDownRef = useRef<HTMLDivElement>(null);
+  const yearsDropDownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -79,7 +89,7 @@ const MediaSearchMenu = ({
         const { data } = await aniListRequests(
           getGenresAndTagsQuery,
           {},
-          controller.signals
+          controller.signal
         );
         if (data) {
           setGenres(data.genres);
@@ -111,7 +121,7 @@ const MediaSearchMenu = ({
     const controller = new AbortController();
     const variables = {
       page: 1,
-      type: MediaType[type.toLowerCase()],
+      type: mediaType,
       search: searchParams.get("search") || undefined,
       genres:
         searchParams.getAll("genres")?.length > 0
@@ -125,25 +135,34 @@ const MediaSearchMenu = ({
         ? searchParams.get("year") + "%"
         : undefined,
       season: searchParams.get("season")
-        ? MediaSeason[searchParams.get("season")?.toLowerCase()]
+        ? MediaSeason[
+            searchParams
+              .get("season")
+              ?.toLowerCase() as keyof typeof MediaSeason
+          ]
         : undefined,
       format:
         searchParams.getAll("format")?.length > 0
           ? convertToArrayOfMediaFormats(searchParams.getAll("format"))
           : undefined,
       sort: searchParams.get("sort")
-        ? MediaSort[searchParams.get("sort")]
+        ? MediaSort[searchParams.get("sort") as keyof typeof MediaSort]
         : undefined,
     };
     setSearchInputs(() => {
+      const year = searchParams.get("year");
       return {
         search: variables.search ? variables.search : "",
-        genres: variables.genres?.length > 0 ? variables.genres : [],
-        tags: variables.tags?.length > 0 ? variables.tags : [],
-        year: searchParams.get("year") ? searchParams.get("year") : "",
+        genres:
+          variables.genres && variables.genres.length > 0
+            ? variables.genres
+            : [],
+        tags:
+          variables.tags && variables.tags?.length > 0 ? variables.tags : [],
+        year: year ? year : "",
         season: variables.season ? capitalizeWord(variables.season) : "",
         format:
-          searchParams.getAll("format")?.length > 0
+          searchParams.getAll("format").length > 0
             ? searchParams.getAll("format")
             : [],
       };
@@ -173,9 +192,12 @@ const MediaSearchMenu = ({
     return () => {
       controller.abort();
     };
-  }, [searchParams, setList, isFirstRender, setIsLoading, type]);
+  }, [searchParams, setList, isFirstRender, setIsLoading, mediaType]);
 
-  const renderSignleSelectOptions = (optionsValues, key) => {
+  const renderSignleSelectOptions = (
+    optionsValues: string[] | number[],
+    key: string
+  ) => {
     return optionsValues.map((option) => {
       return (
         <div
@@ -183,19 +205,22 @@ const MediaSearchMenu = ({
           className="dropdown-option"
           onClick={() => {
             const paramsObj = searchParamsToObject(searchParams);
-            paramsObj[key] = option;
+            paramsObj[key] = option.toString();
             setSearchParams(paramsObj);
           }}
         >
           {option.toString().toLowerCase() === "tv"
             ? "TV Show"
-            : capitalizeWord(option)}
+            : capitalizeWord(option.toString())}
         </div>
       );
     });
   };
 
-  const renderGenresAndTagsOptions = (genres, tags) => {
+  const renderGenresAndTagsOptions = (
+    genres: string[],
+    tags: ApiMediaTagObjectType[]
+  ) => {
     return (
       <>
         <div className="genres-group">
@@ -234,22 +259,25 @@ const MediaSearchMenu = ({
     );
   };
 
-  const onDropdownClick = (e) => {
-    e.currentTarget.children[1].style.display =
-      e.currentTarget.children[1].style.display === "none" ? "flex" : "none";
+  const onDropdownClick = (e: React.MouseEvent<HTMLElement>): void => {
+    const target = e.currentTarget.children[1] as HTMLElement;
+    target.style.display = target.style.display === "none" ? "flex" : "none";
   };
 
   useEffect(() => {
-    const closeDropDown = (e) => {
+    const closeDropDown = (e: MouseEvent): void => {
+      const target = e.target as Node;
       if (
-        genresLabelRef.current?.contains(e.target) ||
-        yearLabelRef.current?.contains(e.target) ||
-        seasonLabelRef.current?.contains(e.target) ||
-        formatLabelRef.current?.contains(e.target)
+        genresLabelRef.current?.contains(target) ||
+        yearLabelRef.current?.contains(target) ||
+        seasonLabelRef.current?.contains(target) ||
+        formatLabelRef.current?.contains(target)
       ) {
         return;
       }
-      const dropdowns = document.querySelectorAll(".dropdown-options");
+      const dropdowns = document.querySelectorAll(
+        ".dropdown-options"
+      ) as NodeListOf<HTMLElement>;
       dropdowns.forEach((dropdown) => {
         dropdown.style.display = "none";
       });
@@ -316,7 +344,8 @@ const MediaSearchMenu = ({
                   setViewedTags(tags);
                   return;
                 }
-                genresDropDownRef.current.style.display = "flex";
+                if (genresDropDownRef.current)
+                  genresDropDownRef.current.style.display = "flex";
                 setViewedGenres(() => {
                   return genres.filter((genre) =>
                     genre.toLowerCase().includes(target.value.toLowerCase())
@@ -328,11 +357,17 @@ const MediaSearchMenu = ({
                   );
                 });
               }}
-              onFocus={(e) => {
-                e.target.parentElement.children[1].style.display = "none";
+              onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
+                if (e.target.parentElement)
+                  (
+                    e.target.parentElement.children[1] as HTMLElement
+                  ).style.display = "none";
               }}
               onBlur={(e) => {
-                e.target.parentElement.children[1].style.display = "flex";
+                if (e.target.parentElement)
+                  (
+                    e.target.parentElement.children[1] as HTMLElement
+                  ).style.display = "flex";
               }}
             />
             {searchInputs.genres.length > 0 || searchInputs.tags.length > 0 ? (
@@ -392,7 +427,8 @@ const MediaSearchMenu = ({
                   setViewedYearsList(yearsList);
                   return;
                 }
-                yearsDropDownRef.current.style.display = "flex";
+                if (yearsDropDownRef.current)
+                  yearsDropDownRef.current.style.display = "flex";
                 setViewedYearsList(() => {
                   return yearsList.filter((year) =>
                     year.toString().includes(target.value)
@@ -400,10 +436,16 @@ const MediaSearchMenu = ({
                 });
               }}
               onFocus={(e) => {
-                e.target.parentElement.children[1].style.display = "none";
+                if (e.target.parentElement)
+                  (
+                    e.target.parentElement.children[1] as HTMLElement
+                  ).style.display = "none";
               }}
               onBlur={(e) => {
-                e.target.parentElement.children[1].style.display = "flex";
+                if (e.target.parentElement)
+                  (
+                    e.target.parentElement.children[1] as HTMLElement
+                  ).style.display = "flex";
               }}
             />
             {searchInputs.year ? (
@@ -536,7 +578,7 @@ const MultipleSelectOption = ({
   optionName,
   searchParams,
   setSearchParams,
-}) => {
+}: MultipleSelectOptionProps): JSX.Element => {
   return (
     <div
       className="multiple-select-option dropdown-option"

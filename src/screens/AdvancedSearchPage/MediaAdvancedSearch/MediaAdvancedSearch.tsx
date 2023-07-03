@@ -6,13 +6,19 @@ import rai from "../../../components/Spinner/spinnerImages/rai.png";
 import TableLikeCard from "../TableLikeCard/TableLikeCard";
 import TableLikeCardMobile from "../TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 import SecondaryFilter from "../SecondaryFilter/SecondaryFilter";
+import { MediaAdvancedSearchProps } from "./MediaAdvancedSearch.types";
+import { ApiMediaEntryType } from "../../../apis/aniList/aniListTypes.types";
 
-const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
-  const [list, setList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const resultsContainerRef = useRef();
-  const [topOffset, setTopOffset] = useState();
-  const [isMobileWidth, setIsMobileWidth] = useState(
+const MediaAdvancedSearch = ({
+  mediaType,
+  showSeasonFilter,
+  formats,
+}: MediaAdvancedSearchProps) => {
+  const [list, setList] = useState<ApiMediaEntryType[] | []>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const resultsContainerRef = useRef<HTMLDivElement>(null);
+  const [topOffset, setTopOffset] = useState<number>();
+  const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
     window.innerWidth <= 1000 ? true : false
   );
   const query = matchMedia("(max-width: 1000px)");
@@ -20,15 +26,15 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
     query.matches ? setIsMobileWidth(true) : setIsMobileWidth(false);
   });
 
-  const renderSearchResults = () => {
+  const renderSearchResults = (): JSX.Element[] => {
     return list.map((item) => {
       return (
         <TableLikeCard
           key={item.id}
           type={item.type}
           id={item.id}
-          title={item.title.userPreferred || item.title.english}
-          image={item.coverImage.large || item.coverImage.medium}
+          title={item.title?.userPreferred || item.title?.english}
+          image={item.coverImage?.large || item.coverImage?.medium}
           genres={item.genres}
           averageScore={item.averageScore}
           popularity={item.popularity}
@@ -54,8 +60,8 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
           key={item.id}
           type={item.type}
           id={item.id}
-          title={item.title.userPreferred || item.title.english}
-          image={item.coverImage.large || item.coverImage.medium}
+          title={item.title?.userPreferred || item.title?.english}
+          image={item.coverImage?.large || item.coverImage?.medium}
           genres={item.genres}
           averageScore={item.averageScore}
           popularity={item.popularity}
@@ -76,7 +82,8 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
   };
 
   useLayoutEffect(() => {
-    setTopOffset(resultsContainerRef.current.getBoundingClientRect().top);
+    if (resultsContainerRef.current)
+      setTopOffset(resultsContainerRef.current.getBoundingClientRect().top);
   }, []);
 
   return (
@@ -84,7 +91,7 @@ const MediaAdvancedSearch = ({ type, showSeasonFilter, formats }) => {
       <MediaSearchMenu
         setList={setList}
         setIsLoading={setIsLoading}
-        type={type}
+        mediaType={mediaType}
         formats={formats}
         showSeasonFilter={showSeasonFilter}
       />

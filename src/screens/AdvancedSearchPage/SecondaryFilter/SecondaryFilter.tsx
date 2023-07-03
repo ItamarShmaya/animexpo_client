@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./SecondaryFilter.css";
 import { useSearchParams } from "react-router-dom";
 import { searchParamsToObject } from "../../../helpers/helpers";
-import { MediaSortString } from "../../../apis/aniList/types";
+import { MediaSortString } from "../../../apis/aniList/aniListTypes";
 
-const SecondaryFilter = () => {
+const SecondaryFilter = (): JSX.Element => {
   return (
     <div className="secondary-filter">
       <SortByDropDown />
@@ -14,7 +14,7 @@ const SecondaryFilter = () => {
 
 export default SecondaryFilter;
 
-const SortByDropDown = () => {
+const SortByDropDown = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [display, setDisplay] = useState("none");
 
@@ -24,7 +24,9 @@ const SortByDropDown = () => {
       onClick={() => setDisplay((prev) => (prev === "none" ? "flex" : "none"))}
     >
       <span className="sort-label">
-        {MediaSortString[searchParams.get("sort")] || "Popularity"}
+        {MediaSortString[
+          searchParams.get("sort") as keyof typeof MediaSortString
+        ] || "Popularity"}
         <span className="icon-wrapper">
           <i className="fa-solid fa-sort"></i>
         </span>

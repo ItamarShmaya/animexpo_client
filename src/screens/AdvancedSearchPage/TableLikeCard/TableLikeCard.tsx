@@ -6,6 +6,7 @@ import {
   capitalizeSnakeCase,
   numberWithCommas,
 } from "../../../helpers/helpers";
+import { TableLikeCardProps } from "./TableLikeCard.types";
 
 const TableLikeCard = ({
   type,
@@ -27,10 +28,11 @@ const TableLikeCard = ({
   startYear,
   endYear,
   chapters,
-}) => {
+}: TableLikeCardProps): JSX.Element => {
   const gridClassName = showRank ? "grid-with-rank" : "grid-without-rank";
   const navigate = useNavigate();
   const renderGenres = () => {
+    if (!genres) return;
     return genres.map((genre) => {
       return (
         <div
@@ -49,10 +51,11 @@ const TableLikeCard = ({
     });
   };
 
-  const onMouseEnter = (e) => {
-    const isOverFlow = e.target.clientWidth < e.target.scrollWidth;
+  const onMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const isOverFlow =
+      e.currentTarget.clientWidth < e.currentTarget.scrollWidth;
     if (isOverFlow) {
-      e.target.setAttribute("title", title);
+      title && e.currentTarget.setAttribute("title", title);
     }
   };
 
@@ -84,15 +87,18 @@ const TableLikeCard = ({
           )}
         </div>
         <div className="res-item-details">
-          {numberWithCommas(popularity) || 0} Users
+          {(popularity && numberWithCommas(popularity)) || 0} Users
         </div>
       </div>
 
       <div className="format-episodes adv-search-res-item">
-        <div className="res-item-heading">{formatsStringRender(format)}</div>
-        {type.toLowerCase() === "anime"
+        <div className="res-item-heading">
+          {format && formatsStringRender(format)}
+        </div>
+        {type && type.toLowerCase() === "anime"
           ? format?.toLowerCase() === "movie"
-            ? (Math.ceil(duration / 60) > 0 || duration % 60 > 0) && (
+            ? ((duration && Math.ceil(duration / 60) > 0) ||
+                (duration && duration % 60 > 0)) && (
                 <div className="res-item-details">
                   {Math.ceil(duration / 60) > 0 &&
                     Math.ceil(duration / 60) + "h"}
@@ -104,7 +110,8 @@ const TableLikeCard = ({
                   {episodes} {episodes === 1 ? "Episode" : "Episodes"}
                 </div>
               )
-          : type.toLowerCase() === "manga" &&
+          : type &&
+            type.toLowerCase() === "manga" &&
             chapters && (
               <div className="res-item-details">
                 {chapters} {chapters === 1 ? "Chapter" : "Chapters"}
@@ -112,7 +119,7 @@ const TableLikeCard = ({
             )}
       </div>
       <div className="date-status adv-search-res-item">
-        {nextAiringEpisode && nextAiringEpisode.episode > 1 ? (
+        {nextAiringEpisode?.episode && nextAiringEpisode.episode > 1 ? (
           <div className="res-item-heading">Airing</div>
         ) : (
           <div className="res-item-heading">
@@ -129,18 +136,21 @@ const TableLikeCard = ({
         )}
         {nextAiringEpisode ? (
           <div className="res-item-details">
-            Ep {nextAiringEpisode.episode} airing in{" "}
-            {Math.ceil(nextAiringEpisode.timeUntilAiring / 3600) > 23
+            {nextAiringEpisode.episode &&
+              `Ep ${nextAiringEpisode.episode} airing in `}
+            {nextAiringEpisode.timeUntilAiring &&
+            Math.ceil(nextAiringEpisode.timeUntilAiring / 3600) > 23
               ? `${Math.floor(
                   nextAiringEpisode.timeUntilAiring / 3600 / 24
                 )} days`
-              : `${Math.ceil(nextAiringEpisode.timeUntilAiring / 3600)} hours`}
+              : nextAiringEpisode.timeUntilAiring &&
+                `${Math.ceil(nextAiringEpisode.timeUntilAiring / 3600)} hours`}
           </div>
         ) : (
           <div className="res-item-details">
             {status?.includes("_")
               ? capitalizeSnakeCase(status)
-              : capitalizeWord(status)}
+              : status && capitalizeWord(status)}
           </div>
         )}
       </div>

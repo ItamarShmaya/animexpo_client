@@ -7,17 +7,26 @@ import PageNav from "../../../components/PageNav/PageNav";
 import madara from "../../../components/Spinner/spinnerImages/madara-eternal.png";
 import { capitalizeWord } from "../../../helpers/helpers";
 import Spinner from "../../../components/Spinner/Spinner";
+import { NotMediaAdvancedSearchProps } from "./NotMediaAdvancedSearchTypes.types";
+import {
+  ApiCharacterEntryType,
+  ApiPageInfoType,
+} from "../../../apis/aniList/aniListTypes.types";
 
-const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
-  const [list, setList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [pageInfo, setPageInfo] = useState({});
+const NotMediaAdvancedSearch = ({
+  type,
+  heading,
+  query,
+}: NotMediaAdvancedSearchProps): JSX.Element => {
+  const [list, setList] = useState<ApiCharacterEntryType[] | []>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [pageInfo, setPageInfo] = useState<ApiPageInfoType>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState(
+  const [searchInput, setSearchInput] = useState<string>(
     searchParams.get("search") || ""
   );
-  const isFirstRender = useRef(true);
-  const [cardHeight, setCardHeight] = useState(
+  const isFirstRender = useRef<boolean>(true);
+  const [cardHeight, setCardHeight] = useState<number>(
     window.innerWidth > 1040
       ? 225
       : window.innerWidth > 815
@@ -42,7 +51,7 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
       ? 150
       : 120
   );
-  const [cardWidth, setCardWidth] = useState(
+  const [cardWidth, setCardWidth] = useState<number>(
     window.innerWidth > 1040
       ? 150
       : window.innerWidth > 815
@@ -67,7 +76,6 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
       ? 110
       : 90
   );
-  console.log(window.clientWidth);
   const mediaQuery1040 = matchMedia("(max-width: 1040px)");
   mediaQuery1040.addEventListener("change", () => {
     if (mediaQuery1040.matches) {
@@ -185,10 +193,11 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
       return;
     }
     const timeoutId = setTimeout(() => {
-      const queryParams = {
-        page: 1,
+      const queryParams: { page: string; search?: string } = {
+        page: "1",
       };
-      if (searchInput !== "" && searchInput !== searchParams.get("search")) {
+      const searchString = searchParams.get("search");
+      if (searchInput !== "" && searchInput !== searchString) {
         queryParams.search = searchInput;
         setSearchParams(queryParams);
       }
@@ -201,19 +210,18 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
 
   useEffect(() => {
     const controller = new AbortController();
-
+    const pageParams = searchParams.get("page");
     const variables = {
-      page: searchParams.get("page") ? +searchParams.get("page") : 1,
+      page: pageParams ? +pageParams : 1,
       perPage: 50,
       search: searchParams.get("search")
         ? searchParams.get("search")
         : undefined,
-      sort: searchParams.get("search") ? sort.searchMatch : sort.favouritesDesc,
+      sort: searchParams.get("search") ? "SEARCH_MATCH" : "FAVOURITES_DESC",
     };
 
-    searchParams.get("search")
-      ? setSearchInput(searchParams.get("search"))
-      : setSearchInput("");
+    const searchString = searchParams.get("search");
+    searchString ? setSearchInput(searchString) : setSearchInput("");
 
     const getData = async () => {
       setIsLoading(true);
@@ -242,10 +250,14 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
     return () => {
       controller.abort();
     };
-  }, [searchParams, query, sort.searchMatch, sort.favouritesDesc, type]);
+  }, [searchParams, query, type]);
 
-  const renderCards = (list) => {
+  const renderCards = (list: ApiCharacterEntryType[] | []) => {
     return list.map((char, i) => {
+      const rank =
+        pageInfo && pageInfo.currentPage && pageInfo.perPage
+          ? i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage
+          : 0;
       return (
         <Card
           key={char.id}
@@ -253,7 +265,7 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
           id={char.id}
           title={char.name.userPreferred}
           image={char.image.large || char.image.medium}
-          rank={i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage}
+          rank={rank && rank}
           showRank={searchParams.get("search") ? false : true}
           cardHeight={cardHeight}
           cardWidth={cardWidth}
@@ -264,20 +276,22 @@ const NotMediaAdvancedSearch = ({ type, heading, query, sort }) => {
   };
 
   const onPrevClick = () => {
-    const queryParams = {
-      page: pageInfo?.currentPage - 1,
+    const pageParams = pageInfo?.currentPage ? pageInfo?.currentPage - 1 : 1;
+    const queryParams: { page: string; search?: string } = {
+      page: pageParams.toString(),
     };
-    if (searchParams.get("search"))
-      queryParams.search = searchParams.get("search");
+    const searchString = searchParams.get("search");
+    if (searchString) queryParams.search = searchString;
     setSearchParams(queryParams);
   };
 
   const onNextClick = () => {
-    const queryParams = {
-      page: pageInfo?.currentPage + 1,
+    const pageParams = pageInfo?.currentPage ? pageInfo?.currentPage + 1 : 1;
+    const queryParams: { page: string; search?: string } = {
+      page: pageParams.toString(),
     };
-    if (searchParams.get("search"))
-      queryParams.search = searchParams.get("search");
+    const searchString = searchParams.get("search");
+    if (searchString) queryParams.search = searchString;
     setSearchParams(queryParams);
   };
 

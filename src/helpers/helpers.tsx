@@ -1,6 +1,8 @@
-import { MediaFormat, MediaSeason } from "../apis/aniList/types";
+import { MediaFormat, MediaSeason } from "../apis/aniList/aniListTypes";
+import { ApiMediaSeasonType } from "../apis/aniList/aniListTypes.types";
+import { Day, MONTHSType, Month } from "./helpres.types";
 
-export const MONTHS = {
+export const MONTHS: MONTHSType = {
   1: "Jan",
   2: "Feb",
   3: "Mar",
@@ -15,34 +17,52 @@ export const MONTHS = {
   12: "Dec",
 };
 
-export const getCurrentSeason = (month) => {
-  month = month + 1;
-  if (month >= 1 && month <= 3) return MediaSeason.winter;
-  if (month >= 4 && month <= 6) return MediaSeason.spring;
-  if (month >= 7 && month <= 9) return MediaSeason.summer;
-  if (month >= 10 && month <= 12) return MediaSeason.fall;
+export const getCurrentSeason = (month: Month): ApiMediaSeasonType => {
+  if (month >= 1 && month <= 3) return MediaSeason.winter as ApiMediaSeasonType;
+  else if (month >= 4 && month <= 6)
+    return MediaSeason.spring as ApiMediaSeasonType;
+  else if (month >= 7 && month <= 9)
+    return MediaSeason.summer as ApiMediaSeasonType;
+  else if (month >= 10 && month <= 12)
+    return MediaSeason.fall as ApiMediaSeasonType;
+  else throw new Error("Incorrect input");
 };
 
-export const getNextSeason = (month) => {
-  month = month + 1;
-  if (month >= 1 && month <= 3) return MediaSeason.spring;
-  if (month >= 4 && month <= 6) return MediaSeason.summer;
-  if (month >= 7 && month <= 9) return MediaSeason.fall;
-  if (month >= 10 && month <= 12) return MediaSeason.winter;
+export const getNextSeason = (month: Month): ApiMediaSeasonType => {
+  if (month >= 1 && month <= 3) return MediaSeason.spring as ApiMediaSeasonType;
+  else if (month >= 4 && month <= 6)
+    return MediaSeason.summer as ApiMediaSeasonType;
+  else if (month >= 7 && month <= 9)
+    return MediaSeason.fall as ApiMediaSeasonType;
+  else if (month >= 10 && month <= 12)
+    return MediaSeason.winter as ApiMediaSeasonType;
+  else throw new Error("Incorrect input");
 };
 
-export const getFuzzyDateForSeason = (season, year) => {
+export const getFuzzyDateForSeason = (
+  season: ApiMediaSeasonType,
+  year: number
+): { start: string; end: string } => {
   if (season === MediaSeason.winter)
     return { start: `${year}0100`, end: `${year}0300` };
-  if (season === MediaSeason.spring)
+  else if (season === MediaSeason.spring)
     return { start: `${year}0400`, end: `${year}0600` };
-  if (season === MediaSeason.summer)
+  else if (season === MediaSeason.summer)
     return { start: `${year}0700`, end: `${year}0900` };
-  if (season === MediaSeason.fall)
+  else if (season === MediaSeason.fall)
     return { start: `${year}1000`, end: `${year}1200` };
+  else throw new Error("Incorrect input");
 };
 
-export const parseDateFromAniListApi = ({ year, month, day }) => {
+export const parseDateFromAniListApi = ({
+  year,
+  month,
+  day,
+}: {
+  year: number | undefined;
+  month: Month | undefined;
+  day: Day | undefined;
+}): string => {
   let date = "";
   if (month && day && year) date += MONTHS[month] + " " + day + ", " + year;
   else if (month && day && !year) date += MONTHS[month] + " " + day;
@@ -51,7 +71,9 @@ export const parseDateFromAniListApi = ({ year, month, day }) => {
   return date || "";
 };
 
-export const renderArrayOfStringWithCommas = (genres) => {
+export const renderArrayOfStringWithCommas = (
+  genres: string[]
+): JSX.Element[] => {
   return genres.map((genre, i) => {
     return (
       <span key={genre}>
@@ -62,7 +84,7 @@ export const renderArrayOfStringWithCommas = (genres) => {
   });
 };
 
-export const markdownParser = (string) => {
+export const markdownParser = (string: string): string => {
   let parsedString = string;
   const rules =
     process.env.NODE_ENV === "production"
@@ -85,7 +107,7 @@ export const markdownParser = (string) => {
         ]
       : [
           [/&#039;/g, "'"],
-          [(/#{6}\s?([^\n]+)/g, "<h6>$1</h6>")],
+          [/#{6}\s?([^\n]+)/g, "<h6>$1</h6>"],
           [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
           [/#{4}\s?([^\n]+)/g, "<h4>$1</h4>"],
           [/#{3}\s?([^\n]+)/g, "<h3>$1</h3>"],
@@ -102,13 +124,13 @@ export const markdownParser = (string) => {
         ];
 
   rules.forEach(([rule, template]) => {
-    parsedString = parsedString.replace(rule, template);
+    parsedString = parsedString.replace(rule, template as string);
   });
 
   return parsedString;
 };
 
-export const getYearsFrom = (from, desc) => {
+export const getYearsFrom = (from: number, desc: "desc" | "asc"): number[] => {
   const currentYear = new Date().getFullYear();
   const years = [];
   if (desc.toLowerCase() === "desc") {
@@ -137,31 +159,39 @@ export const animeFormats = [
 
 export const mangaFormats = ["Manga", "Novel", "One Shot"];
 
-export const convertToArrayOfMediaFormats = (formatsArray) => {
+export const convertToArrayOfMediaFormats = (
+  formatsArray: string[]
+): string[] => {
   return formatsArray.map((format) => {
     const lowerCaseFormat = format?.toLowerCase();
-    return MediaFormat[lowerCaseFormat === "tv show" ? "tv" : lowerCaseFormat];
+    return MediaFormat[
+      lowerCaseFormat === "tv show"
+        ? "tv"
+        : (lowerCaseFormat as keyof typeof MediaFormat)
+    ];
   });
 };
 
-export const capitalizeWord = (string) => {
+export const capitalizeWord = (string: string): string => {
   const lowerCaseStr = string?.toString().toLowerCase();
   return lowerCaseStr
     ? lowerCaseStr[0]?.toUpperCase() + lowerCaseStr.slice(1)
     : string;
 };
 
-export const capitalizeSentence = (string) => {
+export const capitalizeSentence = (string: string): string => {
   const stringArr = string.split(" ");
   let capitalizedStr = "";
   for (let i = 0; i < stringArr.length; i++) {
     capitalizedStr +=
-      stringArr[i][0]?.toUpperCase() + stringArr.slice(1)?.toLowerCase() + " ";
+      stringArr[i][0]?.toUpperCase() +
+      stringArr[i].slice(1)?.toLowerCase() +
+      " ";
   }
   return capitalizedStr?.trim();
 };
 
-export const capitalizeSnakeCase = (string) => {
+export const capitalizeSnakeCase = (string: string): string => {
   const stringArr = string.split("_");
   let capitalizedStr = "";
   for (let i = 0; i < stringArr.length; i++) {
@@ -173,7 +203,7 @@ export const capitalizeSnakeCase = (string) => {
   return capitalizedStr?.trim();
 };
 
-export const formatsStringRender = (format) => {
+export const formatsStringRender = (format: string): string => {
   const lowerCaseFormat = format?.toLowerCase();
   if (lowerCaseFormat === "tv") return "TV Show";
   if (lowerCaseFormat === "ova") return format;
@@ -186,16 +216,17 @@ export const formatsStringRender = (format) => {
 const currentDate = new Date();
 const currentMonth = currentDate.getMonth();
 export const currentSeasonYear = currentDate.getFullYear();
-export const currentSeason = getCurrentSeason(currentMonth);
-export const nextSeason = getNextSeason(currentMonth);
+export const currentSeason = getCurrentSeason((currentMonth + 1) as Month);
+export const nextSeason = getNextSeason((currentMonth + 1) as Month);
 export const nextSeasonYear =
   nextSeason === MediaSeason.spring ? currentSeasonYear + 1 : currentSeasonYear;
 
-export const numberWithCommas = (number) => {
+export const numberWithCommas = (number: number): string | number => {
   const stringNumber = number.toString();
   if (stringNumber.length <= 3) return number;
 
   let firstComma;
+  if (!firstComma) return number;
   if (stringNumber.length % 3 === 0) firstComma = 2;
   if (stringNumber.length % 3 === 1) firstComma = 0;
   if (stringNumber.length % 3 === 2) firstComma = 1;
@@ -216,8 +247,11 @@ export const numberWithCommas = (number) => {
   return numberWithCommas;
 };
 
-export const searchParamsToObject = (searchParams) => {
-  const paramsObj = {};
+export const searchParamsToObject = (
+  searchParams: URLSearchParams
+): { [key: string]: string | string[] } => {
+  const paramsObj: { [key: string]: string | string[] } = {};
+
   for (let [paramKey, value] of searchParams) {
     paramsObj[paramKey]
       ? (paramsObj[paramKey] = [...paramsObj[paramKey], value])

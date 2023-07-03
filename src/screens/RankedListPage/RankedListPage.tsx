@@ -11,21 +11,25 @@ import "./RankedListPage.css";
 import { useSearchParams } from "react-router-dom";
 import TableLikeCardMobile from "../AdvancedSearchPage/TableLikeCard/TableLikeCardMobile/TableLikeCardMobile";
 import PageNav from "../../components/PageNav/PageNav";
+import { RankedListPageProrps } from "./RankedListPage.types";
+import {
+  ApiPageInfoType,
+  ApiMediaEntryType,
+} from "../../apis/aniList/aniListTypes.types";
 
 const AnimeTrendingList = ({
-  type,
-  sort,
-  category,
+  mediaType,
+  mediaSort,
   season,
   seasonYear,
   heading,
-  format,
-}) => {
-  const [list, setList] = useState([]);
-  const [pageInfo, setPageInfo] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  mediaFormat,
+}: RankedListPageProrps): JSX.Element => {
+  const [list, setList] = useState<ApiMediaEntryType[] | []>([]);
+  const [pageInfo, setPageInfo] = useState<ApiPageInfoType>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isMobileWidth, setIsMobileWidth] = useState(
+  const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
     window.innerWidth <= 1000 ? true : false
   );
   const query = matchMedia("(max-width: 1000px)");
@@ -35,14 +39,15 @@ const AnimeTrendingList = ({
 
   useEffect(() => {
     const controller = new AbortController();
+    const paramPage = searchParams.get("page");
     const variables = {
-      page: searchParams.get("page") ? +searchParams.get("page") : 1,
+      page: paramPage ? +paramPage : 1,
       perPage: 50,
-      type,
-      sort: [sort],
+      mediaType,
+      sort: [mediaSort],
       season,
       seasonYear,
-      format,
+      format: mediaFormat,
     };
     const getTrendingList = async () => {
       setIsLoading(true);
@@ -72,23 +77,26 @@ const AnimeTrendingList = ({
   }, [
     searchParams,
     setIsLoading,
-    type,
-    sort,
-    category,
+    mediaType,
+    mediaSort,
     season,
     seasonYear,
-    format,
+    mediaFormat,
   ]);
 
-  const renderList = (list) => {
+  const renderList = (list: ApiMediaEntryType[] | []) => {
     return list.map((item, i) => {
+      const rank =
+        pageInfo && pageInfo.currentPage && pageInfo.perPage
+          ? i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage
+          : 0;
       return (
         <TableLikeCard
           key={item.id}
           type={item.type?.toLowerCase()}
           id={item.id}
-          title={item.title?.userPreferred || item.title.english}
-          image={item.coverImage.large || item.coverImage.medium}
+          title={item.title?.userPreferred || item.title?.english}
+          image={item.coverImage?.large || item.coverImage?.medium}
           genres={item.genres}
           averageScore={item.averageScore}
           popularity={item.popularity}
@@ -100,7 +108,7 @@ const AnimeTrendingList = ({
           season={item.season}
           seasonYear={item.seasonYear}
           showRank={true}
-          rank={i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage}
+          rank={rank}
           startYear={item.startDate?.year}
           endYear={item.endDate?.year}
           chapters={item.chapters}
@@ -109,15 +117,19 @@ const AnimeTrendingList = ({
       );
     });
   };
-  const renderMobileList = (list) => {
+  const renderMobileList = (list: ApiMediaEntryType[] | []) => {
     return list.map((item, i) => {
+      const rank =
+        pageInfo && pageInfo.currentPage && pageInfo.perPage
+          ? i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage
+          : undefined;
       return (
         <TableLikeCardMobile
           key={item.id}
           type={item.type?.toLowerCase()}
           id={item.id}
-          title={item.title?.userPreferred || item.title.english}
-          image={item.coverImage.large || item.coverImage.medium}
+          title={item.title?.userPreferred || item.title?.english}
+          image={item.coverImage?.large || item.coverImage?.medium}
           genres={item.genres}
           averageScore={item.averageScore}
           popularity={item.popularity}
@@ -128,8 +140,8 @@ const AnimeTrendingList = ({
           nextAiringEpisode={item.nextAiringEpisode}
           season={item.season}
           seasonYear={item.seasonYear}
-          showRank={true}
-          rank={i + 1 + (pageInfo.currentPage - 1) * pageInfo.perPage}
+          showRank={rank ? true : false}
+          rank={rank && rank}
           startYear={item.startDate?.year}
           endYear={item.endDate?.year}
           chapters={item.chapters}
@@ -140,26 +152,33 @@ const AnimeTrendingList = ({
   };
 
   const onPrevClick = () => {
-    const queryParams = {
-      page: pageInfo?.currentPage - 1,
+    const page = pageInfo?.currentPage ? pageInfo?.currentPage - 1 : 1;
+    const queryParams: { page: string; search?: string } = {
+      page: page.toString(),
     };
-    if (searchParams.get("search"))
-      queryParams.search = searchParams.get("search");
+    const searchString = searchParams.get("search");
+    if (searchString) {
+      queryParams.search = searchString;
+    }
+
     setSearchParams(queryParams);
   };
 
   const onNextClick = () => {
-    const queryParams = {
-      page: pageInfo?.currentPage + 1,
+    const page = pageInfo?.currentPage ? pageInfo?.currentPage + 1 : 1;
+    const queryParams: { page: string; search?: string } = {
+      page: page.toString(),
     };
-    if (searchParams.get("search"))
-      queryParams.search = searchParams.get("search");
+    const searchString = searchParams.get("search");
+    if (searchString) {
+      queryParams.search = searchString;
+    }
     setSearchParams(queryParams);
   };
 
   return (
     <div className="ranked-list-page">
-      <AnimeRankedListsNav type={type} />
+      <AnimeRankedListsNav mediaType={mediaType} />
       <h1>{heading}</h1>
       <div className="ranked-list-container">
         {isLoading ? (

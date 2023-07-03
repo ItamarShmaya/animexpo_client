@@ -1,37 +1,41 @@
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./RankedListsNav.css";
 import { capitalizeWord } from "../../helpers/helpers";
+import { ApiMediaType } from "../../apis/aniList/aniListTypes.types";
 
-const RankedListsNav = ({ type }) => {
-  const searchParams = useSearchParams();
+const RankedListsNav = ({
+  mediaType,
+}: {
+  mediaType: ApiMediaType;
+}): JSX.Element => {
   return (
     <div className="ranked-lists-nav">
       <div className="rank-list-nav-item">
         <NavLink
-          to={`/search/${type.toLowerCase()}/trending`}
+          to={`/search/${mediaType.toLowerCase()}/trending`}
           className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={() => searchParams.delete("page")}
+          replace
         >
           Trending
         </NavLink>
       </div>
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/this-season`}
+            to={`/search/${mediaType.toLowerCase()}/this-season`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             This season
           </NavLink>
         </div>
       )}
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/next-season`}
+            to={`/search/${mediaType.toLowerCase()}/next-season`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Next season
           </NavLink>
@@ -39,72 +43,72 @@ const RankedListsNav = ({ type }) => {
       )}
       <div className="rank-list-nav-item">
         <NavLink
-          to={`/search/${type.toLowerCase()}/popular`}
+          to={`/search/${mediaType.toLowerCase()}/popular`}
           className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={() => searchParams.delete("page")}
+          replace
         >
           All Time Popular
         </NavLink>
       </div>
       <div className="rank-list-nav-item">
         <NavLink
-          to={`/search/${type.toLowerCase()}/top`}
+          to={`/search/${mediaType.toLowerCase()}/top`}
           className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={() => searchParams.delete("page")}
+          replace
         >
-          Top {capitalizeWord(type)}
+          Top {capitalizeWord(mediaType)}
         </NavLink>
       </div>
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/top-tv`}
+            to={`/search/${mediaType.toLowerCase()}/top-tv`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Top TV Shows
           </NavLink>
         </div>
       )}
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/top-movies`}
+            to={`/search/${mediaType.toLowerCase()}/top-movies`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Top Movies
           </NavLink>
         </div>
       )}
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/top-ovas`}
+            to={`/search/${mediaType.toLowerCase()}/top-ovas`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Top OVAs
           </NavLink>
         </div>
       )}
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/top-onas`}
+            to={`/search/${mediaType.toLowerCase()}/top-onas`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Top ONAs
           </NavLink>
         </div>
       )}
-      {type.toLowerCase() === "anime" && (
+      {mediaType.toLowerCase() === "anime" && (
         <div className="rank-list-nav-item">
           <NavLink
-            to={`/search/${type.toLowerCase()}/top-specials`}
+            to={`/search/${mediaType.toLowerCase()}/top-specials`}
             className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={() => searchParams.delete("page")}
+            replace
           >
             Top Specials
           </NavLink>

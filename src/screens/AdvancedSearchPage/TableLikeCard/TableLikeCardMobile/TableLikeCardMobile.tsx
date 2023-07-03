@@ -6,6 +6,7 @@ import {
   formatsStringRender,
   numberWithCommas,
 } from "../../../../helpers/helpers";
+import { TableLikeCardProps } from "../TableLikeCard.types";
 
 const TableLikeCardMobile = ({
   type,
@@ -27,10 +28,13 @@ const TableLikeCardMobile = ({
   startYear,
   endYear,
   chapters,
-}) => {
-  const gridClassName = showRank ? "mobile-grid-with-rank" : "mobile-grid-without-rank";
+}: TableLikeCardProps): JSX.Element => {
+  const gridClassName = showRank
+    ? "mobile-grid-with-rank"
+    : "mobile-grid-without-rank";
   const navigate = useNavigate();
   const renderGenres = () => {
+    if (!genres) return;
     return genres.map((genre) => {
       return (
         <div
@@ -69,16 +73,17 @@ const TableLikeCardMobile = ({
                 <i className="fa-solid fa-star"></i>{" "}
                 {(averageScore / 10).toFixed(1)}
               </span>
-              <span>{numberWithCommas(popularity)} Users</span>
+              <span>{popularity && numberWithCommas(popularity)} Users</span>
             </>
           ) : (
             <span>N/A</span>
           )}
           <div className="search-res-info-item">
-            <span>{formatsStringRender(format)}</span>
-            {type.toLowerCase() === "anime"
+            <span>{format && formatsStringRender(format)}</span>
+            {type && type.toLowerCase() === "anime"
               ? format?.toLowerCase() === "movie"
-                ? (Math.ceil(duration / 60) > 0 || duration % 60 > 0) && (
+                ? duration &&
+                  (Math.ceil(duration / 60) > 0 || duration % 60 > 0) && (
                     <span>
                       {Math.ceil(duration / 60) > 0 &&
                         Math.ceil(duration / 60) + "h"}
@@ -90,7 +95,8 @@ const TableLikeCardMobile = ({
                       {episodes} {episodes === 1 ? "Episode" : "Episodes"}
                     </span>
                   )
-              : type.toLowerCase() === "manga" &&
+              : type &&
+                type.toLowerCase() === "manga" &&
                 chapters && (
                   <div className="res-item-details">
                     {chapters} {chapters === 1 ? "Chapter" : "Chapters"}
@@ -99,7 +105,7 @@ const TableLikeCardMobile = ({
           </div>
         </div>
         <div className="search-res-info-item">
-          {nextAiringEpisode && nextAiringEpisode.episode > 1 ? (
+          {nextAiringEpisode?.episode && nextAiringEpisode.episode > 1 ? (
             <span>Airing</span>
           ) : (
             <span>
@@ -116,12 +122,15 @@ const TableLikeCardMobile = ({
           )}
           {nextAiringEpisode ? (
             <span>
-              Ep {nextAiringEpisode.episode} airing in{" "}
-              {Math.ceil(nextAiringEpisode.timeUntilAiring / 3600) > 23
+              {nextAiringEpisode.episode &&
+                `Ep ${nextAiringEpisode.episode} airing in `}
+              {nextAiringEpisode.timeUntilAiring &&
+              Math.ceil(nextAiringEpisode.timeUntilAiring / 3600) > 23
                 ? `${Math.floor(
                     nextAiringEpisode.timeUntilAiring / 3600 / 24
                   )} days`
-                : `${Math.ceil(
+                : nextAiringEpisode.timeUntilAiring &&
+                  `${Math.ceil(
                     nextAiringEpisode.timeUntilAiring / 3600
                   )} hours`}
             </span>
@@ -129,7 +138,7 @@ const TableLikeCardMobile = ({
             <span>
               {status?.includes("_")
                 ? capitalizeSnakeCase(status)
-                : capitalizeWord(status)}
+                : status && capitalizeWord(status)}
             </span>
           )}
         </div>
