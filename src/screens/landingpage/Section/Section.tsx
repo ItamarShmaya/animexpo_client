@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import CardsList from "../../../components/CardsList/CardsList";
 import "./Section.css";
+import { SectionProps } from "./SectionTypes";
 
 const Section = ({
   list,
@@ -12,7 +13,7 @@ const Section = ({
   category,
   cardHeight,
   cardWidth,
-}) => {
+}: SectionProps): JSX.Element => {
   return (
     <section className="landing-page-section">
       <div className="heading">

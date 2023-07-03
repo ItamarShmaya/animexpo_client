@@ -10,13 +10,18 @@ import {
 import baru from "../../components/Spinner/spinnerImages/baru.png";
 import Spinner from "../../components/Spinner/Spinner";
 import { getCurrentSeason, getNextSeason } from "../../helpers/helpers";
-import { MediaSeason } from "../../apis/aniList/types";
+import { MediaSeason } from "../../apis/aniList/aniListTypes";
 import Section from "./Section/Section";
+import { Month } from "../../helpers/helpres.types";
+import { landingPageData } from "./LandingPageTypes";
 
-const LandingPage = () => {
-  const [landingPageData, setLandingPageData] = useState(null);
+const LandingPage = (): JSX.Element => {
+  const [landingPageData, setLandingPageData] = useState<landingPageData>();
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
-  const [cardMeasurement, setCardMeasurement] = useState({
+  const [cardMeasurement, setCardMeasurement] = useState<{
+    height: number;
+    width: number;
+  }>({
     height: window.innerHeight > 400 ? 225 : 150,
     width: window.innerWidth > 4 ? 150 : 100,
   });
@@ -52,8 +57,8 @@ const LandingPage = () => {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth();
       let currentSeasonYear = currentDate.getFullYear();
-      const currentSeason = getCurrentSeason(currentMonth);
-      const nextSeason = getNextSeason(currentMonth);
+      const currentSeason = getCurrentSeason((currentMonth + 1) as Month);
+      const nextSeason = getNextSeason((currentMonth + 1) as Month);
       const nextSeasonYear =
         nextSeason === MediaSeason.spring
           ? currentSeasonYear + 1

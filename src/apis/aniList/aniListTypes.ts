@@ -1,13 +1,16 @@
-export const MediaType = { anime: "ANIME", manga: "MANGA" };
+export const MediaType: { [key: string]: string } = {
+  anime: "ANIME",
+  manga: "MANGA",
+};
 
-export const MediaSeason = {
+export const MediaSeason: { [key: string]: string } = {
   winter: "WINTER",
   spring: "SPRING",
   summer: "SUMMER",
   fall: "FALL",
 };
 
-export const MediaSort = {
+export const MediaSort: { [key: string]: string } = {
   id: "ID",
   idDesc: "ID_DESC",
   titleRomanji: "TITLE_ROMAJI",
@@ -47,7 +50,7 @@ export const MediaSort = {
   favouritesDesc: "FAVOURITES_DESC",
 };
 
-export const MediaSortString = {
+export const MediaSortString: { [key: string]: string } = {
   id: "Id",
   idDesc: "Id",
   titleRomanji: "Title",
@@ -87,7 +90,7 @@ export const MediaSortString = {
   favouritesDesc: "Favorites",
 };
 
-export const CharacterSort = {
+export const CharacterSort: { [key: string]: string } = {
   id: "ID",
   idDesc: "ID_DESC",
   role: "ROLE",
@@ -98,7 +101,7 @@ export const CharacterSort = {
   relevance: "RELEVANCE",
 };
 
-export const StaffSort = {
+export const StaffSort: { [key: string]: string } = {
   id: "ID",
   idDesc: "ID_DESC",
   language: "LANGUAGE",
@@ -109,7 +112,7 @@ export const StaffSort = {
   relevance: "RELEVANCE",
 };
 
-export const MediaFormat = {
+export const MediaFormat: { [key: string]: string } = {
   tv: "TV",
   tvShort: "TV_SHORT",
   movie: "MOVIE",

@@ -1,18 +1,20 @@
 import "./Spinner.css";
+import { SpinnerProps } from "./Spinner.types";
 
 const Spinner = ({
   image,
   spinnerHeight = 50,
   spinnerWidth = 50,
   topOffset,
-}) => {
+}: SpinnerProps): JSX.Element => {
   return (
     <div
       className="spinner-wrapper"
       style={{
         height: topOffset
-          ? window.visualViewport.height - topOffset
-          : window.visualViewport.height,
+          ? window.visualViewport?.height &&
+            window.visualViewport?.height - topOffset
+          : window.visualViewport?.height,
       }}
     >
       <div

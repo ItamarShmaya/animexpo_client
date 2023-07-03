@@ -6,7 +6,6 @@ import MangaListPage from "./screens/mangaListPage/MangaListPage";
 import CharacterPage from "./screens/characterPage/CharacterPage/CharacterPage";
 import AnimePage from "./screens/animepage/AnimePage/AnimePage";
 import ProfilePage from "./screens/profile/ProfilePage";
-import React from "react";
 import LandingPage from "./screens/landingpage/LandingPage";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import EditProfilePage from "./screens/editProfilePage/EditProfilePage/EditProfilePage";
@@ -21,12 +20,10 @@ import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/
 import ScrollUp from "./components/ScrollUp/ScrollUp";
 import RankedListPage from "./screens/RankedListPage/RankedListPage";
 import {
-  CharacterSort,
   MediaFormat,
   MediaSort,
   MediaType,
-  StaffSort,
-} from "./apis/aniList/types";
+} from "./apis/aniList/aniListTypes";
 import {
   animeFormats,
   currentSeason,
@@ -41,11 +38,17 @@ import {
   getFavoriteStaffQuery,
 } from "./apis/aniList/aniList.queries";
 import MediaAdvancedSearch from "./screens/AdvancedSearchPage/MediaAdvancedSearch/MediaAdvancedSearch";
+import {
+  ApiMediaFormatType,
+  ApiMediaSortType,
+  ApiMediaType,
+} from "./apis/aniList/aniListTypes.types";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
-  const userCache = JSON.parse(sessionStorage.getItem("userCache"));
-  !userCache && sessionStorage.setItem("userCache", JSON.stringify({}));
+  const userCacheString: string | null = sessionStorage.getItem("userCache");
+  !userCacheString && sessionStorage.setItem("userCache", JSON.stringify({}));
+
   return (
     <>
       <BrowserRouter>
@@ -53,27 +56,27 @@ function App() {
         <ScrollUp />
         <ErrorBoundary>
           <Routes>
-            <Route path="/" exact element={<LandingPage />} />
-            <Route path="/signup/*" exact element={<SignupPage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup/*" element={<SignupPage />} />
             <Route
               path="/search"
-              exact
-              element={<Navigate to="/search/anime/*" />}
-              replace
+              element={<Navigate to="/search/anime/*" replace />}
             />
             <Route
               path="/search/anime/*"
-              exact
               element={
-                <MediaAdvancedSearch type={"anime"} formats={animeFormats} />
+                <MediaAdvancedSearch
+                  mediaType={"ANIME"}
+                  formats={animeFormats}
+                  showSeasonFilter={true}
+                />
               }
             />
             <Route
               path="/search/manga/*"
-              exact
               element={
                 <MediaAdvancedSearch
-                  type={"manga"}
+                  mediaType={"MANGA"}
                   formats={mangaFormats}
                   showSeasonFilter={false}
                 />
@@ -81,60 +84,50 @@ function App() {
             />
             <Route
               path="/search/character/*"
-              exact
               element={
                 <NotMediaAdvancedSearch
                   type={"character"}
                   heading={"Characters"}
                   query={getFavoriteCharactersQuery}
-                  sort={CharacterSort}
                 />
               }
             />
             <Route
               path="/search/staff/*"
-              exact
               element={
                 <NotMediaAdvancedSearch
                   type={"staff"}
                   heading={"Staff"}
                   query={getFavoriteStaffQuery}
-                  sort={StaffSort}
                 />
               }
             />
             <Route
               path="search/anime/trending/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.trendingDesc}
-                  category={"trending"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.trendingDesc as ApiMediaSortType}
                   heading={"Trending Now"}
                 />
               }
             />
             <Route
               path="search/anime/popular/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.popularityDesc}
-                  category={"popular"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.popularityDesc as ApiMediaSortType}
                   heading={"All Time Popular"}
                 />
               }
             />
             <Route
               path="search/anime/this-season/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.popularityDesc}
-                  category={"this-season"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.popularityDesc as ApiMediaSortType}
                   season={currentSeason}
                   seasonYear={currentSeasonYear}
                   heading={"Popular This Season"}
@@ -143,12 +136,10 @@ function App() {
             />
             <Route
               path="search/anime/next-season/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.popularityDesc}
-                  category={"next-season"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.popularityDesc as ApiMediaSortType}
                   season={nextSeason}
                   seasonYear={nextSeasonYear}
                   heading={"Upcoming Next Season"}
@@ -157,113 +148,95 @@ function App() {
             />
             <Route
               path="/search/anime/top/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top Anime"}
                 />
               }
             />
             <Route
               path="/search/anime/top-tv/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top-tv"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top TV Shows"}
-                  format={MediaFormat.tv}
+                  mediaFormat={MediaFormat.tv as ApiMediaFormatType}
                 />
               }
             />
             <Route
               path="/search/anime/top-movies/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top-movies"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top Movies"}
-                  format={MediaFormat.movie}
+                  mediaFormat={MediaFormat.movie as ApiMediaFormatType}
                 />
               }
             />
             <Route
               path="/search/anime/top-ovas/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top-ovas"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top OVAs"}
-                  format={MediaFormat.ova}
+                  mediaFormat={MediaFormat.ova as ApiMediaFormatType}
                 />
               }
             />
             <Route
               path="/search/anime/top-onas/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top-onas"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top ONAs"}
-                  format={MediaFormat.ona}
+                  mediaFormat={MediaFormat.ona as ApiMediaFormatType}
                 />
               }
             />
             <Route
               path="/search/anime/top-specials/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.anime}
-                  sort={MediaSort.scoreDesc}
-                  category={"top-specials"}
+                  mediaType={MediaType.anime as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top Specials"}
-                  format={MediaFormat.special}
+                  mediaFormat={MediaFormat.special as ApiMediaFormatType}
                 />
               }
             />
             <Route
               path="/search/manga/top"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.manga}
-                  sort={MediaSort.scoreDesc}
-                  category={"top"}
+                  mediaType={MediaType.manga as ApiMediaType}
+                  mediaSort={MediaSort.scoreDesc as ApiMediaSortType}
                   heading={"Top Manga"}
                 />
               }
             />
             <Route
               path="search/manga/trending/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.manga}
-                  sort={MediaSort.trendingDesc}
-                  category={"trending"}
+                  mediaType={MediaType.manga as ApiMediaType}
+                  mediaSort={MediaSort.trendingDesc as ApiMediaSortType}
                   heading={"Trending Now"}
                 />
               }
             />
             <Route
               path="search/manga/popular/*"
-              exact
               element={
                 <RankedListPage
-                  type={MediaType.manga}
-                  sort={MediaSort.popularityDesc}
-                  category={"popular"}
+                  mediaType={MediaType.manga as ApiMediaType}
+                  mediaSort={MediaSort.popularityDesc as ApiMediaSortType}
                   heading={"All Time Popular"}
                 />
               }
@@ -271,70 +244,45 @@ function App() {
 
             <Route
               path="/search/character/favorite/*"
-              exact
               element={
                 <NotMediaAdvancedSearch
                   type={"character"}
                   heading={"Characters"}
                   query={getFavoriteCharactersQuery}
-                  sort={CharacterSort}
                 />
               }
             />
-            <Route
-              path="/profile/:username/*"
-              exact
-              element={<ProfilePage />}
-            />
-            <Route
-              path="/:username/animelist/*"
-              exact
-              element={<AnimeListPage />}
-            />
-            <Route
-              path="/:username/mangalist/*"
-              exact
-              element={<MangaListPage />}
-            />
+            <Route path="/profile/:username/*" element={<ProfilePage />} />
+            <Route path="/:username/animelist/*" element={<AnimeListPage />} />
+            <Route path="/:username/mangalist/*" element={<MangaListPage />} />
             <Route
               path="/:username/editprofile/*"
-              exact
               element={
                 <PrivateRoute>
                   <EditProfilePage />
                 </PrivateRoute>
               }
             />
-            <Route path="/anime/:id/*" exact element={<AnimePage />} />
-            <Route path="/manga/:id/*" exact element={<MangaPage />} />
-            <Route path="/character/:id/*" exact element={<CharacterPage />} />
-            <Route path="/staff/:id/*" exact element={<StaffPage />} />
+            <Route path="/anime/:id/*" element={<AnimePage />} />
+            <Route path="/manga/:id/*" element={<MangaPage />} />
+            <Route path="/character/:id/*" element={<CharacterPage />} />
+            <Route path="/staff/:id/*" element={<StaffPage />} />
             <Route
               path="/profile/:username/reviews/*"
-              exact
               element={<UserReviewsPage />}
             />
-            <Route
-              path="/anime/:id/reviews/*"
-              exact
-              element={<EntryReviewsPage />}
-            />
-            <Route
-              path="/manga/:id/reviews/*"
-              exact
-              element={<EntryReviewsPage />}
-            />
+            <Route path="/anime/:id/reviews/*" element={<EntryReviewsPage />} />
+            <Route path="/manga/:id/reviews/*" element={<EntryReviewsPage />} />
             <Route
               path="profile/:username/notifications/*"
-              exact
               element={
                 <PrivateRoute>
                   <FriendRequestsPage />
                 </PrivateRoute>
               }
             />
-            <Route path="/notfound/*" exact element={<NotFound />} />
-            <Route path="/error/*" exact element={<Error />} />
+            <Route path="/notfound/*" element={<NotFound />} />
+            <Route path="/error/*" element={<Error />} />
             <Route path="*" element={<Navigate to="/notfound" replace />} />
           </Routes>
         </ErrorBoundary>
