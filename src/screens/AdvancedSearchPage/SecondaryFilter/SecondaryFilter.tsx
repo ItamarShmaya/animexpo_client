@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, JSX } from "react";
 import "./SecondaryFilter.css";
 import { useSearchParams } from "react-router-dom";
 import { searchParamsToObject } from "../../../helpers/helpers";

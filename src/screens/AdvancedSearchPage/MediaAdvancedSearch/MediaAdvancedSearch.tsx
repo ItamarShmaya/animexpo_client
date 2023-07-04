@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, JSX } from "react";
 import "./MediaAdvancedSearch.css";
 import MediaSearchMenu from "../MediaSearchMenu/MediaSearchMenu";
 import Spinner from "../../../components/Spinner/Spinner";

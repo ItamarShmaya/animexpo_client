@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, JSX } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { landingPageSliderSettings } from "../../components/ImageSlide/sliderSettings";
 import { useSessionStorage } from "../../hooks/useSessionStorage";

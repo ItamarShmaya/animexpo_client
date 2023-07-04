@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, JSX } from "react";
 import "./NotMediaAdvancedSearch.css";
 import { aniListRequests } from "../../../apis/aniList/aniList.queries";
 import { useSearchParams } from "react-router-dom";

@@ -1,4 +1,5 @@
 import { NavLink, createSearchParams, useNavigate } from "react-router-dom";
+import { JSX } from "react";
 import "./TableLikeCardMobile.css";
 import {
   capitalizeSnakeCase,

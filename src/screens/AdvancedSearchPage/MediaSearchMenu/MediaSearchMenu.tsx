@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import "./MediaSearchMenu.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, JSX } from "react";
 import { MediaSeason, MediaSort } from "../../../apis/aniList/aniListTypes";
 import {
   advancedSearchQuery,

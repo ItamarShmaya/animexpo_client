@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { JSX } from "react";
 import "./RankedListsNav.css";
 import { capitalizeWord } from "../../helpers/helpers";
 import { ApiMediaType } from "../../apis/aniList/aniListTypes.types";

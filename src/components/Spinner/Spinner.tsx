@@ -1,5 +1,6 @@
 import "./Spinner.css";
 import { SpinnerProps } from "./Spinner.types";
+import { JSX } from "react";
 
 const Spinner = ({
   image,

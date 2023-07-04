@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { JSX } from "react";
 import CardsList from "../../../components/CardsList/CardsList";
 import "./Section.css";
 import { SectionProps } from "./SectionTypes";

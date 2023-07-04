@@ -4,7 +4,7 @@ import MediaSearchResultsItem from "./SearchResultsItem/MediaSearchResultsItem";
 import UsersSearchResults from "./SearchResultsItem/UsersSearchResults";
 import CharactersSearchResults from "./SearchResultsItem/CharactersSearchResults";
 import StaffSearchResults from "./SearchResultsItem/StaffSearchResults";
-import { parseDateFromAniListApi } from "../../../helpers/helpers.js";
+import { parseDateFromAniListApi } from "../../../helpers/helpers";
 
 const SearchResults = ({ results, searchType }) => {
   const searchbar = document.querySelector(".searchbar");

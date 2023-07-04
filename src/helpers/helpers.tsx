@@ -1,6 +1,7 @@
 import { MediaFormat, MediaSeason } from "../apis/aniList/aniListTypes";
 import { ApiMediaSeasonType } from "../apis/aniList/aniListTypes.types";
 import { Day, MONTHSType, Month } from "./helpres.types";
+import { JSX } from "react";
 
 export const MONTHS: MONTHSType = {
   1: "Jan",
