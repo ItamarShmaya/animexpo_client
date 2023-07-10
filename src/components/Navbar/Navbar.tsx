@@ -151,8 +151,8 @@ const Navbar = (): JSX.Element => {
     }
   }, [
     wasNotifWindowClosed,
-    loggedInUser.username,
-    loggedInUser.token,
+    loggedInUser?.username,
+    loggedInUser?.token,
     setNotifications,
     notifications.length,
   ]);
