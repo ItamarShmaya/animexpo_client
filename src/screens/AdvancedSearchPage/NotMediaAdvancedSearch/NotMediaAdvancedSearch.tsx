@@ -7,7 +7,7 @@ import PageNav from "../../../components/PageNav/PageNav";
 import madara from "../../../components/Spinner/spinnerImages/madara-eternal.png";
 import { capitalizeWord } from "../../../helpers/helpers";
 import Spinner from "../../../components/Spinner/Spinner";
-import { NotMediaAdvancedSearchProps } from "./NotMediaAdvancedSearchTypes.types";
+import { NotMediaAdvancedSearchProps } from "./NotMediaAdvancedSearch.types";
 import {
   ApiCharacterEntryType,
   ApiPageInfoType,
@@ -18,7 +18,7 @@ const NotMediaAdvancedSearch = ({
   heading,
   query,
 }: NotMediaAdvancedSearchProps): JSX.Element => {
-  const [list, setList] = useState<ApiCharacterEntryType[] | []>([]);
+  const [list, setList] = useState<ApiCharacterEntryType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pageInfo, setPageInfo] = useState<ApiPageInfoType>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -252,7 +252,7 @@ const NotMediaAdvancedSearch = ({
     };
   }, [searchParams, query, type]);
 
-  const renderCards = (list: ApiCharacterEntryType[] | []) => {
+  const renderCards = (list: ApiCharacterEntryType[]) => {
     return list.map((char, i) => {
       const rank =
         pageInfo && pageInfo.currentPage && pageInfo.perPage

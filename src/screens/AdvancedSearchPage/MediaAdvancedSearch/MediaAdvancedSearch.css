@@ -6,3 +6,9 @@
   margin: auto;
   position: relative;
 }
+
+.search-message {
+  color: #eeebdd;
+  font-size: 15px;
+  text-align: center;
+}

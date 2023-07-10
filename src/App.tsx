@@ -7,7 +7,6 @@ import CharacterPage from "./screens/characterPage/CharacterPage/CharacterPage";
 import AnimePage from "./screens/animepage/AnimePage/AnimePage";
 import ProfilePage from "./screens/profile/ProfilePage";
 import LandingPage from "./screens/landingpage/LandingPage";
-import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import EditProfilePage from "./screens/editProfilePage/EditProfilePage/EditProfilePage";
 import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 import NotFound from "./components/NotFound/NotFound";
@@ -19,11 +18,7 @@ import EntryReviewsPage from "./screens/EntryReviewsPage/EntryReviewsPage/EntryR
 import FriendRequestsPage from "./screens/friendRequestsPage/FriendRequestsPage/FriendRequestsPage";
 import ScrollUp from "./components/ScrollUp/ScrollUp";
 import RankedListPage from "./screens/RankedListPage/RankedListPage";
-import {
-  MediaFormat,
-  MediaSort,
-  MediaType,
-} from "./apis/aniList/aniListTypes";
+import { MediaFormat, MediaSort, MediaType } from "./apis/aniList/aniListTypes";
 import {
   animeFormats,
   currentSeason,
@@ -43,6 +38,8 @@ import {
   ApiMediaSortType,
   ApiMediaType,
 } from "./apis/aniList/aniListTypes.types";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 // import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -54,7 +51,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <ScrollUp />
-        <ErrorBoundary>
+        <ErrorBoundary FallbackComponent={ErrorPage}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup/*" element={<SignupPage />} />

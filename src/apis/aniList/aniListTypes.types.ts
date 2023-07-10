@@ -1,9 +1,9 @@
 export interface ApiMediaEntryType {
   id: number;
-  title?: ApiTitleType;
+  title: ApiTitleType;
   description: string;
-  coverImage?: ApiCoverImageType;
-  bannerImage?: string;
+  coverImage: ApiCoverImageType;
+  bannerImage: string;
   type: ApiMediaType;
   startDate: ApiFuzzyDateType;
   endDate: ApiFuzzyDateType;
@@ -24,8 +24,9 @@ export interface ApiMediaEntryType {
   source?: ApiSourceType;
   countryOfOrigin?: number;
   nextAiringEpisode?: ApiNextAiringEpisodeType;
-  trailer?: string;
+  trailer?: { id: string };
   studios?: ApiStudiotype[];
+  rankings: ApiMediaRankings[];
 }
 
 export interface ApiCharacterEntryType {
@@ -48,12 +49,54 @@ export type ApiCharacterMediaConnectionType = {
 export type ApiCharacterMediaEdgesType = {
   characterRole: string;
   node: ApiMediaEntryType;
-  voiceActors: ApiCharcterMediaConnectionVoiceActors;
+  voiceActors: ApiCharcterMediaConnectionVoiceActors[];
 };
 
 export type ApiCharcterMediaConnectionVoiceActors = {
   id: number;
   languageV2: string;
+  name: ApiNameType;
+  image: ApiCoverImageType;
+};
+
+export interface ApiStaffEntryType {
+  id: number;
+  name: ApiNameType;
+  description: string;
+  bloodType: string;
+  homeTown: string;
+  age: number;
+  gender: string;
+  dateOfBirth: ApiFuzzyDateType;
+  dateOfDeath: ApiFuzzyDateType;
+  image: ApiCoverImageType;
+  characterMedia: ApiStafCharacterMediaConntectionType;
+}
+
+export type ApiStafCharacterMediaConntectionType = {
+  edges: ApiStaffCharacterMediaEdgesType[];
+  pageInfo: ApiPageInfoType;
+};
+
+export type ApiStaffCharacterMediaEdgesType = {
+  characterRole: string;
+  node: ApiStaffCharacterMediaNodeType;
+  characters: ApiStaffCharacterMediaCharactersType[];
+};
+
+export type ApiStaffCharacterMediaNodeType = {
+  id: number;
+  title: ApiTitleType;
+  format: ApiMediaFormatType;
+  favourites: number;
+  popularity: number;
+  averageScore: number;
+  startDate: ApiFuzzyDateType;
+  coverImage: ApiCoverImageType;
+};
+
+export type ApiStaffCharacterMediaCharactersType = {
+  id: number;
   name: ApiNameType;
   image: ApiCoverImageType;
 };
@@ -85,12 +128,12 @@ export type ApiTitleType = {
   romaji?: string;
   english?: string;
   native?: string;
-  userPreferred?: string;
+  userPreferred: string;
 };
 
 export type ApiCoverImageType = {
   extraLarge?: string;
-  large?: string;
+  large: string;
   medium?: string;
   color?: string;
 };
@@ -223,4 +266,10 @@ export type ApiStudiotype = {
       node: ApiMediaEntryType[];
     };
   };
+};
+
+export type ApiMediaRankings = {
+  rank: number;
+  type: "RATED" | "POPULAR";
+  allTime: boolean;
 };

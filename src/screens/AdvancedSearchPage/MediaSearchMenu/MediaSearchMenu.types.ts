@@ -4,7 +4,7 @@ import {
 } from "../../../apis/aniList/aniListTypes.types";
 
 export type MediaSearchMenuProps = {
-  setList: React.Dispatch<React.SetStateAction<ApiMediaEntryType[] | []>>;
+  setList: React.Dispatch<React.SetStateAction<ApiMediaEntryType[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   mediaType: ApiMediaType;
   formats: string[];

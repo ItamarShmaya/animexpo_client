@@ -4,7 +4,7 @@ import {
   capitalizeSnakeCase,
   capitalizeWord,
   formatsStringRender,
-} from "../../../../helpers/helpers.js";
+} from "../../../../helpers/helpers";
 
 const EntrySideInformation = ({ entry }) => {
   const {

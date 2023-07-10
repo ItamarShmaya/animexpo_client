@@ -124,3 +124,8 @@ export const MediaFormat: { [key: string]: string } = {
   novel: "NOVEL",
   oneShot: "ONE_SHOT",
 };
+
+export const MediaRank: { [key: string]: string } = {
+  rated: "RATED",
+  popular: "POPULAR",
+};

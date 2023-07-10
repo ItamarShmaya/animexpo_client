@@ -25,7 +25,7 @@ const AnimeTrendingList = ({
   heading,
   mediaFormat,
 }: RankedListPageProrps): JSX.Element => {
-  const [list, setList] = useState<ApiMediaEntryType[] | []>([]);
+  const [list, setList] = useState<ApiMediaEntryType[]>([]);
   const [pageInfo, setPageInfo] = useState<ApiPageInfoType>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -84,7 +84,7 @@ const AnimeTrendingList = ({
     mediaFormat,
   ]);
 
-  const renderList = (list: ApiMediaEntryType[] | []) => {
+  const renderList = (list: ApiMediaEntryType[]) => {
     return list.map((item, i) => {
       const rank =
         pageInfo && pageInfo.currentPage && pageInfo.perPage
@@ -117,7 +117,7 @@ const AnimeTrendingList = ({
       );
     });
   };
-  const renderMobileList = (list: ApiMediaEntryType[] | []) => {
+  const renderMobileList = (list: ApiMediaEntryType[]) => {
     return list.map((item, i) => {
       const rank =
         pageInfo && pageInfo.currentPage && pageInfo.perPage

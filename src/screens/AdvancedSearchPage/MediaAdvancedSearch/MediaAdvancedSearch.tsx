@@ -14,7 +14,7 @@ const MediaAdvancedSearch = ({
   showSeasonFilter,
   formats,
 }: MediaAdvancedSearchProps) => {
-  const [list, setList] = useState<ApiMediaEntryType[] | []>([]);
+  const [list, setList] = useState<ApiMediaEntryType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const resultsContainerRef = useRef<HTMLDivElement>(null);
   const [topOffset, setTopOffset] = useState<number>();

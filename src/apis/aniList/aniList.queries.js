@@ -183,10 +183,12 @@ export const animeByIdQuery = `
               mediaRecommendation {
                 id
                 title {
+                  userPreferred
                   english
                 }  
                 coverImage {
                   large
+                  medium
                 }
               }
             }
@@ -194,21 +196,17 @@ export const animeByIdQuery = `
         }
         characters(sort:[ROLE, RELEVANCE] perPage: 10) {
           edges {
-            id
             role
             voiceActors {
               id
               languageV2
               name {
-                first
-                middle
-                last
-                full
                 native
                 userPreferred
               }
               image{
                 large
+                medium
               }
             }
             node {
@@ -272,10 +270,12 @@ export const mangaByIdQuery = `
               mediaRecommendation {
                 id
                 title {
+                  userPreferred
                   english
                 }  
                 coverImage {
                   large
+                  medium
                 }
               }
             }
@@ -448,13 +448,14 @@ query($id: Int){
     }
     characterMedia(sort:POPULARITY_DESC){
       edges {
-        node{
-          format
+        characterRole
+        node {
           id
           title {
             english
             userPreferred
           }
+          format
           favourites
           popularity
           averageScore
@@ -478,7 +479,6 @@ query($id: Int){
             medium
           }
         }
-        characterRole
       }
       pageInfo {
         currentPage

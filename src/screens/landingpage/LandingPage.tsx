@@ -22,8 +22,8 @@ const LandingPage = (): JSX.Element => {
     height: number;
     width: number;
   }>({
-    height: window.innerHeight > 400 ? 225 : 150,
-    width: window.innerWidth > 4 ? 150 : 100,
+    height: window.innerWidth > 400 ? 225 : window.innerWidth > 300 ? 175 : 120,
+    width: window.innerWidth > 400 ? 150 : window.innerWidth > 300 ? 125 : 90,
   });
   const query400 = matchMedia("(max-width: 400px)");
   query400.addEventListener("change", () => {
@@ -83,7 +83,7 @@ const LandingPage = (): JSX.Element => {
       }
     };
 
-    const landingPageData = getUserSessionStorage().landingPageData;
+    const landingPageData = getUserSessionStorage()?.landingPageData;
     landingPageData ? setLandingPageData(landingPageData) : getLadingPageData();
 
     return () => {

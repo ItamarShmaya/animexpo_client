@@ -30,12 +30,10 @@ const MediaSearchMenu = ({
   showSeasonFilter = true,
 }: MediaSearchMenuProps): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [genres, setGenres] = useState<string[] | []>([]);
-  const [tags, setTags] = useState<ApiMediaTagObjectType[] | []>([]);
-  const [viewedGenres, setViewedGenres] = useState<string[] | []>([]);
-  const [viewedTags, setViewedTags] = useState<ApiMediaTagObjectType[] | []>(
-    []
-  );
+  const [genres, setGenres] = useState<string[]>([]);
+  const [tags, setTags] = useState<ApiMediaTagObjectType[]>([]);
+  const [viewedGenres, setViewedGenres] = useState<string[]>([]);
+  const [viewedTags, setViewedTags] = useState<ApiMediaTagObjectType[]>([]);
   const { getUserSessionStorage, setUserSessionStorage } = useSessionStorage();
   const [searchInputs, setSearchInputs] = useState<SearchInputsType>({
     search: searchParams.get("search") || "",
@@ -45,10 +43,8 @@ const MediaSearchMenu = ({
     season: searchParams.get("season") || "",
     format: searchParams.getAll("format") || [],
   });
-  const [yearsList] = useState<number[] | []>(getYearsFrom(1940, "desc"));
-  const [viewedYearsList, setViewedYearsList] = useState<number[] | []>(
-    yearsList
-  );
+  const [yearsList] = useState<number[]>(getYearsFrom(1940, "desc"));
+  const [viewedYearsList, setViewedYearsList] = useState<number[]>(yearsList);
   const [isAdult, setIsAdult] = useState<boolean>(false);
   const [genresTagsFilter, setGenresTagsFilter] = useState<string>("");
   const [yearsListFilter, setYearsListFilter] = useState<string>("");
@@ -104,12 +100,14 @@ const MediaSearchMenu = ({
       }
     };
     const userCache = getUserSessionStorage();
-    if (!userCache.genres || !userCache.tags) getGenresAndTags();
-    else {
-      setGenres(userCache.genres);
-      setTags(userCache.tags);
-      setViewedGenres(userCache.genres);
-      setViewedTags(userCache.tags);
+    if (userCache) {
+      if (!userCache.genres || !userCache.tags) getGenresAndTags();
+      else {
+        setGenres(userCache.genres);
+        setTags(userCache.tags);
+        setViewedGenres(userCache.genres);
+        setViewedTags(userCache.tags);
+      }
     }
 
     return () => {

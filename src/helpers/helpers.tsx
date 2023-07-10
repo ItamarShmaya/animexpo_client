@@ -1,6 +1,9 @@
 import { MediaFormat, MediaSeason } from "../apis/aniList/aniListTypes";
-import { ApiMediaSeasonType } from "../apis/aniList/aniListTypes.types";
-import { Day, MONTHSType, Month } from "./helpres.types";
+import {
+  ApiFuzzyDateType,
+  ApiMediaSeasonType,
+} from "../apis/aniList/aniListTypes.types";
+import { MONTHSType, Month } from "./helpres.types";
 import { JSX } from "react";
 
 export const MONTHS: MONTHSType = {
@@ -59,14 +62,12 @@ export const parseDateFromAniListApi = ({
   year,
   month,
   day,
-}: {
-  year: number | undefined;
-  month: Month | undefined;
-  day: Day | undefined;
-}): string => {
+}: ApiFuzzyDateType): string => {
   let date = "";
-  if (month && day && year) date += MONTHS[month] + " " + day + ", " + year;
-  else if (month && day && !year) date += MONTHS[month] + " " + day;
+  if (month && day && year)
+    date += MONTHS[month as keyof typeof MONTHS] + " " + day + ", " + year;
+  else if (month && day && !year)
+    date += MONTHS[month as keyof typeof MONTHS] + " " + day;
   else if (!month && !day && year) date += year;
   else if (year) date += year;
   return date || "";
