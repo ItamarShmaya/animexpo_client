@@ -97,7 +97,7 @@ const MobileEditWindow = ({
       <div className="mobile-item-edit-window-container">
         <form
           ref={mobileItemEditFormRef}
-          className="monullbile-item-edit-form"
+          className="mobile-item-edit-form"
           onSubmit={onEditFormSubmit}
         >
           <h1>{title}</h1>
