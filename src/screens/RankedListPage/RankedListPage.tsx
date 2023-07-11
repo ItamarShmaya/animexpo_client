@@ -43,7 +43,7 @@ const AnimeTrendingList = ({
     const variables = {
       page: paramPage ? +paramPage : 1,
       perPage: 50,
-      mediaType,
+      type: mediaType,
       sort: [mediaSort],
       season,
       seasonYear,
