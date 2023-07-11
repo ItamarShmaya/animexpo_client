@@ -37,6 +37,7 @@
 
 .block img {
   width: 70px;
+  min-width: 70px;
   height: 90px;
 }
 
