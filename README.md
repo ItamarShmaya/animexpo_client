@@ -75,4 +75,6 @@
   - [Socket IO](https://socket.io/): for real-time notifications
   - [Chart JS](https://www.chartjs.org/)
   - [React Slick](https://react-slick.neostack.com/) & [React-simply-carousel](https://www.npmjs.com/package/react-simply-carousel): for sliders
-    
+
+<hr>
+<a href="https://github.com/ItamarShmaya/animexpo_server">Server side repo</a>
