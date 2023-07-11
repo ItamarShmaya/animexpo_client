@@ -1,72 +1,81 @@
-https://animexpo.onrender.com/
+<p align="center"><img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689076180/icon/AnimeXP-logo_2x_riifkm.png" width="250"></p>
+<p align="center">Web app for exploring the anime world</p>
+<p align="center"><a href="https://animexpo.onrender.com/">Visit Site</a></p>
 
-# Getting Started with Create React App
+## Screenshots
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689085116/screencaps/animexpo-homepage-01_rlezn5.jpg">
 
-## Available Scripts
+  <table>
+    <tr>
+     <td width="50%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689071121/screencaps/animexpo-homepage-02_jikkn6.jpg" width="100%"> 
+     </td> 
+     <td width="50%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689085535/screencaps/animexpo-entrypage-02_v4nxtl.png" width="100%">
+     </td> 
+    </tr>
+    <tr>
+      <td width="50%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689085534/screencaps/animexpo-rankedlist-02.jpg_zvor7q.png" width="100%">
+     </td>  
+      <td width="50%">
+        <img width="100%" src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689085534/screencaps/animexpo-entrypage-01_qbcip0.png" />
+      </td>
+    </tr>
+    <tr>
+     <td width="50%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689071121/screencaps/animexpo-profilepage-01_elj5xm.jpg" width="100%">
+     </td> 
+      <td width="50%">
+        <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689071123/screencaps/animexpo-userlist-01_n6iau8.jpg" width="100%">
+      </td>
+    </tr>
+  </table>
 
-In the project directory, you can run:
+#### Mobile Responsive
 
-### `npm start`
+  <table width="100%">
+    <tr>
+     <td width="25%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689083245/screencaps/animexpo-homepage-mobile-01_dqpmzl.png" width="100%">
+     </td>  
+     <td width="25%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689083110/screencaps/animexpo-userlist-mobile-01_jszd6u.png" width="100%">
+     </td> 
+     <td width="25%">
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689083110/screencaps/animexpo-entrypage-mobile-02_wvmur3.png" width="100%">
+     </td width="25%"> 
+     <td>
+      <img src="https://res.cloudinary.com/dhzbwclpj/image/upload/v1689083109/screencaps/animexpo-rankedlist-mobile-01_pxsjiz.png" width="100%">
+     </td> 
+    </tr>
+  </table>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+  ## Features
+  - Search
+  - Advanced search
+  - Ranked lists
+  - User system
+  - Profile
+  - Progress lists (staus, episodes, comment, score) 
+  - Favorite lists
+  - Add friends
+  - Write reviews
+  - Visit other profiles
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  ## Built with
+  
+  - [Reach JS](https://reactjs.org/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Render](https://render.com/): for hosting
+  - [AniList API](https://anilist.gitbook.io/anilist-apiv2-docs/): for content
+  - [Socket IO](https://socket.io/): for real-time notifications
+  - [Chart JS](https://www.chartjs.org/)
+  - [React Slick](https://react-slick.neostack.com/) & [React-simply-carousel](https://www.npmjs.com/package/react-simply-carousel): for sliders
+  - [Redis](https://redis.io/): for in-memory storage
+    
