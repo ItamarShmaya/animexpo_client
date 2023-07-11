@@ -53,20 +53,18 @@
   </table>
 
 
-
   ## Features
   - Search
   - Advanced search
   - Ranked lists
   - User system
   - Profile
-  - Progress lists (staus, episodes, comment, score) 
+  - Progress lists (status, score, episodes, comment) 
   - Favorite lists
   - Add friends
   - Write reviews
   - Visit other profiles
-
-
+  - Real-time notification system
 
   ## Built with
   
@@ -77,5 +75,4 @@
   - [Socket IO](https://socket.io/): for real-time notifications
   - [Chart JS](https://www.chartjs.org/)
   - [React Slick](https://react-slick.neostack.com/) & [React-simply-carousel](https://www.npmjs.com/package/react-simply-carousel): for sliders
-  - [Redis](https://redis.io/): for in-memory storage
     
