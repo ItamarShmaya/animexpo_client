@@ -169,8 +169,6 @@ const Navbar = (): JSX.Element => {
           <NavLink
             to={"/search/anime"}
             className="nav-item"
-            onMouseEnter={() => console.log("object")}
-            onMouseLeave={() => console.log("object")}
           >
             Search
           </NavLink>

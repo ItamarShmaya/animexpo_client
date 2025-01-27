@@ -14,6 +14,7 @@ const Section = ({
   category,
   cardHeight,
   cardWidth,
+  cardHoverEffect,
 }: SectionProps): JSX.Element => {
   return (
     <section className="landing-page-section">
@@ -31,6 +32,7 @@ const Section = ({
         sliderSettings={sliderSettings}
         cardHeight={cardHeight}
         cardWidth={cardWidth}
+        cardHoverEffect={cardHoverEffect}
       />
     </section>
   );

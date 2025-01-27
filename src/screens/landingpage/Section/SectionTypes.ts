@@ -14,4 +14,5 @@ export interface SectionProps {
   category: string;
   cardHeight: number;
   cardWidth: number;
+  cardHoverEffect?: boolean;
 }

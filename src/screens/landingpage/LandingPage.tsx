@@ -60,7 +60,7 @@ const LandingPage = (): JSX.Element => {
       const currentSeason = getCurrentSeason((currentMonth + 1) as Month);
       const nextSeason = getNextSeason((currentMonth + 1) as Month);
       const nextSeasonYear =
-        nextSeason === MediaSeason.spring
+        nextSeason === MediaSeason.fall
           ? currentSeasonYear + 1
           : currentSeasonYear;
       const variables = {
@@ -69,20 +69,19 @@ const LandingPage = (): JSX.Element => {
         nextSeason: nextSeason,
         nextSeasonYear: nextSeasonYear,
       };
+      console.log(variables);
       try {
         const { data } = await aniListRequests(
           landingPageQuery,
           variables,
           controller.signal
         );
-
         data && setUserSessionStorage("landingPageData", data);
         data && setLandingPageData(data);
       } catch (e) {
         console.log(e);
       }
     };
-
     const landingPageData = getUserSessionStorage()?.landingPageData;
     landingPageData ? setLandingPageData(landingPageData) : getLadingPageData();
 
@@ -109,6 +108,7 @@ const LandingPage = (): JSX.Element => {
               category={"trending"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.thisSeason?.media}
@@ -120,6 +120,7 @@ const LandingPage = (): JSX.Element => {
               category={"this-season"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.nextSeason?.media}
@@ -131,6 +132,7 @@ const LandingPage = (): JSX.Element => {
               category={"next-season"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.top?.media}
@@ -142,6 +144,7 @@ const LandingPage = (): JSX.Element => {
               category={"top"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.popular?.media}
@@ -153,6 +156,7 @@ const LandingPage = (): JSX.Element => {
               category={"popular"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.topManga?.media}
@@ -164,6 +168,7 @@ const LandingPage = (): JSX.Element => {
               category={"top"}
               cardHeight={cardMeasurement.height}
               cardWidth={cardMeasurement.width}
+              cardHoverEffect={true}
             />
             <Section
               list={landingPageData?.topCharacters?.characters}

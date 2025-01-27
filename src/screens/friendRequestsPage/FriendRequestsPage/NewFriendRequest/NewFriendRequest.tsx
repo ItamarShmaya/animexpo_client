@@ -21,14 +21,12 @@ const NewFriendRequest = ({
   const { getLocalStorage, saveToLoggedUser } = useLocalStorage();
 
   const onAcceptClick = async (): Promise<void> => {
-    console.log("object");
     try {
       const updatedLists = await acceptFriendRequest(
         loggedInUser.token,
         loggedInUser.username,
         requester._id
       );
-      console.log(updatedLists);
       if (updatedLists) {
         setFriendRequests(updatedLists.updatedFriendRequestsList);
         saveToLoggedUser("friendsList", updatedLists.updatedFriendsList);
@@ -37,7 +35,6 @@ const NewFriendRequest = ({
         socket.auth = { sessionID, username: loggedInUser.username };
         socket?.emit("online_users");
         socket?.once("online_users", ({ users }: { users: OnlineUser[] }) => {
-          console.log("accept online_users");
           const from = users.filter(
             (user) => user.username === requester.username
           );
@@ -47,7 +44,6 @@ const NewFriendRequest = ({
         });
       } else throw new Error();
     } catch (e) {
-      console.log(e);
     }
   };
 

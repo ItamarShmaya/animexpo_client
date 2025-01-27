@@ -232,6 +232,8 @@ const AnimeListItem = ({
         window.innerHeight - e.currentTarget.getBoundingClientRect().bottom;
       if (availableSpace < commentHeight) {
         target.style.top = `calc(-${commentHeight}px + 100%)`;
+      } else {
+        target.style.top = "0";
       }
     };
 
@@ -246,7 +248,7 @@ const AnimeListItem = ({
         }, 100)
       );
     };
-    
+
     if (!isloggedInUserList) {
       return (
         comment && (

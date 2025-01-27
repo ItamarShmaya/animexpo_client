@@ -95,7 +95,9 @@ const AnimePage = (): JSX.Element => {
     <div className="entry-page">
       {anime ? (
         <>
-          <EntryPageBanner bannerImage={anime.bannerImage} />
+          {anime.bannerImage && (
+            <EntryPageBanner bannerImage={anime.bannerImage} />
+          )}
           <EntryPageHero
             entry={anime}
             inList={inList}
